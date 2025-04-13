@@ -1,14 +1,14 @@
 import {
-  CircleIcon,
-  WindmillIcon,
-  TypographyIcon,
-  ShadowIcon,
-  PaletteIcon,
-  KeyIcon,
-  BugIcon,
-  DashboardIcon,
   BrandChromeIcon,
-  HelpIcon
+  BugIcon,
+  CircleIcon,
+  DashboardIcon,
+  HelpIcon,
+  KeyIcon,
+  PaletteIcon,
+  ShadowIcon,
+  TypographyIcon,
+  WindmillIcon,
 } from 'vue-tabler-icons';
 
 export interface menu {
@@ -32,7 +32,25 @@ const sidebarItem: menu[] = [
   {
     title: 'Default',
     icon: DashboardIcon,
-    to: '/dashboard/default'
+    to: '/dashboard/default',
+  },
+  { divider: true },
+  {
+    title: 'Editor',
+    icon: KeyIcon,
+    to: '/auth',
+    children: [
+      {
+        title: 'Diagram',
+        icon: CircleIcon,
+        to: '/diagram',
+      },
+      {
+        title: 'Office',
+        icon: CircleIcon,
+        to: '/office',
+      },
+    ],
   },
   { divider: true },
   { header: 'Pages' },
@@ -44,67 +62,68 @@ const sidebarItem: menu[] = [
       {
         title: 'Login',
         icon: CircleIcon,
-        to: '/login1'
+        to: '/login1',
       },
       {
         title: 'Register',
         icon: CircleIcon,
-        to: '/register'
-      }
-    ]
+        to: '/register',
+      },
+    ],
   },
   {
     title: 'Error 404',
     icon: BugIcon,
-    to: '/error'
+    to: '/error',
   },
   { divider: true },
   { header: 'Utilities' },
   {
     title: 'Typography',
     icon: TypographyIcon,
-    to: '/utils/typography'
+    to: '/utils/typography',
   },
   {
     title: 'Shadows',
     icon: ShadowIcon,
-    to: '/utils/shadows'
+    to: '/utils/shadows',
   },
   {
     title: 'Colors',
     icon: PaletteIcon,
-    to: '/utils/colors'
+    to: '/utils/colors',
   },
 
   {
     title: 'Icons',
     icon: WindmillIcon,
     to: '/forms/radio',
+
     children: [
       {
         title: 'Tabler Icons',
         icon: CircleIcon,
-        to: '/icons/tabler'
+        to: '/icons/tabler',
       },
       {
         title: 'Material Icons',
         icon: CircleIcon,
-        to: '/icons/material'
-      }
-    ]
+        to: '/icons/material',
+      },
+    ],
   },
   { divider: true },
   {
     title: 'Sample Page',
     icon: BrandChromeIcon,
-    to: '/starter'
+    to: '/starter',
   },
   {
     title: 'Documentation',
     icon: HelpIcon,
     to: 'https://codedthemes.gitbook.io/berry-vuetify/',
-    type: 'external'
-  }
+    type: 'external',
+  },
 ];
 
 export default sidebarItem;
