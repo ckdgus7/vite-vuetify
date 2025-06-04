@@ -33,16 +33,6 @@ const MainRoutes = {
       component: () => import('@/views/StarterPage.vue')
     },
     {
-      name: 'Tabler Icons',
-      path: '/icons/tabler',
-      component: () => import('@/views/utilities/icons/TablerIcons.vue')
-    },
-    {
-      name: 'Material Icons',
-      path: '/icons/material',
-      component: () => import('@/views/utilities/icons/MaterialIcons.vue')
-    },
-    {
       name: 'Typography',
       path: '/utils/typography',
       component: () => import('@/views/utilities/typography/TypographyPage.vue')

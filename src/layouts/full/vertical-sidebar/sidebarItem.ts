@@ -55,21 +55,9 @@ const sidebarItem: menu[] = [
   { divider: true },
   { header: 'Pages' },
   {
-    title: 'Authentication',
-    icon: KeyIcon,
-    to: '/auth',
-    children: [
-      {
-        title: 'Login',
-        icon: CircleIcon,
-        to: '/login1',
-      },
-      {
-        title: 'Register',
-        icon: CircleIcon,
-        to: '/register',
-      },
-    ],
+    title: 'Sample Page',
+    icon: BrandChromeIcon,
+    to: '/starter',
   },
   {
     title: 'Error 404',
@@ -92,37 +80,6 @@ const sidebarItem: menu[] = [
     title: 'Colors',
     icon: PaletteIcon,
     to: '/utils/colors',
-  },
-
-  {
-    title: 'Icons',
-    icon: WindmillIcon,
-    to: '/forms/radio',
-
-    children: [
-      {
-        title: 'Tabler Icons',
-        icon: CircleIcon,
-        to: '/icons/tabler',
-      },
-      {
-        title: 'Material Icons',
-        icon: CircleIcon,
-        to: '/icons/material',
-      },
-    ],
-  },
-  { divider: true },
-  {
-    title: 'Sample Page',
-    icon: BrandChromeIcon,
-    to: '/starter',
-  },
-  {
-    title: 'Documentation',
-    icon: HelpIcon,
-    to: 'https://codedthemes.gitbook.io/berry-vuetify/',
-    type: 'external',
   },
 ];
 
