@@ -3,7 +3,7 @@ import { shallowRef } from 'vue';
 import { useCustomizerStore } from '../../../stores/customizer';
 import sidebarItems from './sidebarItem';
 
-import Logo from '../logo/LogoMain.vue';
+// import Logo from '../logo/LogoMain.vue';
 import NavCollapse from './NavCollapse/NavCollapse.vue';
 import NavGroup from './NavGroup/NavGroup.vue';
 import NavItem from './NavItem/NavItem.vue';
@@ -27,7 +27,8 @@ const sidebarMenu = shallowRef(sidebarItems);
     <!---Logo part -->
 
     <div class="pa-5">
-      로고
+      <!-- <Logo /> -->
+      Logo
     </div>
     <!-- ---------------------------------------------- -->
     <!---Navigation -->
