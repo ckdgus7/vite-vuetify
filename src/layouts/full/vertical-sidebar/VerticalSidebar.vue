@@ -28,7 +28,7 @@ const sidebarMenu = shallowRef(sidebarItems);
 
     <div class="pa-5">
       <!-- <Logo /> -->
-      Logo
+      NOVA AI DevOps
     </div>
     <!-- ---------------------------------------------- -->
     <!---Navigation -->

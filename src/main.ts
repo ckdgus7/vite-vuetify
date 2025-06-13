@@ -1,14 +1,20 @@
-import { createApp } from 'vue';
-import { createPinia } from 'pinia';
-import App from './App.vue';
-import { router } from './router';
-import vuetify from './plugins/vuetify';
 import '@/scss/style.scss';
-import { PerfectScrollbarPlugin } from 'vue3-perfect-scrollbar';
-import VueApexCharts from 'vue3-apexcharts';
+import { createPinia } from 'pinia';
+import { createApp } from 'vue';
 import VueTablerIcons from 'vue-tabler-icons';
+import VueApexCharts from 'vue3-apexcharts';
+import { PerfectScrollbarPlugin } from 'vue3-perfect-scrollbar';
+import App from './App.vue';
+import vuetify from './plugins/vuetify';
+import { router } from './router';
 
 import { fakeBackend } from '@/utils/helpers/fake-backend';
+
+// api
+import { axiosInstance } from './services/api';
+import { setupInterceptors } from './services/interceptors';
+
+setupInterceptors(axiosInstance);
 
 // print
 import print from 'vue3-print-nb';
