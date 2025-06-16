@@ -26,7 +26,7 @@ class LocalStorageUtil {
   }
 
   // 데이터 수정 (기존 값 불러와서 병합)
-  static update<T extends object>(key: string, newValue: Partial<T>): void {
+  static merge<T extends object>(key: string, newValue: Partial<T>): void {
     try {
       const existing = LocalStorageUtil.get<T>(key);
       if (existing) {

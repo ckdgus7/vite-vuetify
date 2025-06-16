@@ -28,6 +28,11 @@ const MainRoutes = {
       component: () => import('@/views/office/ShadowPage.vue')
     },
     {
+      name: 'Request',
+      path: '/request',
+      component: () => import('@/views/RequestPage.vue')
+    },
+    {
       name: 'Starter',
       path: '/starter',
       component: () => import('@/views/StarterPage.vue')

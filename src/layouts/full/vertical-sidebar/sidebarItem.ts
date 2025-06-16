@@ -3,12 +3,10 @@ import {
   BugIcon,
   CircleIcon,
   DashboardIcon,
-  HelpIcon,
   KeyIcon,
   PaletteIcon,
   ShadowIcon,
-  TypographyIcon,
-  WindmillIcon,
+  TypographyIcon
 } from 'vue-tabler-icons';
 
 export interface menu {
@@ -41,19 +39,42 @@ const sidebarItem: menu[] = [
     to: '/auth',
     children: [
       {
-        title: 'Diagram',
+        title: 'Draw.io',
         icon: CircleIcon,
-        to: '/diagram',
+        to: '/draw-io',
       },
       {
-        title: 'Office',
+        title: 'BPMN',
         icon: CircleIcon,
-        to: '/office',
+        to: '/bpmn',
+      },
+      {
+        title: 'PUML',
+        icon: CircleIcon,
+        to: '/puml',
+      },
+    ],
+  },
+  { divider: true },
+  {
+    title: 'Grid',
+    icon: KeyIcon,
+    to: '/grid',
+    children: [
+      {
+        title: 'NHN tui-grid',
+        icon: CircleIcon,
+        to: '/tui-grid',
       },
     ],
   },
   { divider: true },
   { header: 'Pages' },
+  {
+    title: '요구사항 등록',
+    icon: BrandChromeIcon,
+    to: '/request',
+  },
   {
     title: 'Sample Page',
     icon: BrandChromeIcon,
