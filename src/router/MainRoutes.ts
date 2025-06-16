@@ -1,12 +1,11 @@
 const MainRoutes = {
-  path: '/main',
+  path: '/',
   meta: {
     requiresAuth: true
   },
-  redirect: '/main/dashboard/default',
+  redirect: '/dashboard/default',
   component: () => import('@/layouts/full/FullLayout.vue'),
   children: [
-
     {
       name: 'LandingPage',
       path: '/',
@@ -18,35 +17,89 @@ const MainRoutes = {
       component: () => import('@/views/dashboards/default/DefaultDashboard.vue')
     },
     {
+      name: 'Page',
+      path: '/page',
+      children: [
+        {
+          name: 'ServiceReg',
+          path: '/page/service-reg',
+          component: () => import('@/views/sample/page/KServiceRegPage.vue')
+        },
+      ]
+    },
+    {
       name: 'Diagram',
-      path: '/diagram',
-      component: () => import('@/views/diagram/ShadowPage.vue')
+      path: '/diagram/',
+      children: [
+        {
+          name: 'Drawio',
+          path: '/diagram/drawio',
+          component: () => import('@/views/sample/diagram/RDrawioPage.vue')
+        },
+        {
+          name: 'Bpmn',
+          path: '/diagram/bpmn',
+          component: () => import('@/views/sample/diagram/KBpmnPage.vue')
+        },
+        {
+          name: 'PlantUml',
+          path: '/diagram/plant-uml',
+          component: () => import('@/views/sample/diagram/KPlantUmlPage.vue')
+        }
+      ]
     },
     {
-      name: 'Office',
-      path: '/office',
-      component: () => import('@/views/office/ShadowPage.vue')
+      name: 'RichTextEditor',
+      path: '/rich-text-editor',
+      children: [
+        {
+          name: 'Editor1',
+          path: '/rich-text-editor/editor1',
+          component: () => import('@/views/sample/rich-text-editor/REditor1.vue')
+        },
+        {
+          name: 'Editor2',
+          path: '/rich-text-editor/editor2',
+          component: () => import('@/views/sample/rich-text-editor/REditor2.vue')
+        }
+      ]
     },
     {
-      name: 'Starter',
-      path: '/starter',
-      component: () => import('@/views/StarterPage.vue')
-    },
-    {
-      name: 'Typography',
-      path: '/utils/typography',
-      component: () => import('@/views/utilities/typography/TypographyPage.vue')
-    },
-    {
-      name: 'Shadows',
-      path: '/utils/shadows',
-      component: () => import('@/views/utilities/shadows/ShadowPage.vue')
-    },
-    {
-      name: 'Colors',
-      path: '/utils/colors',
-      component: () => import('@/views/utilities/colors/ColorPage.vue')
+      name: 'Grid',
+      path: '/grid',
+      children: [
+        {
+          name: 'Grid1',
+          path: '/grid/tui-grid',
+          component: () => import('@/views/sample/grid/KTuiGridPage.vue')
+        },
+      ]
     }
+    // {
+    //   name: 'Office',
+    //   path: '/office',
+    //   component: () => import('@/views/office/ShadowPage.vue')
+    // },
+    // {
+    //   name: 'Starter',
+    //   path: '/starter',
+    //   component: () => import('@/views/StarterPage.vue')
+    // },
+    // {
+    //   name: 'Typography',
+    //   path: '/utils/typography',
+    //   component: () => import('@/views/utilities/typography/TypographyPage.vue')
+    // },
+    // {
+    //   name: 'Shadows',
+    //   path: '/utils/shadows',
+    //   component: () => import('@/views/utilities/shadows/ShadowPage.vue')
+    // },
+    // {
+    //   name: 'Colors',
+    //   path: '/utils/colors',
+    //   component: () => import('@/views/utilities/colors/ColorPage.vue')
+    // }
   ]
 };
 

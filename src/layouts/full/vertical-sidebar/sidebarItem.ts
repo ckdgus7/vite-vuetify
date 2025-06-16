@@ -1,14 +1,7 @@
 import {
-  BrandChromeIcon,
-  BugIcon,
   CircleIcon,
   DashboardIcon,
-  HelpIcon,
-  KeyIcon,
-  PaletteIcon,
-  ShadowIcon,
-  TypographyIcon,
-  WindmillIcon,
+  KeyIcon
 } from 'vue-tabler-icons';
 
 export interface menu {
@@ -35,52 +28,94 @@ const sidebarItem: menu[] = [
     to: '/dashboard/default',
   },
   { divider: true },
+  { header: 'Editor' },
   {
-    title: 'Editor',
+    title: 'Diagrams',
     icon: KeyIcon,
-    to: '/auth',
+    to: '/diagrams',
     children: [
       {
-        title: 'Diagram',
+        title: 'Draw.io',
         icon: CircleIcon,
-        to: '/diagram',
+        to: '/diagram/drawio',
       },
       {
-        title: 'Office',
+        title: 'BpmN',
         icon: CircleIcon,
-        to: '/office',
+        to: '/diagram/bpmn',
+      },
+      {
+        title: 'PlantUML',
+        icon: CircleIcon,
+        to: '/diagram/plant-uml',
+      },
+    ],
+  },
+  {
+    title: 'Rich Text Editor',
+    icon: KeyIcon,
+    to: 'rech-text-editor',
+    children: [
+      {
+        title: 'editor1',
+        icon: CircleIcon,
+        to: '/rich-text-editor/editor1',
+      },
+      {
+        title: 'editor2',
+        icon: CircleIcon,
+        to: '/rich-text-editor/editor2',
+      },
+    ],
+  },
+  { divider: true },
+  { header: 'Grid' },
+  {
+    title: 'Grid',
+    icon: KeyIcon,
+    to: '/grid',
+    children: [
+      {
+        title: 'tui-grid',
+        icon: CircleIcon,
+        to: '/grid/tui-grid',
       },
     ],
   },
   { divider: true },
   { header: 'Pages' },
   {
-    title: 'Sample Page',
-    icon: BrandChromeIcon,
-    to: '/starter',
+    title: '요구사항등록',
+    icon: KeyIcon,
+    to: '/page/service-reg',
   },
-  {
-    title: 'Error 404',
-    icon: BugIcon,
-    to: '/error',
-  },
-  { divider: true },
-  { header: 'Utilities' },
-  {
-    title: 'Typography',
-    icon: TypographyIcon,
-    to: '/utils/typography',
-  },
-  {
-    title: 'Shadows',
-    icon: ShadowIcon,
-    to: '/utils/shadows',
-  },
-  {
-    title: 'Colors',
-    icon: PaletteIcon,
-    to: '/utils/colors',
-  },
+  // {
+  //   title: 'Sample Page',
+  //   icon: BrandChromeIcon,
+  //   to: '/starter',
+  // },
+  // {
+  //   title: 'Error 404',
+  //   icon: BugIcon,
+  //   to: '/error',
+  // },
+  // { divider: true },
+  // { header: 'Utilities' },
+  // {
+  //   title: 'Typography',
+  //   icon: TypographyIcon,
+  //   to: '/utils/typography',
+  // },
+  // {
+  //   title: 'Shadows',
+  //   icon: ShadowIcon,
+  //   to: '/utils/shadows',
+  // },
+  // {
+  //   title: 'Colors',
+  //   icon: PaletteIcon,
+  //   to: '/utils/colors',
+  // },
 ];
 
 export default sidebarItem;
