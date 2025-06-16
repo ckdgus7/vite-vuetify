@@ -28,6 +28,13 @@ const sidebarItem: menu[] = [
     to: '/dashboard/default',
   },
   { divider: true },
+  { header: 'Pages' },
+  {
+    title: '요구사항등록',
+    icon: KeyIcon,
+    to: '/page/service-reg',
+  },
+  { divider: true },
   { header: 'Editor' },
   {
     title: 'Diagrams',
@@ -81,13 +88,6 @@ const sidebarItem: menu[] = [
         to: '/grid/tui-grid',
       },
     ],
-  },
-  { divider: true },
-  { header: 'Pages' },
-  {
-    title: '요구사항등록',
-    icon: KeyIcon,
-    to: '/page/service-reg',
   },
   // {
   //   title: 'Sample Page',

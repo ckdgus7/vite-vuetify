@@ -74,32 +74,32 @@ const MainRoutes = {
           component: () => import('@/views/sample/grid/KTuiGridPage.vue')
         },
       ]
+    },
+    {
+      name: 'Request',
+      path: '/request-reg',
+      component: () => import('@/views/RequestPage.vue')
+    },
+    {
+      name: 'Starter',
+      path: '/starter',
+      component: () => import('@/views/StarterPage.vue')
+    },
+    {
+      name: 'Typography',
+      path: '/utils/typography',
+      component: () => import('@/views/utilities/typography/TypographyPage.vue')
+    },
+    {
+      name: 'Shadows',
+      path: '/utils/shadows',
+      component: () => import('@/views/utilities/shadows/ShadowPage.vue')
+    },
+    {
+      name: 'Colors',
+      path: '/utils/colors',
+      component: () => import('@/views/utilities/colors/ColorPage.vue')
     }
-    // {
-    //   name: 'Office',
-    //   path: '/office',
-    //   component: () => import('@/views/office/ShadowPage.vue')
-    // },
-    // {
-    //   name: 'Starter',
-    //   path: '/starter',
-    //   component: () => import('@/views/StarterPage.vue')
-    // },
-    // {
-    //   name: 'Typography',
-    //   path: '/utils/typography',
-    //   component: () => import('@/views/utilities/typography/TypographyPage.vue')
-    // },
-    // {
-    //   name: 'Shadows',
-    //   path: '/utils/shadows',
-    //   component: () => import('@/views/utilities/shadows/ShadowPage.vue')
-    // },
-    // {
-    //   name: 'Colors',
-    //   path: '/utils/colors',
-    //   component: () => import('@/views/utilities/colors/ColorPage.vue')
-    // }
   ]
 };
 
