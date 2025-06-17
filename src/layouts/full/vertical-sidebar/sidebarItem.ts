@@ -28,18 +28,33 @@ const sidebarItem: menu[] = [
     to: '/dashboard/default',
   },
   { divider: true },
-  { header: 'Pages' },
+  { header: 'Admin' },
   {
-    title: '요구사항등록',
+    title: '템플릿 관리',
     icon: KeyIcon,
-    to: '/page/service-reg',
+    children: [
+      {
+        title: 'Draw.io',
+        icon: CircleIcon,
+        to: '/admin/diagram/drawio',
+      },
+      {
+        title: 'BPMN',
+        icon: CircleIcon,
+        to: '/admin/diagram/bpmn',
+      },
+      {
+        title: 'PlantUML',
+        icon: CircleIcon,
+        to: '/admin/diagram/plant-uml',
+      },
+    ],
   },
   { divider: true },
   { header: 'Editor' },
   {
     title: 'Diagrams',
     icon: KeyIcon,
-    to: '/diagrams',
     children: [
       {
         title: 'Draw.io',
@@ -61,7 +76,6 @@ const sidebarItem: menu[] = [
   {
     title: 'Rich Text Editor',
     icon: KeyIcon,
-    to: 'rech-text-editor',
     children: [
       {
         title: 'editor1',
@@ -80,7 +94,6 @@ const sidebarItem: menu[] = [
   {
     title: 'Grid',
     icon: KeyIcon,
-    to: '/grid',
     children: [
       {
         title: 'tui-grid',

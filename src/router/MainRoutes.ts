@@ -9,12 +9,48 @@ const MainRoutes = {
     {
       name: 'LandingPage',
       path: '/',
-      component: () => import('@/views/dashboards/default/DefaultDashboard.vue')
+      redirect: '/dashboard/default',
     },
     {
       name: 'Default',
       path: '/dashboard/default',
       component: () => import('@/views/dashboards/default/DefaultDashboard.vue')
+    },
+    {
+      name: 'Admin',
+      path: '/admin',
+      children: [
+        {
+          name: 'DrawioTemplate',
+          path: '/admin/diagram/drawio',
+          component: () => import('@/views/sample/admin/diagram/drawio/DrawioList.vue')
+        },
+        {
+          name: 'DrawioTemplateView',
+          path: '/admin/diagram/drawio/view/:id',
+          component: () => import('@/views/sample/admin/diagram/drawio/DrawioDetail.vue')
+        },
+        {
+          name: 'DrawioTemplateEdit',
+          path: '/admin/diagram/drawio/edit/:id',
+          component: () => import('@/views/sample/admin/diagram/drawio/DrawioEdit.vue')
+        },
+        {
+          name: 'DrawioTemplateRegister',
+          path: '/admin/diagram/drawio/register',
+          component: () => import('@/views/sample/admin/diagram/drawio/DrawioPage.vue')
+        },
+        {
+          name: 'BpmnTemplate',
+          path: '/admin/diagram/bpmn',
+          component: () => import('@/views/sample/admin/diagram/bpmn/BpmnPage.vue')
+        },
+        {
+          name: 'PlantUmlTemplate',
+          path: '/admin/diagram/plant-uml',
+          component: () => import('@/views/sample/admin/diagram/puml/PlantUmlPage.vue')
+        }
+      ]
     },
     {
       name: 'Page',
@@ -54,12 +90,12 @@ const MainRoutes = {
       children: [
         {
           name: 'Editor1',
-          path: '/rich-text-editor/editor1',
+          path: 'editor1',
           component: () => import('@/views/sample/rich-text-editor/REditor1.vue')
         },
         {
           name: 'Editor2',
-          path: '/rich-text-editor/editor2',
+          path: 'editor2',
           component: () => import('@/views/sample/rich-text-editor/REditor2.vue')
         }
       ]
@@ -70,7 +106,7 @@ const MainRoutes = {
       children: [
         {
           name: 'Grid1',
-          path: '/grid/tui-grid',
+          path: 'tui-grid',
           component: () => import('@/views/sample/grid/KTuiGridPage.vue')
         },
       ]

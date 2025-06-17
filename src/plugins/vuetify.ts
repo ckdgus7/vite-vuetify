@@ -1,9 +1,10 @@
 import { createVuetify } from 'vuetify';
-import { aliases, mdi } from 'vuetify/iconsets/mdi-svg';
-import { icons } from './mdi-icon'; // Import icons from separate file
+// import { aliases, mdi } from 'vuetify/iconsets/mdi-svg';
+import { PurpleTheme } from '@/theme/LightTheme';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
-import { PurpleTheme } from '@/theme/LightTheme';
+import { aliases, mdi } from 'vuetify/iconsets/mdi';
+import { icons } from './mdi-icon'; // Import icons from separate file
 
 export default createVuetify({
   components,
