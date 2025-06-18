@@ -1,7 +1,7 @@
 import { idbCommon } from './idbCommon';
 
 const DB_NAME = 'TemplateManager'
-const STORE_NAME = 'templates'
+const STORE_NAME = 'bpmn'
 
 export interface TemplateModel {
   id?: number
