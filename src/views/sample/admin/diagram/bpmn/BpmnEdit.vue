@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <v-card class="pa-6" elevation="3" max-width="960" mx="auto">
-      <v-form @submit.prevent="handleSubmit" ref="formRef" class="d-flex flex-column gap-5">
+    <v-card class="pa-6" elevation="3" max-width="900" mx="auto">
+      <v-form @submit.prevent="handleSubmit" class="d-flex flex-column gap-5">
         <v-text-field
           v-model="form.name"
           label="템플릿 명"
@@ -29,32 +29,55 @@
         />
 
         <div>
-          <div class="text-subtitle-1 font-weight-medium mb-2">다이어그램 편집기</div>
-          <v-responsive style="height: 600px; border: 1px solid #ccc; border-radius: 12px">
-            <iframe ref="drawioRef" :src="drawioUrl" width="100%" height="100%" frameborder="0" />
-          </v-responsive>
+          <div class="text-subtitle-1 font-weight-medium mb-2">
+            다이어그램 편집기(
+            <a href v-on:click="resetDiagram">Reset Diagram</a>
+            )
+          </div>
+          <div class="canvas" id="canvas" ref="canvas"></div>
+          <div id="properties"></div>
         </div>
 
-        <v-btn type="submit" color="primary" block class="mt-4">수정 저장</v-btn>
+        <v-row class="d-flex align-center">
+          <v-col cols="12" md="6">
+            <v-btn type="submit" color="primary" block class="mt-4">수정</v-btn>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-btn
+              type="button"
+              color="primary"
+              block
+              class="mt-4"
+              @click="() => router.push('/admin/diagram/bpmn')"
+            >
+              목록
+            </v-btn>
+          </v-col>
+        </v-row>
       </v-form>
     </v-card>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { useTemplateDB, type TemplateModel } from '@/composables/sample/useTemplateDB';
-import { onBeforeUnmount, onMounted, ref } from 'vue';
+import { useTemplateDB, type TemplateModel } from '@/composables/sample/useBpmnDB';
+import 'bpmn-js/dist/assets/diagram-js.css';
+// import "bpmn-js-properties-panel/dist/assets/properties-panel.css";
+// import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda';
+import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule } from 'bpmn-js-properties-panel';
+import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
+import Modeler from 'bpmn-js/lib/Modeler';
+import camundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda';
+// import style from 'bpmn-js/dist/assets/diagram-js.css'; // eslint-disable-line no-unused-vars
+// import icons from 'bpmn-font/dist/css/bpmn-embedded.css'; // eslint-disable-line no-unused-vars
+// // import '../assets/styles.css';
+import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
 const router = useRouter();
 const id = Number(route.params.id);
-
-const formRef = ref();
-const drawioRef = ref<HTMLIFrameElement | null>(null);
-const drawioUrl =
-  'https://embed.diagrams.net/?viewbox={"x":0,"y":0,"width":1000,"height":1000}&saveAndExit=0&noSaveBtn=1&noExitBtn=1&proto=json';
-
+const modeler = ref<any>(null);
 const form = ref<TemplateModel>({
   id,
   name: '',
@@ -70,55 +93,57 @@ const loadTemplate = async () => {
     form.value = { ...data };
   }
 };
+const init = async () => {
+  await loadTemplate();
 
-const sendXmlToDrawio = () => {
-  if (!drawioRef.value || !form.value.xml) return;
-
-  const message = {
-    action: 'load',
-    xml: form.value.xml,
-  };
-
-  drawioRef.value.contentWindow?.postMessage(JSON.stringify(message), '*');
+  const canvasContainer = document.getElementById('canvas') as HTMLDivElement;
+  modeler.value = new Modeler({
+    x: 100,
+    container: canvasContainer,
+    additionalModules: [BpmnPropertiesPanelModule, BpmnPropertiesProviderModule],
+    moddleExtensions: {
+      camunda: camundaModdleDescriptor,
+    },
+  });
+  createNewDiagram();
 };
-
-const receiveDiagramXml = (event: MessageEvent) => {
+const createNewDiagram = async () => {
   try {
-    const data = JSON.parse(event.data);
-    if (data.event === 'init') {
-      sendXmlToDrawio();
-    } else if (data.event === 'save') {
-      console.log('iframe save');
-      form.value.xml = data.xml;
-      saveTemplate();
-    } else if (data.event === 'export') {
-      console.log('iframe export');
-      form.value.xml = data.xml;
-      saveTemplate();
-    }
-  } catch {}
+    await modeler.value.importXML(form.value.xml);
+  } catch (err: any) {
+    console.log(err.message, err.warnings);
+  }
 };
-
-const handleSubmit = () => {
-  if (!formRef.value?.validate()) return;
-  drawioRef.value?.contentWindow?.postMessage(
-    JSON.stringify({ action: 'export', format: 'xml', spin: 'Saving...' }),
-    '*'
-  );
+const resetDiagram = (ev: Event) => {
+  ev.preventDefault();
+  createNewDiagram();
 };
-
+onMounted(async () => {
+  init();
+});
+const saveXml = async (): Promise<string> => {
+  if (!modeler) throw new Error('모델러가 초기화되지 않았습니다.');
+  const { xml } = await modeler.value.saveXML({ format: true });
+  return xml;
+};
 const saveTemplate = async () => {
   const db = await useTemplateDB();
   await db.update(form.value);
-  router.push('/admin/diagram/drawio');
+  router.push('/admin/diagram/bpmn');
 };
-
-onMounted(() => {
-  window.addEventListener('message', receiveDiagramXml);
-  loadTemplate();
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener('message', receiveDiagramXml);
-});
+const handleSubmit = async () => {
+  // Handle form submission
+  // save code
+  const xml = await saveXml();
+  form.value.xml = xml;
+  // console.log(form.value);
+  saveTemplate();
+};
 </script>
+<style scoped>
+.canvas {
+  width: 100%;
+  height: 90vh;
+  border: 1px solid #ccc;
+}
+</style>

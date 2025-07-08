@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
     <v-card class="pa-6" elevation="3" max-width="960" mx="auto">
       <v-form @submit.prevent="handleSubmit" ref="formRef" class="d-flex flex-column gap-5">
         <v-text-field
@@ -36,22 +35,7 @@
           </v-responsive>
         </div>
 
-        <v-row class="d-flex align-center">
-          <v-col cols="12" md="6">
-            <v-btn type="submit" color="primary" block class="mt-4">수정</v-btn>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-btn
-              type="button"
-              color="primary"
-              block
-              class="mt-4"
-              @click="() => router.push('/admin/diagram/drawio')"
-            >
-              목록
-            </v-btn>
-          </v-col>
-        </v-row>
+        <v-btn type="submit" color="primary" block class="mt-4">수정 저장</v-btn>
       </v-form>
     </v-card>
   </v-container>
@@ -137,19 +121,4 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener('message', receiveDiagramXml);
 });
-
-import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
-const page = ref({ title: 'Draw.io Editor' });
-const breadcrumbs = ref([
-  {
-    title: 'Diagram Editor',
-    disabled: false,
-    href: '#',
-  },
-  {
-    title: 'Drawio',
-    disabled: true,
-    href: '#',
-  },
-]);
 </script>

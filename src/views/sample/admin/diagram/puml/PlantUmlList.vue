@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
     <v-card class="pa-4 mb-6" elevation="2">
       <v-row class="d-flex align-center">
         <v-col cols="12" md="5">
@@ -27,7 +26,7 @@
           <v-btn
             color="primary"
             variant="outlined"
-            @click="() => router.push('/admin/diagram/drawio/register')"
+            @click="() => router.push('/admin/diagram/plant-uml/register')"
             class="w-100"
           >
             새 템플릿
@@ -64,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import { useTemplateDB, type TemplateModel } from '@/composables/sample/useTemplateDB';
+import { useTemplateDB, type TemplateModel } from '@/composables/sample/usePlantUMLDB';
 import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -97,27 +96,12 @@ const deleteTemplate = async (id: number) => {
 };
 
 const goDetail = (id: number) => {
-  router.push(`/admin/diagram/drawio/view/${id}`);
+  router.push(`/admin/diagram/plant-uml/view/${id}`);
 };
 
 const goEdit = (id: number) => {
-  router.push(`/admin/diagram/drawio/edit/${id}`);
+  router.push(`/admin/diagram/plant-uml/edit/${id}`);
 };
 
 onMounted(loadTemplates);
-
-import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
-const page = ref({ title: 'Draw.io Editor' });
-const breadcrumbs = ref([
-  {
-    title: 'Diagram Editor',
-    disabled: false,
-    href: '#',
-  },
-  {
-    title: 'Drawio',
-    disabled: true,
-    href: '#',
-  },
-]);
 </script>

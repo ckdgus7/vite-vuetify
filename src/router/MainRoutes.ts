@@ -43,13 +43,43 @@ const MainRoutes = {
         {
           name: 'BpmnTemplate',
           path: '/admin/diagram/bpmn',
+          component: () => import('@/views/sample/admin/diagram/bpmn/BpmnList.vue')
+        },
+        {
+          name: 'BpmnTemplateView',
+          path: '/admin/diagram/bpmn/view/:id',
+          component: () => import('@/views/sample/admin/diagram/bpmn/BpmnDetail.vue')
+        },
+        {
+          name: 'BpmnTemplateEdit',
+          path: '/admin/diagram/bpmn/edit/:id',
+          component: () => import('@/views/sample/admin/diagram/bpmn/BpmnEdit.vue')
+        },
+        {
+          name: 'BpmnTemplateRegister',
+          path: '/admin/diagram/bpmn/register',
           component: () => import('@/views/sample/admin/diagram/bpmn/BpmnPage.vue')
         },
         {
           name: 'PlantUmlTemplate',
           path: '/admin/diagram/plant-uml',
+          component: () => import('@/views/sample/admin/diagram/puml/PlantUmlList.vue')
+        },
+        {
+          name: 'PlantUmlTemplateView',
+          path: '/admin/diagram/plant-uml/view/:id',
+          component: () => import('@/views/sample/admin/diagram/puml/PlantUmlDetail.vue')
+        },
+        {
+          name: 'PlantUmlTemplateEdit',
+          path: '/admin/diagram/plant-uml/edit/:id',
+          component: () => import('@/views/sample/admin/diagram/puml/PlantUmlEdit.vue')
+        },
+        {
+          name: 'PlantUmlTemplateRegister',
+          path: '/admin/diagram/plant-uml/register',
           component: () => import('@/views/sample/admin/diagram/puml/PlantUmlPage.vue')
-        }
+        },
       ]
     },
     {

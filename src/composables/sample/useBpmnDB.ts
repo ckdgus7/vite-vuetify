@@ -1,7 +1,8 @@
 import { idbCommon } from './idbCommon';
 
-const DB_NAME = 'TemplateManager'
+const DB_NAME = 'TemplateManager2'
 const STORE_NAME = 'bpmn'
+
 
 export interface TemplateModel {
   id?: number
@@ -11,4 +12,4 @@ export interface TemplateModel {
   xml: string
 }
 
-export const useTemplateDB = async () => idbCommon(DB_NAME, DB_NAME);
+export const useTemplateDB = async () => await idbCommon(DB_NAME, STORE_NAME);

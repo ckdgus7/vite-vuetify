@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
     <v-card class="pa-4 mb-6" elevation="2">
       <v-row class="d-flex align-center">
         <v-col cols="12" md="5">
@@ -26,7 +27,7 @@
           <v-btn
             color="primary"
             variant="outlined"
-            @click="() => router.push('/admin/diagram/drawio/register')"
+            @click="() => router.push('/admin/diagram/bpmn/register')"
             class="w-100"
           >
             새 템플릿
@@ -104,4 +105,19 @@ const goEdit = (id: number) => {
 };
 
 onMounted(loadTemplates);
+
+import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
+const page = ref({ title: 'BPMN Editor' });
+const breadcrumbs = ref([
+  {
+    title: 'Diagram Editor',
+    disabled: false,
+    href: '#',
+  },
+  {
+    title: 'BPMN',
+    disabled: true,
+    href: '#',
+  },
+]);
 </script>

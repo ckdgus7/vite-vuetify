@@ -11,4 +11,4 @@ export interface TemplateModel {
   xml: string
 }
 
-export const useTemplateDB = async () => idbCommon(DB_NAME, DB_NAME);
+export const useTemplateDB = async () => await idbCommon(DB_NAME, STORE_NAME);
