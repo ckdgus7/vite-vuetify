@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
     <v-card class="pa-6" max-width="960" mx="auto" elevation="2">
       <v-card-title>{{ form?.name }}</v-card-title>
       <v-card-subtitle class="mb-4">
@@ -50,7 +49,6 @@
 </template>
 
 <script setup lang="ts">
-import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 import { useTemplateDB, type TemplateModel } from '@/composables/sample/useTemplateDB';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -105,17 +103,4 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   window.removeEventListener('message', receiveDiagramXml);
 });
-const page = ref({ title: 'Draw.io Editor' });
-const breadcrumbs = ref([
-  {
-    title: 'Diagram Editor',
-    disabled: false,
-    href: '#',
-  },
-  {
-    title: 'Drawio',
-    disabled: true,
-    href: '#',
-  },
-]);
 </script>

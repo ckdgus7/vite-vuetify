@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
     <v-card class="pa-6" max-width="960" mx="auto" elevation="2">
       <v-card-title>{{ form?.name }}</v-card-title>
       <v-card-subtitle class="mb-4">
@@ -20,15 +21,11 @@
 
       <div>
         <div class="text-subtitle-1 font-weight-medium mb-2">다이어그램 보기</div>
-        <v-responsive style="height: 600px; border: 1px solid #e0e0e0; border-radius: 12px">
-          <iframe
-            ref="drawioRef"
-            :src="drawioViewerUrl"
-            width="100%"
-            height="100%"
-            frameborder="0"
-          />
-        </v-responsive>
+        <div v-if="loading" class="text-center py-8">
+          <v-progress-circular indeterminate color="primary" />
+        </div>
+
+        <div class="canvas" id="canvas" ref="canvas"></div>
       </div>
 
       <v-row class="d-flex align-center">
@@ -38,7 +35,7 @@
             color="primary"
             block
             class="mt-4"
-            @click="() => router.push('/admin/diagram/drawio')"
+            @click="() => router.push('/admin/diagram/bpmn')"
           >
             목록
           </v-btn>
@@ -50,12 +47,16 @@
 
 <script setup lang="ts">
 import { useTemplateDB, type TemplateModel } from '@/composables/sample/useBpmnDB';
-import { onBeforeUnmount, onMounted, ref } from 'vue';
+import { useBpmnViewer } from '@/composables/sample/useBpmnViewer';
+import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
 const router = useRouter();
 const id = Number(route.params.id);
+const loading = ref(true);
+
+const { initViewer } = useBpmnViewer();
 const form = ref<TemplateModel>({
   id,
   name: '',
@@ -63,30 +64,6 @@ const form = ref<TemplateModel>({
   description: '',
   xml: '',
 });
-const drawioRef = ref<HTMLIFrameElement | null>(null);
-
-const drawioViewerUrl =
-  'https://embed.diagrams.net/?embed=1&proto=json&ui=min&readonly=1&fit=1&saveAndExit=0&noSaveBtn=1&noExitBtn=1';
-
-const sendXmlToViewer = () => {
-  if (!drawioRef.value || !form.value) return;
-
-  const message = {
-    action: 'load',
-    xml: form.value.xml,
-  };
-
-  drawioRef.value.contentWindow?.postMessage(JSON.stringify(message), '*');
-};
-
-const receiveDiagramXml = (event: MessageEvent) => {
-  try {
-    const data = JSON.parse(event.data);
-    if (data.event === 'init') {
-      sendXmlToViewer();
-    }
-  } catch {}
-};
 
 const loadTemplate = async () => {
   const db = await useTemplateDB();
@@ -96,11 +73,44 @@ const loadTemplate = async () => {
   }
 };
 onMounted(async () => {
-  window.addEventListener('message', receiveDiagramXml);
-  loadTemplate();
+  try {
+    await loadTemplate();
+    const viewerContainer = document.querySelector('.canvas') as HTMLElement;
+    if (!viewerContainer) {
+      throw new Error('다이어그램 컨테이너를 찾을 수 없습니다.');
+    }
+    if (form.value && viewerContainer) {
+      await initViewer(viewerContainer, form.value.xml);
+    }
+  } catch (e) {
+    console.error('상세 다이어그램 불러오기 실패:', e);
+  } finally {
+    loading.value = false;
+  }
 });
 
-onBeforeUnmount(() => {
-  window.removeEventListener('message', receiveDiagramXml);
-});
+import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
+const page = ref({ title: 'BPMN Editor' });
+const breadcrumbs = ref([
+  {
+    title: 'Diagram Editor',
+    disabled: false,
+    href: '#',
+  },
+  {
+    title: 'BPMN',
+    disabled: true,
+    href: '#',
+  },
+]);
 </script>
+
+<style scoped>
+.canvas {
+  width: 100%;
+  height: 500px;
+  border: 2px solid #1e88e5;
+  border-radius: 8px;
+  background-color: white;
+}
+</style>

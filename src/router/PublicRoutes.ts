@@ -21,6 +21,11 @@ const PublicRoutes = {
       component: () => import('@/views/authentication/auth/RegisterPage.vue')
     },
     {
+      name: 'UI Builder',
+      path: '/ui-builder',
+      component: () => import('@/_builder/BuilderView.vue')
+    },
+    {
       name: 'Error 404',
       path: '/error',
       component: () => import('@/views/pages/maintenance/error/Error404Page.vue')

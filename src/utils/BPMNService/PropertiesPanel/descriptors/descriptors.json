@@ -1,0 +1,21 @@
+{
+  "name": "Property",
+  "prefix": "property",
+  "xml": {
+    "tagAlias": "lowerCase"
+  },
+  "associations": [],
+  "types": [
+    {
+      "name": "ExtendedSequenceFlow",
+      "extends": ["bpmn:SequenceFlow"],
+      "properties": [
+        {
+          "name": "condition",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    }
+  ]
+}

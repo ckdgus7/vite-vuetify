@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
     <v-card class="pa-6" elevation="3" max-width="900" mx="auto">
       <v-form @submit.prevent="handleSubmit" ref="formRef" class="d-flex flex-column gap-5">
         <v-text-field
@@ -126,4 +127,19 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener('message', receiveDiagramXml);
 });
+
+import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
+const page = ref({ title: 'Draw.io Editor' });
+const breadcrumbs = ref([
+  {
+    title: 'Diagram Editor',
+    disabled: false,
+    href: '#',
+  },
+  {
+    title: 'Draw.io',
+    disabled: true,
+    href: '#',
+  },
+]);
 </script>
