@@ -8,6 +8,12 @@ import App from './App.vue';
 import vuetify from './plugins/vuetify';
 import { router } from './router';
 
+// Ag grid
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
+// Register all Community features
+ModuleRegistry.registerModules([AllCommunityModule]);
+// Ag grid
+
 import { fakeBackend } from '@/utils/helpers/fake-backend';
 
 // api

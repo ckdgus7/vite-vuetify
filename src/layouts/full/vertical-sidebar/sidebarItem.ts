@@ -1,8 +1,4 @@
-import {
-  CircleIcon,
-  DashboardIcon,
-  KeyIcon
-} from 'vue-tabler-icons';
+import { CircleIcon, DashboardIcon, KeyIcon } from 'vue-tabler-icons';
 
 export interface menu {
   header?: string;
@@ -26,6 +22,29 @@ const sidebarItem: menu[] = [
     title: 'Default',
     icon: DashboardIcon,
     to: '/dashboard/default',
+  },
+  { divider: true },
+  { header: 'Admin' },
+  {
+    title: '컴포넌트s',
+    icon: KeyIcon,
+    children: [
+      {
+        title: 'Grid Search',
+        icon: CircleIcon,
+        to: '/base-component-page/grid-search',
+      },
+      {
+        title: 'AG Grid',
+        icon: CircleIcon,
+        to: '/base-component-page/ag-grid',
+      },
+      {
+        title: 'CK Editor',
+        icon: CircleIcon,
+        to: '/base-component-page/ck-editor',
+      },
+    ],
   },
   { divider: true },
   { header: 'Admin' },
