@@ -5,6 +5,8 @@ import VueTablerIcons from 'vue-tabler-icons';
 import VueApexCharts from 'vue3-apexcharts';
 import { PerfectScrollbarPlugin } from 'vue3-perfect-scrollbar';
 import App from './App.vue';
+import '@mdi/font/css/materialdesignicons.css';
+import 'vuetify/styles';
 import vuetify from './plugins/vuetify';
 import { router } from './router';
 

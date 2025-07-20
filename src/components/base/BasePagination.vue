@@ -1,9 +1,10 @@
 <template>
   <div>
-    <v-combobox v-model="value" v-bind="{ ...props.options.combobox }"></v-combobox>
+    <v-pagination v-model="value" v-bind="props.options.pagination"></v-pagination>
   </div>
 </template>
-<script setup>
+
+<script setup lang="ts">
 const value = defineModel('value');
 const props = defineProps(['options']);
 </script>

@@ -1,7 +1,5 @@
 <template>
-  <div v-for="(item, i) of props.options.items" :key="i">
-    <v-checkbox v-model="value" v-bind="{ ...item }"></v-checkbox>
-  </div>
+  <div><v-switch v-model="value" v-bind="{ ...props.options.switch }"></v-switch></div>
 </template>
 
 <script setup lang="ts">
