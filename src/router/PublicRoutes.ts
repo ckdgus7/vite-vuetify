@@ -25,6 +25,7 @@ const PublicRoutes = {
       path: '/ui-builder',
       component: () => import('@/_builder/BuilderView.vue')
     },
+    { path: '/page/:slug', name: 'page', component: () => import('@/_builder/PageRenderer.vue') },
     {
       name: 'Error 404',
       path: '/error',

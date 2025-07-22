@@ -1,0 +1,20 @@
+[
+  {
+    "id": "ba3be17e-1cc1-49af-b382-940c8db52794",
+    "type": "group",
+    "label": "그룹",
+    "props": {},
+    "styles": {
+      "padding": "20px",
+      "border": "1px dashed gray"
+    },
+    "children": [
+      {
+        "id": "921f2628-45d8-4d98-be3f-258acb146915",
+        "type": "v-btn",
+        "props": {},
+        "styles": {}
+      }
+    ]
+  }
+]

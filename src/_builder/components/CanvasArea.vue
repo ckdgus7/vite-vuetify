@@ -32,8 +32,15 @@ onMounted(() => {
 
 const onDrop = (e: DragEvent) => {
   const type = e.dataTransfer?.getData('component-type');
-  if (type) {
-    builder.addElement(type);
+  const label = e.dataTransfer?.getData('component-label') || '무라벨';
+  const styles = JSON.parse(e.dataTransfer?.getData('component-styles') || '{}');
+  if (!type) return;
+
+  if (type === 'group') {
+    builder.addGroup();
+  } else {
+    builder.addElement(type, label, styles);
   }
+  // builder.addElement(type);
 };
 </script>

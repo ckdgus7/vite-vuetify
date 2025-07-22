@@ -4,26 +4,68 @@
     <v-divider class="mb-2" />
 
     <template v-for="meta in metaList" :key="meta.key">
-      <v-text-field
-        v-if="meta.type === 'text'"
-        v-model="selectedElement.props[meta.key]"
-        :label="meta.label"
-        variant="outlined"
-      />
-      <v-textarea
-        v-else-if="meta.type === 'textarea'"
-        v-model="selectedElement.props[meta.key]"
-        :label="meta.label"
-        variant="outlined"
-        auto-grow
-      />
-      <v-select
-        v-else-if="meta.type === 'select'"
-        v-model="selectedElement.props[meta.key]"
-        :label="meta.label"
-        :items="meta.options"
-        variant="outlined"
-      />
+      <!-- vuetify component 전용 스타일 속성 -->
+      <template v-if="selectedElement.type.startsWith('v-')">
+        <v-text-field
+          v-if="meta.type === 'text'"
+          v-model="selectedElement.props[meta.key]"
+          :label="meta.label"
+          variant="outlined"
+        />
+        <v-textarea
+          v-else-if="meta.type === 'textarea'"
+          v-model="selectedElement.props[meta.key]"
+          :label="meta.label"
+          variant="outlined"
+          auto-grow
+        />
+        <v-select
+          v-else-if="meta.type === 'select'"
+          v-model="selectedElement.props[meta.key]"
+          :label="meta.label"
+          :items="meta.options"
+          variant="outlined"
+        />
+        <v-radio-group
+          v-else-if="meta.type === 'radio'"
+          v-model="selectedElement.props[meta.key]"
+          :label="meta.label"
+        >
+          <v-radio label="True" :value="true"></v-radio>
+          <v-radio label="False" :value="false"></v-radio>
+        </v-radio-group>
+      </template>
+      <!-- vuetify component 외 일반 html 전용 스타일 속성 -->
+      <template v-else>
+        <v-text-field
+          v-if="meta.type === 'text'"
+          v-model="selectedElement.styles[meta.key]"
+          :label="meta.label"
+          variant="outlined"
+        />
+        <v-textarea
+          v-else-if="meta.type === 'textarea'"
+          v-model="selectedElement.styles[meta.key]"
+          :label="meta.label"
+          variant="outlined"
+          auto-grow
+        />
+        <v-select
+          v-else-if="meta.type === 'select'"
+          v-model="selectedElement.styles[meta.key]"
+          :label="meta.label"
+          :items="meta.options"
+          variant="outlined"
+        />
+        <v-radio-group
+          v-else-if="meta.type === 'radio'"
+          v-model="selectedElement.styles[meta.key]"
+          :label="meta.label"
+        >
+          <v-radio label="True" :value="true"></v-radio>
+          <v-radio label="False" :value="false"></v-radio>
+        </v-radio-group>
+      </template>
     </template>
 
     <v-btn class="mt-4" color="error" @click="removeElement">삭제</v-btn>
@@ -40,9 +82,7 @@ import { ComponentRegistry } from '@/_builder/utils/componentMap';
 
 const builder = useBuilderStore();
 
-const selectedElement = computed(() =>
-  builder.elements.find((el) => el.id === builder.selectedElementId)
-);
+const selectedElement = computed(() => builder.findElementById(builder.selectedElementId!));
 
 const metaList = computed(() => {
   if (!selectedElement.value) return [];
