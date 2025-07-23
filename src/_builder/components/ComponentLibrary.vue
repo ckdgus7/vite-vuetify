@@ -4,7 +4,9 @@
       <v-list-item
         v-for="item in componentList"
         :key="item.type"
-        @dragstart="(e: DragEvent) => onDragStart(e, item.type, item.label, item.styles)"
+        @dragstart="
+          (e: DragEvent) => onDragStart(e, item.type, item.label, item.styles, item.cssClass)
+        "
       >
         <div draggable="true" class="w-100">
           <v-list-item-title>{{ item.label }}</v-list-item-title>
@@ -22,6 +24,7 @@
 <script setup lang="ts">
 import { useBuilderStore } from '@/_builder/stores/useBuilderStore';
 import SavePageDialog from '@/_builder/components/SavePageDialog.vue';
+
 import { ref } from 'vue';
 const builder = useBuilderStore();
 const exportsd = () => {
@@ -29,7 +32,30 @@ const exportsd = () => {
   builder.exportToJsonFile('my-template.json');
 };
 const componentList = [
-  { type: 'my-card', label: '카드' }, // 사용자 정의 컴포넌트
+  {
+    type: 'my-page-title',
+    label: '커스텀 Page Ttile',
+    cssClass: '',
+    styles: { border: '1px dashed #ccc', padding: '8px' },
+  }, // CKEditor 컴포넌트
+  {
+    type: 'my-ck-editor',
+    label: '커스텀 CKEditor',
+    cssClass: '',
+    styles: { border: '1px dashed #ccc', padding: '8px' },
+  }, // CKEditor 컴포넌트
+  {
+    type: 'my-ag-grid',
+    label: '커스텀 AG Grid',
+    cssClass: '',
+    styles: { border: '1px dashed #ccc', padding: '8px' },
+  }, // AG Grid 컴포넌트
+  {
+    type: 'my-card',
+    label: '커스텀 Card',
+    cssClass: '',
+    styles: { border: '1px dashed #ccc', padding: '8px' },
+  }, // 사용자 정의 컴포넌트
   { type: 'group', label: '그룹', styles: { border: '1px dashed #ccc', padding: '8px' } },
   { type: 'v-btn', label: 'button' },
   { type: 'v-text-field', label: 'input' },
@@ -54,10 +80,11 @@ const componentList = [
   // { type: 'v-sheet', label: 'sheet' },
 ];
 
-const onDragStart = (e: DragEvent, type: string, label: string, styles: any) => {
+const onDragStart = (e: DragEvent, type: string, label: string, styles: any, cssClass: any) => {
   e.dataTransfer?.setData('component-type', type);
   e.dataTransfer?.setData('component-label', label);
   e.dataTransfer?.setData('component-styles', JSON.stringify(styles || {}));
+  e.dataTransfer?.setData('component-class', cssClass);
 };
 const saveDialogRef = ref();
 const openSaveDialog = () => {

@@ -1,14 +1,16 @@
 <template>
   <v-sheet
     id="builder-canvas"
-    class="ma-4 pa-4"
-    height="600"
+    class="pa-4"
+    height="auto"
     elevation="1"
     color="grey-lighten-4"
+    :style="{ minHeight: '600px' }"
     @dragover.prevent
     @drop="onDrop"
   >
     <ElementWrapper v-for="el in elements" :key="el.id" :element="el" :data-builder-id="el.id" />
+    <div style="height: 50px"></div>
   </v-sheet>
 </template>
 
@@ -33,13 +35,14 @@ onMounted(() => {
 const onDrop = (e: DragEvent) => {
   const type = e.dataTransfer?.getData('component-type');
   const label = e.dataTransfer?.getData('component-label') || '무라벨';
+  const cssClass = e.dataTransfer?.getData('component-class') || '';
   const styles = JSON.parse(e.dataTransfer?.getData('component-styles') || '{}');
   if (!type) return;
 
   if (type === 'group') {
     builder.addGroup();
   } else {
-    builder.addElement(type, label, styles);
+    builder.addElement(type, label, styles, cssClass);
   }
   // builder.addElement(type);
 };

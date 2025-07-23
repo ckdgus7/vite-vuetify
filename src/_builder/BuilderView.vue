@@ -2,15 +2,15 @@
   <v-container fluid>
     <v-row>
       <v-col cols="2">
-        <ComponentLibrary />
+        <div :style="{ position: 'fixed', width: '230px' }"><ComponentLibrary /></div>
       </v-col>
 
-      <v-col cols="7">
+      <v-col cols="8">
         <CanvasArea />
       </v-col>
 
-      <v-col cols="3">
-        <InspectorPanel />
+      <v-col cols="2">
+        <div :style="{ position: 'fixed', width: '100%' }"><InspectorPanel /></div>
       </v-col>
     </v-row>
   </v-container>

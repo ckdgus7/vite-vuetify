@@ -8,7 +8,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import ElementWrapper from '@/_builder/components/ElementWrapper.vue';
-import { getPageByPath } from '@/_builder/composables/usePageStore';
+import { getPageByPath } from '@/_builder/stores/usePageStore';
 
 const route = useRoute();
 const pageElements = ref<any[]>([]);
