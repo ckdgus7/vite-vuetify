@@ -33,32 +33,38 @@ const exportsd = () => {
 };
 const componentList = [
   {
+    type: 'my-note-box',
+    label: 'Note box',
+    cssClass: '',
+    styles: { border: '1px dashed #ccc', padding: '8px' },
+  }, // CKEditor 컴포넌트
+  {
     type: 'my-subject-text',
-    label: '커스텀 Subject Text',
+    label: 'Subject Text',
     cssClass: '',
     styles: { border: '1px dashed #ccc', padding: '8px' },
   }, // CKEditor 컴포넌트
   {
     type: 'my-page-title',
-    label: '커스텀 Page Ttile',
+    label: 'Page Ttile',
     cssClass: '',
     styles: { border: '1px dashed #ccc', padding: '8px' },
   }, // CKEditor 컴포넌트
   {
     type: 'my-ck-editor',
-    label: '커스텀 CKEditor',
+    label: 'CKEditor',
     cssClass: '',
     styles: { border: '1px dashed #ccc', padding: '8px' },
   }, // CKEditor 컴포넌트
   {
     type: 'my-ag-grid',
-    label: '커스텀 AG Grid',
+    label: 'AG Grid',
     cssClass: '',
     styles: { border: '1px dashed #ccc', padding: '8px' },
   }, // AG Grid 컴포넌트
   {
     type: 'my-card',
-    label: '커스텀 Card',
+    label: 'Card',
     cssClass: '',
     styles: { border: '1px dashed #ccc', padding: '8px' },
   }, // 사용자 정의 컴포넌트

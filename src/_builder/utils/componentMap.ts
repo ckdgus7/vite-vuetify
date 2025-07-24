@@ -4,6 +4,7 @@ import MyAgGrid from '@/_builder/components/custom/CustomAgGrid.vue';
 import MyCkEditor from '@/_builder/components/custom/CustomCkEditor.vue';
 import MyPageTitle from '@/_builder/components/custom/CustomPageTitle.vue';
 import MySubjectText from '@/_builder/components/custom/CustomSubjectText.vue';
+import MyNoteBox from '@/_builder/components/custom/CustomNoteBox.vue';
 export const ComponentRegistry: any = {
   'v-btn': {
     label: '버튼',
@@ -49,6 +50,17 @@ export const ComponentRegistry: any = {
       { key: 'backgroundColor', label: '배경색 (background color)', type: 'text' },
     ],
   },
+  'my-note-box': {
+    label: '노트박스',
+    component: MyNoteBox,
+    propsMeta: [
+      { key: 'title', label: 'title', type: 'text' },
+      { key: 'messageBefore', label: 'messageBefore', type: 'text' },
+      { key: 'linkText', label: 'linkText', type: 'text' },
+      { key: 'linkHref', label: 'linkHref', type: 'text' },
+      { key: 'messageAfter', label: 'messageAfter', type: 'text' },
+    ],
+  },
   'my-card': {
     label: '카드',
     component: MyCard,
@@ -71,22 +83,26 @@ export const ComponentRegistry: any = {
       {
         key: 'iconSize',
         label: '아이콘 크기',
-        type: 'select', options: ['1', '2', '3', '4', '5'],
+        type: 'select',
+        options: ['1', '2', '3', '4', '5'],
       },
       {
         key: 'size',
         label: '폰트 사이즈',
-        type: 'select', options: ['sm', 'md', 'lg', 'xl'],
+        type: 'select',
+        options: ['sm', 'md', 'lg', 'xl'],
       },
       {
         key: 'weight',
         label: '폰트 두께',
-        type: 'select', options: ['normal', 'medium', 'bold'],
+        type: 'select',
+        options: ['normal', 'medium', 'bold'],
       },
       {
         key: 'divider',
         label: '구분선',
-        type: 'select', options: [true, false],
+        type: 'select',
+        options: [true, false],
       },
     ],
   },

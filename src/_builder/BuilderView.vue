@@ -10,7 +10,7 @@
       </v-col>
 
       <v-col cols="2">
-        <div :style="{ position: 'fixed', width: '100%' }"><InspectorPanel /></div>
+        <div :style="{ position: 'fixed', width: '220px' }"><InspectorPanel /></div>
       </v-col>
     </v-row>
   </v-container>

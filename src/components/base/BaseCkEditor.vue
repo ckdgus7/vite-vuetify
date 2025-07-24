@@ -1,6 +1,5 @@
 <template>
   <div class="main-container">
-    <h3>기본</h3>
     <div class="editor-container editor-container_classic-editor" ref="editorContainerElement">
       <div class="editor-container__editor">
         <div ref="editorElement">
