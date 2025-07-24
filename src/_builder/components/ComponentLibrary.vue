@@ -33,6 +33,12 @@ const exportsd = () => {
 };
 const componentList = [
   {
+    type: 'my-subject-text',
+    label: '커스텀 Subject Text',
+    cssClass: '',
+    styles: { border: '1px dashed #ccc', padding: '8px' },
+  }, // CKEditor 컴포넌트
+  {
     type: 'my-page-title',
     label: '커스텀 Page Ttile',
     cssClass: '',

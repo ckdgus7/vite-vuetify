@@ -3,6 +3,7 @@ import MyCard from '@/_builder/components/custom/MyCard.vue';
 import MyAgGrid from '@/_builder/components/custom/CustomAgGrid.vue';
 import MyCkEditor from '@/_builder/components/custom/CustomCkEditor.vue';
 import MyPageTitle from '@/_builder/components/custom/CustomPageTitle.vue';
+import MySubjectText from '@/_builder/components/custom/CustomSubjectText.vue';
 export const ComponentRegistry: any = {
   'v-btn': {
     label: '버튼',
@@ -57,8 +58,40 @@ export const ComponentRegistry: any = {
       { key: 'color', label: '배경색', type: 'select', options: ['primary', 'info', 'warning'] },
     ],
   },
+  'my-subject-text': {
+    label: 'subject text',
+    component: MySubjectText,
+    propsMeta: [
+      { key: 'title', label: '타이틀제목', type: 'text' },
+      {
+        key: 'icon',
+        label: '아이콘',
+        type: 'text',
+      },
+      {
+        key: 'iconSize',
+        label: '아이콘 크기',
+        type: 'select', options: ['1', '2', '3', '4', '5'],
+      },
+      {
+        key: 'size',
+        label: '폰트 사이즈',
+        type: 'select', options: ['sm', 'md', 'lg', 'xl'],
+      },
+      {
+        key: 'weight',
+        label: '폰트 두께',
+        type: 'select', options: ['normal', 'medium', 'bold'],
+      },
+      {
+        key: 'divider',
+        label: '구분선',
+        type: 'select', options: [true, false],
+      },
+    ],
+  },
   'my-page-title': {
-    label: 'Page Ttiel',
+    label: 'Page Title',
     component: MyPageTitle,
     propsMeta: [
       { key: 'title', label: '페이지타이틀', type: 'text' },
