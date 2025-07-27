@@ -21,6 +21,11 @@ const MainRoutes = {
       path: '/base-component-page',
       children: [
         {
+          name: 'BaseLoadTest',
+          path: '/base-component-page/test',
+          component: () => import('@/views/_base-component-page/BaseLoadTest.vue'),
+        },
+        {
           name: 'BaseGridSearch',
           path: '/base-component-page/grid-search',
           component: () => import('@/views/_base-component-page/BaseGridSearch.vue'),

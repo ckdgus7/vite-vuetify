@@ -44,6 +44,11 @@ const sidebarItem: menu[] = [
         icon: CircleIcon,
         to: '/base-component-page/ck-editor',
       },
+      {
+        title: 'Test',
+        icon: CircleIcon,
+        to: '/base-component-page/test',
+      },
     ],
   },
   { divider: true },
