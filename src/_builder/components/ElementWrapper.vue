@@ -1,7 +1,7 @@
 <template>
   <div
     class="pa-2"
-    :class="{ selected: isSelected }"
+    :class="{ selected: isSelected, 'selected-outline': isSelected }"
     :data-builder-id="element.id"
     @click.stop="selectElement"
     @dragover.prevent="onDragOver"
@@ -10,9 +10,6 @@
     <!-- 그룹일 경우 내부 요소 재귀 렌더링 -->
     <div v-if="element.type === 'group'" :style="getGroupStyles">
       <ElementWrapper v-for="child in element.children" :key="child.id" :element="child" />
-      <!-- <div class="text-disabled text-center text-caption pa-2">
-        이 영역에 컴포넌트를 드래그하여 추가
-      </div> -->
     </div>
 
     <!-- 일반 요소 -->
@@ -78,7 +75,7 @@ const onDrop = (e: DragEvent) => {
   e.stopPropagation(); // ✅ 이벤트 전파 방지 (중복 drop 방지)
   const type = e.dataTransfer?.getData('component-type');
   if (props.element.type === 'group' && type) {
-    builder.addElementToGroup(props.element.id, type);
+    builder.addElementToGroup(props.element.id, props.element.type, type);
   }
 };
 const onDragOver = (e: DragEvent) => {
@@ -111,3 +108,9 @@ const parsedEvents = computed(() => {
   return result;
 });
 </script>
+<style scoped>
+.selected-outline {
+  outline: 2px dotted red;
+  outline-offset: -2px;
+}
+</style>

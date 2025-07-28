@@ -1,9 +1,11 @@
 .v-text-field input {
   font-size: 0.875rem;
+  // height: 30px;
 }
 .v-input--density-default {
   .v-field__input {
-    min-height: 51px;
+    min-height: 29px;
+    min-height: 30px;
   }
 }
 

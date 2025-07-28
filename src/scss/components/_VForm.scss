@@ -1,0 +1,16 @@
+.v-text-field,
+.v-select,
+.v-autocomplete {
+  .v-field__outline {
+    border-radius: 2px;
+  }
+
+  .v-input__control {
+    font-size: 15px;
+    padding: 10px 12px;
+  }
+
+  &.v-input--is-focused .v-field__outline {
+    border: 1px solid #1976d2;
+  }
+}

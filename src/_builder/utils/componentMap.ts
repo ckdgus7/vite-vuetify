@@ -1,4 +1,5 @@
 // componentMap.ts
+import MyCustomButton from '@/_builder/components/custom/CustomButton.vue';
 import MyCard from '@/_builder/components/custom/MyCard.vue';
 import MyAgGrid from '@/_builder/components/custom/CustomAgGrid.vue';
 import MyCkEditor from '@/_builder/components/custom/CustomCkEditor.vue';
@@ -7,25 +8,89 @@ import MySubjectText from '@/_builder/components/custom/CustomSubjectText.vue';
 import MyNoteBox from '@/_builder/components/custom/CustomNoteBox.vue';
 export const ComponentRegistry: any = {
   'v-btn': {
-    label: '버튼',
+    label: 'btn',
     component: 'v-btn',
     propsMeta: [
+      { key: 'class', label: 'css class', type: 'text' },
       { key: 'text', label: '버튼 텍스트', type: 'text' },
       { key: 'color', label: '색상', type: 'select', options: ['primary', 'secondary', 'success'] },
+      {
+        key: 'style',
+        label: '스타일',
+        type: 'object',
+        fields: [
+          { key: 'width', label: '너비', type: 'text' },
+          { key: 'height', label: '높이', type: 'text' }
+        ],
+      },
     ],
   },
   'v-text-field': {
-    label: '텍스트필드',
+    label: 'text-field',
     component: 'v-text-field',
+    propsMeta: [
+      { key: 'clearable', label: 'Clearable', type: 'radio' },
+      { key: 'placeholder', label: 'Placeholder', type: 'text' },
+      {
+        key: 'style',
+        label: '스타일',
+        type: 'object',
+        fields: [
+          { key: 'width', label: '너비', type: 'text' },
+          { key: 'min-height', label: '높이', type: 'text' }
+        ]
+      },
+    ],
+  },
+  'v-textarea': {
+    label: 'textarea',
+    component: 'v-textarea',
     propsMeta: [
       { key: 'clearable', label: 'Clearable', type: 'radio' },
       { key: 'placeholder', label: 'Placeholder', type: 'text' },
     ],
   },
+  'v-combobox': {
+    label: 'combobox',
+    component: 'v-combobox',
+    propsMeta: [
+      // { key: 'items', label: 'item 목록', type: 'array', itemType: 'text' },
+          { key: 'item-title', label: 'label', type: 'text' },
+          { key: 'item-value', label: 'value', type: 'text' },
+      {
+        key: 'items',
+        label: '옵션 목록',
+        type: 'array',
+        itemType: 'object',
+        itemFields: [
+          { key: 'aaa', label: '라벨', type: 'text' },
+          { key: 'bbb', label: '값', type: 'text' },
+        ]
+      },
+    ],
+  },
+  // { type: 'v-combobox', label: 'combobox' },
+  // { type: 'v-checkbox', label: 'checkbox' },
+  // { type: 'v-radio-group', label: 'radio' },
+  // { type: 'v-switch', label: 'switch' },
+  // { type: 'v-dialog', label: 'dialog' },
+  // { type: 'v-tooltip', label: 'tooltip' },
+  // { type: 'v-snackbar', label: 'snackbar' },
+  // { type: 'v-alert', label: 'alert' },
+  // { type: 'v-card', label: 'card' },
+  // { type: 'v-tabs', label: 'tabs' },
+  // { type: 'v-expansion-panels', label: 'expansion panels' },
+  // { type: 'v-data-table', label: 'data table' },
+  // { type: 'v-list', label: 'list' },
+  // { type: 'v-treeview', label: 'treeview' },
+  // { type: 'v-stepper', label: 'stepper' },
+  // { type: 'v-pagination', label: 'pagination' },
   group: {
     label: '그룹',
     component: 'group',
     propsMeta: [
+      { key: 'width', label: 'width', type: 'text' },
+      { key: 'height', label: 'height', type: 'text' },
       { key: 'display', label: 'Display', type: 'select', options: ['flex', 'grid', 'block'] },
       {
         key: 'flexDirection',
