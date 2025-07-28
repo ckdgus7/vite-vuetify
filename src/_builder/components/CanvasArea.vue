@@ -8,7 +8,11 @@
     @dragover.prevent
     @drop="onDrop"
   >
-    <ElementWrapper v-for="el in elements" :key="el.id" :element="el" :data-builder-id="el.id" />
+    <draggable :list="elements" tag="transition-group" :component-data="{ name: 'fade' }">
+      <template #item="{ element }">
+        <ElementWrapper :key="element.id" :element="element" :data-builder-id="element.id" />
+      </template>
+    </draggable>
     <div style="height: 50px" class="pl-2"></div>
   </v-sheet>
 </template>
@@ -18,7 +22,7 @@ import { onMounted } from 'vue';
 import ElementWrapper from '@/_builder/components/ElementWrapper.vue';
 import { useBuilderStore } from '@/_builder/stores/useBuilderStore';
 import { useElementSelector } from '@/_builder/composables/useElementSelector';
-
+import draggable from 'vuedraggable';
 const builder = useBuilderStore();
 const elements = builder.elements;
 

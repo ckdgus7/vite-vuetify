@@ -261,9 +261,16 @@ watchEffect(() => {
 });
 import EventEditor from './EventEditor.vue';
 
-const onEventUpdate = ({ eventName, handlerName }: { eventName: string; handlerName: string }) => {
-  if (!selectedElement) return;
-  // console.log(builder.selectedElementId, eventName, handlerName);
-  builder.addEventToComponent(builder.selectedElementId, eventName, handlerName);
+const onEventUpdate = ({
+  eventName,
+  handlerName,
+  code,
+}: {
+  eventName: string;
+  handlerName: string;
+  code: string;
+}) => {
+  if (!selectedElement.value) return;
+  builder.addEventToComponent(selectedElement.value.id, eventName, handlerName, code);
 };
 </script>

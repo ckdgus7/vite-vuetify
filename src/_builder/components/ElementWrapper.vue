@@ -45,13 +45,11 @@ import ElementWrapper from './ElementWrapper.vue';
 import { ComponentRegistry } from '@/_builder/utils/componentMap';
 import { useVmodel } from '@/_builder/utils/isVmodelElement';
 import { useFormStore } from '@/_builder/stores/useFormStore';
-import { useEventCodeStorage } from '@/_builder/composables/useEventCodeStorage';
 
 const props = defineProps<{ element: any; isPage?: boolean }>();
 const formStore = useFormStore();
 const builder = useBuilderStore();
 const bindings = ref<Record<string, Function>>({});
-const { getCode } = useEventCodeStorage();
 // const runtimeFns = useRuntimeFunctions();
 // v-model 연동 지원 여부 확인
 const supportsVModel = computed(() => useVmodel.includes(props.element.type));
@@ -86,24 +84,30 @@ const onDragOver = (e: DragEvent) => {
   }
 };
 
-onMounted(async () => {
-  const result: Record<string, Function> = {};
-  if (props.element.events) {
-    for (const [eventName] of Object.entries(props.element.events)) {
-      const code = (await getCode(`${props.element.id}_${eventName}`)) || '';
-      console.log(code);
-      result[eventName] = (...args: any[]) => {
-        try {
-          const fn = new Function('event', 'context', code);
-          fn(args[0], { console });
-        } catch (e) {
-          console.error(`이벤트 실행 오류 [${eventName}]`, e);
-        }
-      };
-    }
-  }
+onMounted(() => {
+  // 페이지 렌더링 시 이벤트 실행
+  if (props.isPage) {
+    const result: Record<string, Function> = {};
 
-  bindings.value = result;
+    if (props.element.events) {
+      // for (const [eventName, eventData] of Object.entries(props.element.events)) {
+      for (const evt of Object.entries(props.element.events)) {
+        const e: any = evt;
+        const eventName = e.eventName;
+        const code = e.eventName.code;
+        result[eventName] = (...args: any[]) => {
+          try {
+            const fn = new Function('event', 'context', code);
+            fn(args[0], { console });
+          } catch (e) {
+            console.error(`이벤트 실행 오류 [${eventName}]`, e);
+          }
+        };
+      }
+    }
+
+    bindings.value = result;
+  }
 });
 </script>
 <style scoped>
