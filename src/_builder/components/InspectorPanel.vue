@@ -190,6 +190,8 @@
       </template>
     </template>
 
+    <v-divider class="mb-2" />
+    <EventEditor v-if="selectedElement" :element="selectedElement" @update="onEventUpdate" />
     <!-- <v-btn class="mt-4" color="error" @click="removeElement">삭제</v-btn> -->
   </v-card>
   <v-card v-else class="pa-4">
@@ -226,7 +228,6 @@ watchEffect(() => {
 
     // array 초기화
     if (meta.type === 'array' && !Array.isArray(selectedElement.value.props[meta.key])) {
-      console.log(1);
       selectedElement.value.props[meta.key] = [];
     }
 
@@ -246,7 +247,6 @@ watchEffect(() => {
       meta.itemType === 'object' &&
       !Array.isArray(selectedElement.value[key])
     ) {
-      console.log(2);
       selectedElement.value.props[key].forEach((item: any, idx: number) => {
         if (typeof item !== 'object') selectedElement.value.props[key][idx] = {};
         for (const field of meta.itemFields || []) {
@@ -259,4 +259,11 @@ watchEffect(() => {
     }
   }
 });
+import EventEditor from './EventEditor.vue';
+
+const onEventUpdate = ({ eventName, handlerName }: { eventName: string; handlerName: string }) => {
+  if (!selectedElement) return;
+  // console.log(builder.selectedElementId, eventName, handlerName);
+  builder.addEventToComponent(builder.selectedElementId, eventName, handlerName);
+};
 </script>

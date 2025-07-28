@@ -10,11 +10,16 @@ export interface ElementSchema {
   styles: Record<string, any>;
   cssClass: string;
   children: any[]; // Optional, for nested elements
+  events?: {
+    [eventName: string]: {
+      handlerName: string
+    }
+  }
 }
 
 export const useBuilderStore = defineStore('builder', () => {
   const elements = ref<ElementSchema[]>([]);
-  const selectedElementId = ref<string | null>(null);
+  const selectedElementId = ref<string>('');
 
   function addElement(type: string, label: string, styles: Record<string, any>, cssClass: string) {
     elements.value.push({
@@ -25,6 +30,7 @@ export const useBuilderStore = defineStore('builder', () => {
       cssClass,
       props: {},
       children: [],
+      events: {}
     });
   }
   function saveSchema(): string {
@@ -171,10 +177,15 @@ export const useBuilderStore = defineStore('builder', () => {
 
     // 선택 해제 처리
     if (selectedElementId.value === id) {
-      selectedElementId.value = null;
+      selectedElementId.value = '';
     }
   }
-
+  function addEventToComponent(id: string, eventName: string, handlerName: string) {
+    const target = elements.value.find(c => c.id === id)
+    if (!target) return
+    if (!target.events) target.events = {}
+    target.events[eventName] = { handlerName }
+  }
   return {
     elements,
     selectedElementId,
@@ -188,5 +199,6 @@ export const useBuilderStore = defineStore('builder', () => {
     addElementToGroup,
     findElementById,
     removeElement,
+    addEventToComponent,
   };
 });
