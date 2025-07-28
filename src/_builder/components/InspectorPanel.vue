@@ -190,9 +190,10 @@
       </template>
     </template>
 
-    <v-divider class="mb-2" />
-    <EventEditor v-if="selectedElement" :element="selectedElement" @update="onEventUpdate" />
-    <!-- <v-btn class="mt-4" color="error" @click="removeElement">삭제</v-btn> -->
+    <div v-if="!isGroup">
+      <v-divider class="mb-2" />
+      <EventEditor v-if="selectedElement" :element="selectedElement" @update="onEventUpdate" />
+    </div>
   </v-card>
   <v-card v-else class="pa-4">
     <v-card-text>선택된 요소가 없습니다.</v-card-text>
@@ -209,6 +210,10 @@ const builder = useBuilderStore();
 const selectedElement: any = computed(() => {
   // console.log(builder.findElementById(builder.selectedElementId!));
   return builder.findElementById(builder.selectedElementId!);
+});
+const isGroup = computed((): boolean => {
+  // console.log(builder.findElementById(builder.selectedElementId!));
+  return selectedElement.value.type === 'group';
 });
 
 const metaList = computed(() => {

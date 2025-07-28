@@ -1,9 +1,6 @@
 <template>
   <div style="margin: 20px">
     <div style="margin: 20px">
-      <SheetJsTableLite></SheetJsTableLite>
-    </div>
-    <div style="margin: 20px">
       <BpmnDiagram></BpmnDiagram>
     </div>
     <div style="margin: 20px">
@@ -54,7 +51,6 @@
 </template>
 
 <script setup lang="ts">
-import SheetJsTableLite from '@/_builder/components/custom/CustomTableSheet.vue';
 import BpmnDiagram from '@/_builder/components/custom/CustomBpmnDiagram.vue';
 import BaseTab from '@/components/base/BaseTab.vue';
 import BaseRadio from '@/components/base/BaseRadio.vue';
