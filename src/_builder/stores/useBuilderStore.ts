@@ -13,6 +13,7 @@ export interface ElementSchema {
   events?: {
     [eventName: string]: {
       handlerName: string
+      code: string
     }
   }
 }
@@ -180,12 +181,13 @@ export const useBuilderStore = defineStore('builder', () => {
       selectedElementId.value = '';
     }
   }
-  function addEventToComponent(id: string, eventName: string, handlerName: string) {
+  function addEventToComponent(id: string, eventName: string, handlerName: string, code: string) {
     const target = elements.value.find(c => c.id === id)
     if (!target) return
     if (!target.events) target.events = {}
-    target.events[eventName] = { handlerName }
+    target.events[eventName] = { handlerName, code }
   }
+
   return {
     elements,
     selectedElementId,

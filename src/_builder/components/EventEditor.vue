@@ -11,7 +11,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 // import MonacoEditor from 'monaco-editor-vue3';
-import { useEventCodeStorage } from '@/_builder/composables/useEventCodeStorage';
 
 const props = defineProps<{ element: any }>();
 const emit = defineEmits(['update']);
@@ -22,12 +21,12 @@ const handlerCode = ref('');
 const preview = ref('');
 const availableEvents = ['click', 'input', 'submit'];
 
-const { saveCode } = useEventCodeStorage();
-
-const onSave = async () => {
-  const id = `${props.element.id}_${selectedEvent.value}`;
-  await saveCode(id, handlerCode.value);
-  emit('update', { eventName: selectedEvent.value, handlerName: handlerName.value });
+const onSave = () => {
+  emit('update', {
+    eventName: selectedEvent.value,
+    handlerName: handlerName.value,
+    code: handlerCode.value,
+  });
 };
 
 const onPreview = () => {
@@ -36,7 +35,7 @@ const onPreview = () => {
     const fakeConsole = { log: (...a: any[]) => (out += a.join(' ') + '\n') };
     const fn = new Function('event', 'context', handlerCode.value);
     fn({ type: selectedEvent.value }, { console: fakeConsole });
-    preview.value = out || '실행됨';
+    preview.value = out || '✅ 실행됨';
   } catch (e: any) {
     preview.value = `오류: ${e.message}`;
   }
