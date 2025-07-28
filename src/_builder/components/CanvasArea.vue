@@ -1,16 +1,15 @@
 <template>
   <v-sheet
     id="builder-canvas"
-    class="pa-4"
     height="auto"
     elevation="1"
-    color="grey-lighten-4"
-    :style="{ minHeight: '600px' }"
+    color="grey-lighten-2"
+    :style="{ minHeight: '580px' }"
     @dragover.prevent
     @drop="onDrop"
   >
     <ElementWrapper v-for="el in elements" :key="el.id" :element="el" :data-builder-id="el.id" />
-    <div style="height: 50px"></div>
+    <div style="height: 50px" class="pl-2"></div>
   </v-sheet>
 </template>
 

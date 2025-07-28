@@ -1,7 +1,7 @@
 <template>
   <div
     class="pa-2"
-    :class="{ selected: isSelected }"
+    :class="{ selected: isSelected, 'selected-outline': isSelected }"
     :data-builder-id="element.id"
     @click.stop="selectElement"
     @dragover.prevent="onDragOver"
@@ -10,9 +10,6 @@
     <!-- 그룹일 경우 내부 요소 재귀 렌더링 -->
     <div v-if="element.type === 'group'" :style="getGroupStyles">
       <ElementWrapper v-for="child in element.children" :key="child.id" :element="child" />
-      <!-- <div class="text-disabled text-center text-caption pa-2">
-        이 영역에 컴포넌트를 드래그하여 추가
-      </div> -->
     </div>
 
     <!-- 일반 요소 -->
@@ -23,7 +20,7 @@
         :is="getComponent"
         v-model="modelValue"
         v-bind="element.props"
-        v-on="parsedEvents"
+        v-on="bindings"
         :style="element.styles"
       />
 
@@ -32,7 +29,7 @@
         v-else
         :is="getComponent"
         v-bind="element.props"
-        v-on="parsedEvents"
+        v-on="bindings"
         :style="element.styles"
       >
         {{ element.props?.text }}
@@ -42,18 +39,20 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useBuilderStore } from '@/_builder/stores/useBuilderStore';
 import ElementWrapper from './ElementWrapper.vue';
 import { ComponentRegistry } from '@/_builder/utils/componentMap';
 import { useVmodel } from '@/_builder/utils/isVmodelElement';
 import { useFormStore } from '@/_builder/stores/useFormStore';
-import { useRuntimeFunctions } from '@/_builder/composables/useRuntimeFunctions';
+import { useEventCodeStorage } from '@/_builder/composables/useEventCodeStorage';
 
 const props = defineProps<{ element: any; isPage?: boolean }>();
 const formStore = useFormStore();
 const builder = useBuilderStore();
-const runtimeFns = useRuntimeFunctions();
+const bindings = ref<Record<string, Function>>({});
+const { getCode } = useEventCodeStorage();
+// const runtimeFns = useRuntimeFunctions();
 // v-model 연동 지원 여부 확인
 const supportsVModel = computed(() => useVmodel.includes(props.element.type));
 
@@ -78,7 +77,7 @@ const onDrop = (e: DragEvent) => {
   e.stopPropagation(); // ✅ 이벤트 전파 방지 (중복 drop 방지)
   const type = e.dataTransfer?.getData('component-type');
   if (props.element.type === 'group' && type) {
-    builder.addElementToGroup(props.element.id, type);
+    builder.addElementToGroup(props.element.id, props.element.type, type);
   }
 };
 const onDragOver = (e: DragEvent) => {
@@ -87,27 +86,29 @@ const onDragOver = (e: DragEvent) => {
   }
 };
 
-const parsedEvents = computed(() => {
+onMounted(async () => {
   const result: Record<string, Function> = {};
-
   if (props.element.events) {
-    for (const [event, code] of Object.entries(props.element.events)) {
-      if (typeof code === 'string') {
-        if (code in runtimeFns) {
-          const fn = runtimeFns[code as keyof typeof runtimeFns];
-          if (fn) {
-            // apiUrl 정보 전달
-            result[event] = () => fn(props.element);
-          }
-        } else {
-          console.warn(`정의되지 않은 이벤트 함수: ${code}`);
+    for (const [eventName] of Object.entries(props.element.events)) {
+      const code = (await getCode(`${props.element.id}_${eventName}`)) || '';
+      console.log(code);
+      result[eventName] = (...args: any[]) => {
+        try {
+          const fn = new Function('event', 'context', code);
+          fn(args[0], { console });
+        } catch (e) {
+          console.error(`이벤트 실행 오류 [${eventName}]`, e);
         }
-      } else if (typeof code === 'function') {
-        result[event] = code;
-      }
+      };
     }
   }
 
-  return result;
+  bindings.value = result;
 });
 </script>
+<style scoped>
+.selected-outline {
+  outline: 2px dotted red;
+  outline-offset: -2px;
+}
+</style>

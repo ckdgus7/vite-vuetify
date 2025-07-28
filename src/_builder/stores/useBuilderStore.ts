@@ -10,11 +10,16 @@ export interface ElementSchema {
   styles: Record<string, any>;
   cssClass: string;
   children: any[]; // Optional, for nested elements
+  events?: {
+    [eventName: string]: {
+      handlerName: string
+    }
+  }
 }
 
 export const useBuilderStore = defineStore('builder', () => {
   const elements = ref<ElementSchema[]>([]);
-  const selectedElementId = ref<string | null>(null);
+  const selectedElementId = ref<string>('');
 
   function addElement(type: string, label: string, styles: Record<string, any>, cssClass: string) {
     elements.value.push({
@@ -25,6 +30,7 @@ export const useBuilderStore = defineStore('builder', () => {
       cssClass,
       props: {},
       children: [],
+      events: {}
     });
   }
   function saveSchema(): string {
@@ -85,25 +91,54 @@ export const useBuilderStore = defineStore('builder', () => {
       label: '그룹',
       props: {},
       styles: {
-        padding: '20px',
+        padding: '5px',
         border: '1px dashed gray',
       },
       cssClass: '',
       children: [],
     });
   }
-  function addElementToGroup(groupId: string, type: string) {
+  function addElementToGroup(groupId: string, groupType: string, type: string) {
+    const el: any = elements.value;
+    // console.log(el)
     const group = elements.value.find((el) => el.id === groupId);
-    if (!group || group.type !== 'group') return;
+    const group2 = el[0].children.find((el: any) => el.id === groupId);
+    // console.log('group', group)
+    // console.log('group2', group2)
+    // console.log('groupType', groupType)
+    // console.log('type', type)
+    // if (!group || group.type !== 'group') return;
 
-    group.children = group.children || [];
-    group.children.push({
-      id: crypto.randomUUID(),
-      type,
-      props: {},
-      styles: {},
-      cssClass: '',
-    });
+    // console.log('run');
+    if (group) {
+      group.children = group.children || [];
+      group.children.push({
+        id: crypto.randomUUID(),
+        type,
+        label: '그룹',
+        props: {},
+        styles: {
+          padding: '5px',
+          border: '1px dashed gray',
+        },
+        cssClass: '',
+        children: [],
+      });
+    } else if (group2) {
+      group2.children = group2.children || [];
+      group2.children.push({
+        id: crypto.randomUUID(),
+        type,
+        label: '그룹',
+        props: {},
+        styles: {
+          padding: '5px',
+          border: '1px dashed gray',
+        },
+        cssClass: '',
+        children: [],
+      });
+    }
   }
   function findElementById(id: string): ElementSchema | null {
     const search = (list: ElementSchema[] | ElementSchema[][]): ElementSchema | null => {
@@ -114,13 +149,6 @@ export const useBuilderStore = defineStore('builder', () => {
         if (el.type === 'group' && Array.isArray(el.children)) {
           const found = search(el.children as ElementSchema[]);
           if (found) return found;
-        }
-
-        if (el.type === 'grid-group' && Array.isArray(el.children)) {
-          for (const cell of el.children) {
-            const found = search(cell);
-            if (found) return found;
-          }
         }
       }
       return null;
@@ -140,12 +168,6 @@ export const useBuilderStore = defineStore('builder', () => {
         if (el.type === 'group' && Array.isArray(el.children)) {
           if (removeFromList(el.children)) return true;
         }
-
-        if (el.type === 'grid-group' && Array.isArray(el.children)) {
-          for (const cell of el.children) {
-            if (removeFromList(cell)) return true;
-          }
-        }
       }
 
       return false;
@@ -155,10 +177,15 @@ export const useBuilderStore = defineStore('builder', () => {
 
     // 선택 해제 처리
     if (selectedElementId.value === id) {
-      selectedElementId.value = null;
+      selectedElementId.value = '';
     }
   }
-
+  function addEventToComponent(id: string, eventName: string, handlerName: string) {
+    const target = elements.value.find(c => c.id === id)
+    if (!target) return
+    if (!target.events) target.events = {}
+    target.events[eventName] = { handlerName }
+  }
   return {
     elements,
     selectedElementId,
@@ -172,5 +199,6 @@ export const useBuilderStore = defineStore('builder', () => {
     addElementToGroup,
     findElementById,
     removeElement,
+    addEventToComponent,
   };
 });
