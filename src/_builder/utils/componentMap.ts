@@ -11,7 +11,7 @@ export const ComponentRegistry: any = {
     component: 'v-btn',
     propsMeta: [
       { key: 'class', label: 'css class', type: 'text' },
-      { key: 'text', label: 'text', type: 'text', defaultValue: '버튼1' },
+      { key: 'text', label: 'text', type: 'text' },
       {
         key: 'color',
         label: 'color',

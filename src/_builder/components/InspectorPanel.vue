@@ -201,7 +201,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch, watchEffect } from 'vue';
+import { computed, watchEffect } from 'vue';
 import { useBuilderStore } from '@/_builder/stores/useBuilderStore';
 import { ComponentRegistry } from '@/_builder/utils/componentMap';
 import EventEditor from './EventEditor.vue';
@@ -211,9 +211,6 @@ const builder = useBuilderStore();
 const selectedElement: any = computed(() => {
   return builder.findElementById(builder.selectedElementId!);
 });
-const metaDefaultValue: any = (metaKey: string, defaultValue: any) => {
-  selectedElement.value.props[metaKey] = defaultValue;
-};
 const isGroup = computed((): boolean => {
   return selectedElement.value.type === 'group';
 });
@@ -223,13 +220,6 @@ const metaList = computed(() => {
   return ComponentRegistry[selectedElement.value.type]?.propsMeta || [];
 });
 
-// watch(selectedElement, (el: any) => {
-//   metaList.value.forEach((meta: any) => {
-//     console.log(meta.key);
-//     console.log(meta.defaultValue);
-//     metaDefaultValue(meta.key, meta.defaultValue);
-//   });
-// });
 // 배열 초기화 처리
 watchEffect(() => {
   // console.log('metaList.value', metaList.value);

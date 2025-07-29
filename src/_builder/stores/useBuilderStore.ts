@@ -22,17 +22,18 @@ export const useBuilderStore = defineStore('builder', () => {
   const elements = ref<ElementSchema[]>([]);
   const selectedElementId = ref<string>('');
 
-  function addElement(type: string, label: string, styles: Record<string, any>, cssClass: string) {
+  function addElement(type: string, label: string, styles: Record<string, any>, cssClass: string, props: any) {
     elements.value.push({
       id: crypto.randomUUID(),
       type,
       label,
       styles,
       cssClass,
-      props: {},
+      props: { ...props },
       children: [],
       events: {}
     });
+    console.log(elements.value)
   }
   function saveSchema(): string {
     return JSON.stringify(elements.value, null, 2);

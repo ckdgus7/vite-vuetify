@@ -40,12 +40,13 @@ const onDrop = (e: DragEvent) => {
   const label = e.dataTransfer?.getData('component-label') || '무라벨';
   const cssClass = e.dataTransfer?.getData('component-class') || '';
   const styles = JSON.parse(e.dataTransfer?.getData('component-styles') || '{}');
+  const props = JSON.parse(e.dataTransfer?.getData('component-props') || '{}');
   if (!type) return;
 
   if (type === 'group') {
     builder.addGroup();
   } else {
-    builder.addElement(type, label, styles, cssClass);
+    builder.addElement(type, label, styles, cssClass, props);
   }
   // builder.addElement(type);
 };

@@ -5,7 +5,8 @@
         v-for="item in componentList"
         :key="item.type"
         @dragstart="
-          (e: DragEvent) => onDragStart(e, item.type, item.label, item.styles, item.cssClass)
+          (e: DragEvent) =>
+            onDragStart(e, item.type, item.label, item.styles, item.cssClass, item.props)
         "
       >
         <div draggable="true" class="w-100">
@@ -62,7 +63,7 @@ const componentList = [
     styles: { border: '1px dashed #ccc', padding: '5px' },
   }, // 사용자 정의 컴포넌트
   { type: 'group', label: '그룹', styles: { border: '1px dashed #ccc', padding: '5px' } },
-  { type: 'v-btn', label: 'button' },
+  { type: 'v-btn', label: 'button', props: { text: '버튼1' } },
   { type: 'v-text-field', label: 'input' },
   { type: 'v-textarea', label: 'textarea' },
   { type: 'v-combobox', label: 'combobox' },
@@ -85,10 +86,18 @@ const componentList = [
   // { type: 'v-sheet', label: 'sheet' },
 ];
 
-const onDragStart = (e: DragEvent, type: string, label: string, styles: any, cssClass: any) => {
+const onDragStart = (
+  e: DragEvent,
+  type: string,
+  label: string,
+  styles: any,
+  cssClass: any,
+  props: any
+) => {
   e.dataTransfer?.setData('component-type', type);
   e.dataTransfer?.setData('component-label', label);
   e.dataTransfer?.setData('component-styles', JSON.stringify(styles || {}));
   e.dataTransfer?.setData('component-class', cssClass);
+  e.dataTransfer?.setData('component-props', JSON.stringify(props || {}));
 };
 </script>
