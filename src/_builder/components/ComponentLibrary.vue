@@ -62,15 +62,15 @@ const componentList: CompList[] = [
     cssClass: '',
     styles: { border: '1px dashed #ccc', padding: '5px' },
   }, // AG Grid 컴포넌트
-  {
-    type: 'my-card',
-    label: 'Card',
-    cssClass: '',
-    styles: { border: '1px dashed #ccc', padding: '5px' },
-  }, // 사용자 정의 컴포넌트
+  // {
+  //   type: 'my-card',
+  //   label: 'Card',
+  //   cssClass: '',
+  //   styles: { border: '1px dashed #ccc', padding: '5px' },
+  // }, // 사용자 정의 컴포넌트
   { type: 'group', label: '그룹', styles: { border: '1px dashed #ccc', padding: '5px' } },
-  // { type: 'v-btn', label: 'button', props: { text: '버튼1', color: 'success' } },
-  { type: 'v-btn', label: 'button' },
+  { type: 'v-btn', label: 'button', props: { text: '버튼1', color: 'success' } },
+  // { type: 'v-btn', label: 'button' },
   { type: 'v-text-field', label: 'input' },
   { type: 'v-textarea', label: 'textarea' },
   { type: 'v-combobox', label: 'combobox' },

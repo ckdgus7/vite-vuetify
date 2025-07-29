@@ -14,25 +14,25 @@
 
     <!-- 일반 요소 -->
     <template v-else>
-      <component
-        :is="getComponent"
-        v-model="modelValue"
-        v-bind="element.props"
-        v-on="bindings"
-        :style="element.styles"
-      />
-      <!-- v-model을 지원하는 컴포넌트인 경우 -->
       <!-- <component
-        v-if="supportsVModel"
         :is="getComponent"
         v-model="modelValue"
         v-bind="element.props"
         v-on="bindings"
         :style="element.styles"
       /> -->
+      <!-- v-model을 지원하는 컴포넌트인 경우 -->
+      <component
+        v-if="supportsVModel"
+        :is="getComponent"
+        v-model="modelValue"
+        v-bind="element.props"
+        v-on="bindings"
+        :style="element.styles"
+      />
 
       <!-- v-model을 지원하지 않는 컴포넌트 -->
-      <!-- <component
+      <component
         v-else
         :is="getComponent"
         v-bind="element.props"
@@ -40,7 +40,7 @@
         :style="element.styles"
       >
         {{ element.props?.text }}
-      </component> -->
+      </component>
     </template>
   </div>
 </template>
@@ -50,7 +50,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useBuilderStore } from '@/_builder/stores/useBuilderStore';
 import ElementWrapper from './ElementWrapper.vue';
 import { ComponentRegistry } from '@/_builder/utils/componentMap';
-// import { useVmodel } from '@/_builder/utils/isVmodelElement';
+import { useVmodel } from '@/_builder/utils/isVmodelElement';
 import { useFormStore } from '@/_builder/stores/useFormStore';
 
 const props = defineProps<{ element: any; isPage?: boolean }>();
@@ -59,7 +59,7 @@ const builder = useBuilderStore();
 const bindings = ref<Record<string, Function>>({});
 // const runtimeFns = useRuntimeFunctions();
 // v-model 연동 지원 여부 확인
-// const supportsVModel = computed(() => useVmodel.includes(props.element.type));
+const supportsVModel = computed(() => useVmodel.includes(props.element.type));
 
 const modelValue = computed({
   get: () => formStore.getValue(props.element.id),

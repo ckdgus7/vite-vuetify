@@ -701,15 +701,15 @@ export const ComponentRegistry: any = {
       { key: 'messageAfter', label: 'messageAfter', type: 'text' },
     ],
   },
-  'my-card': {
-    label: '카드',
-    component: MyCard,
-    propsMeta: [
-      { key: 'title', label: '제목', type: 'text' },
-      { key: 'content', label: '내용', type: 'textarea' },
-      { key: 'color', label: '배경색', type: 'select', options: ['primary', 'info', 'warning'] },
-    ],
-  },
+  // 'my-card': {
+  //   label: '카드',
+  //   component: MyCard,
+  //   propsMeta: [
+  //     { key: 'title', label: '제목', type: 'text' },
+  //     { key: 'content', label: '내용', type: 'textarea' },
+  //     { key: 'color', label: '배경색', type: 'select', options: ['primary', 'info', 'warning'] },
+  //   ],
+  // },
   'my-subject-text': {
     label: 'subject text',
     component: MySubjectText,

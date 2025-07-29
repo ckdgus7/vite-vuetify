@@ -12,17 +12,23 @@ export interface ElementSchema {
   children: any[]; // Optional, for nested elements
   events?: {
     [eventName: string]: {
-      handlerName: string
-      code: string
-    }
-  }
+      handlerName: string;
+      code: string;
+    };
+  };
 }
 
 export const useBuilderStore = defineStore('builder', () => {
   const elements = ref<ElementSchema[]>([]);
   const selectedElementId = ref<string>('');
 
-  function addElement(type: string, label: string, styles: Record<string, any>, cssClass: string, props: any) {
+  function addElement(
+    type: string,
+    label: string,
+    styles: Record<string, any>,
+    cssClass: string,
+    props: any
+  ) {
     elements.value.push({
       id: crypto.randomUUID(),
       type,
@@ -31,9 +37,9 @@ export const useBuilderStore = defineStore('builder', () => {
       cssClass,
       props: { ...props },
       children: [],
-      events: {}
+      events: {},
     });
-    console.log(elements.value)
+    console.log(elements.value);
   }
   function saveSchema(): string {
     return JSON.stringify(elements.value, null, 2);
@@ -183,10 +189,10 @@ export const useBuilderStore = defineStore('builder', () => {
     }
   }
   function addEventToComponent(id: string, eventName: string, handlerName: string, code: string) {
-    const target = elements.value.find(c => c.id === id)
-    if (!target) return
-    if (!target.events) target.events = {}
-    target.events[eventName] = { handlerName, code }
+    const target = elements.value.find((c) => c.id === id);
+    if (!target) return;
+    if (!target.events) target.events = {};
+    target.events[eventName] = { handlerName, code };
   }
 
   return {
