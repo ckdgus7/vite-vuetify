@@ -19,13 +19,19 @@
 
 <script setup lang="ts">
 import { useBuilderStore } from '@/_builder/stores/useBuilderStore';
-
+interface CompList {
+  type: string;
+  label: string;
+  cssClass?: string;
+  styles?: Record<string, any>;
+  props?: Record<string, any>;
+}
 const builder = useBuilderStore();
 const exportsd = () => {
   console.log('Exporting...', builder);
   builder.exportToJsonFile('my-template.json');
 };
-const componentList = [
+const componentList: CompList[] = [
   {
     type: 'my-note-box',
     label: 'Note box',
@@ -63,7 +69,8 @@ const componentList = [
     styles: { border: '1px dashed #ccc', padding: '5px' },
   }, // 사용자 정의 컴포넌트
   { type: 'group', label: '그룹', styles: { border: '1px dashed #ccc', padding: '5px' } },
-  { type: 'v-btn', label: 'button', props: { text: '버튼1' } },
+  // { type: 'v-btn', label: 'button', props: { text: '버튼1', color: 'success' } },
+  { type: 'v-btn', label: 'button' },
   { type: 'v-text-field', label: 'input' },
   { type: 'v-textarea', label: 'textarea' },
   { type: 'v-combobox', label: 'combobox' },
