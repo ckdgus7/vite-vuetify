@@ -11,7 +11,7 @@ export const ComponentRegistry: any = {
     component: 'v-btn',
     propsMeta: [
       { key: 'class', label: 'css class', type: 'text' },
-      { key: 'text', label: 'text', type: 'text' },
+      { key: 'text', label: 'text', type: 'text', defaultValue: '버튼1' },
       {
         key: 'color',
         label: 'color',
@@ -68,7 +68,7 @@ export const ComponentRegistry: any = {
     component: 'v-text-field',
     propsMeta: [
       { key: 'class', label: 'css class', type: 'text' },
-      { key: 'clearable', label: 'Clearable', type: 'radio' },
+      { key: 'clearable', label: 'Clearable', type: 'boolean' },
       { key: 'placeholder', label: 'Placeholder', type: 'text' },
       { key: 'autofocus', label: 'autofocus', type: 'boolean' },
       {
@@ -237,7 +237,7 @@ export const ComponentRegistry: any = {
     component: 'v-file-input',
     propsMeta: [
       { key: 'class', label: 'css class', type: 'text' },
-      { key: 'clearable', label: 'Clearable', type: 'radio' },
+      { key: 'clearable', label: 'Clearable', type: 'boolean' },
       {
         key: 'density',
         label: 'density',
@@ -398,7 +398,7 @@ export const ComponentRegistry: any = {
     component: 'v-textarea',
     propsMeta: [
       { key: 'class', label: 'css class', type: 'text' },
-      { key: 'clearable', label: 'Clearable', type: 'radio' },
+      { key: 'clearable', label: 'Clearable', type: 'boolean' },
       { key: 'placeholder', label: 'Placeholder', type: 'text' },
       { key: 'autofocus', label: 'autofocus', type: 'boolean' },
       { key: 'auto-grow', label: 'auto-grow', type: 'boolean' },
@@ -462,7 +462,7 @@ export const ComponentRegistry: any = {
       { key: 'allowed-dates', label: 'allowed-dates', type: 'text' },
       { key: 'allowed-months', label: 'allowed-months', type: 'text' },
       { key: 'allowed-years', label: 'allowed-years', type: 'text' },
-      { key: 'clearable', label: 'Clearable', type: 'radio' },
+      { key: 'clearable', label: 'Clearable', type: 'boolean' },
       { key: 'placeholder', label: 'Placeholder', type: 'text' },
       { key: 'autofocus', label: 'autofocus', type: 'boolean' },
       { key: 'border', label: 'border', type: 'boolean' },
@@ -545,6 +545,54 @@ export const ComponentRegistry: any = {
       },
       { key: 'width', label: 'width', type: 'text' },
       { key: 'year', label: 'year', type: 'text' },
+      // {
+      //   key: 'style',
+      //   label: '스타일',
+      //   type: 'object',
+      //   fields: [
+      //     { key: 'width', label: '너비', type: 'text' },
+      //     { key: 'min-height', label: '높이', type: 'text' },
+      //   ],
+      // },
+    ],
+  },
+  'v-file-upload': {
+    label: 'file-upload',
+    component: 'v-file-upload',
+    propsMeta: [
+      { key: 'class', label: 'css class', type: 'text' },
+      { key: 'clearable', label: 'Clearable', type: 'boolean' },
+      {
+        key: 'density',
+        label: 'density',
+        type: 'select',
+        options: ['default', 'comfortable', 'compact'],
+      },
+      { key: 'disabled', label: 'disabled', type: 'boolean' },
+      { key: 'divider-text', label: 'divider-text', type: 'text' },
+      { key: 'elevation', label: 'elevation', type: 'text' },
+      { key: 'height', label: 'height', type: 'text' },
+      { key: 'hide-browse', label: 'hide-browse', type: 'boolean' },
+      { key: 'length', label: 'length', type: 'text' },
+      { key: 'max-height', label: 'max-height', type: 'text' },
+      { key: 'max-width', label: 'max-width', type: 'text' },
+      { key: 'min-height', label: 'min-height', type: 'text' },
+      { key: 'min-width', label: 'min-width', type: 'text' },
+      { key: 'multiple', label: 'multiple', type: 'boolean' },
+      { key: 'name', label: 'name', type: 'text' },
+      {
+        key: 'position',
+        label: 'position',
+        type: 'select',
+        options: ['fixed', 'static', 'relative', 'absolute', 'sticky'],
+      },
+      { key: 'rounded', label: 'rounded', type: 'boolean' },
+      { key: 'scrim', label: 'scrim', type: 'boolean' },
+      { key: 'show-size', label: 'show-size', type: 'boolean' },
+      { key: 'subtitle', label: 'subtitle', type: 'text' },
+      { key: 'tile', label: 'tile', type: 'boolean' },
+      { key: 'title', label: 'title', type: 'text' },
+      { key: 'width', label: 'width', type: 'text' },
       // {
       //   key: 'style',
       //   label: '스타일',
