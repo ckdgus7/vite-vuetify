@@ -46,7 +46,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, reactive, watch, watchEffect, useTemplateRef } from 'vue';
+import axios from 'axios';
 import { useBuilderStore } from '@/_builder/stores/useBuilderStore';
 import ElementWrapper from './ElementWrapper.vue';
 import { ComponentRegistry } from '@/_builder/utils/componentMap';
@@ -91,21 +92,30 @@ const onDragOver = (e: DragEvent) => {
   }
 };
 
-onMounted(() => {
+watchEffect(() => {
   // 페이지 렌더링 시 이벤트 실행
   if (props.isPage) {
     const result: Record<string, Function> = {};
-
     if (props.element.events) {
       // for (const [eventName, eventData] of Object.entries(props.element.events)) {
       for (const evt of Object.entries(props.element.events)) {
         const e: any = evt;
-        const eventName = e.eventName;
-        const code = e.eventName.code;
+        const eventName = e[0];
+        const code = e[1].code;
         result[eventName] = (...args: any[]) => {
           try {
             const fn = new Function('event', 'context', code);
-            fn(args[0], { console });
+            fn(args[0], {
+              console,
+              ref,
+              reactive,
+              watch,
+              props,
+              builderStore: builder,
+              formStore,
+              axios,
+              useTemplateRef,
+            });
           } catch (e) {
             console.error(`이벤트 실행 오류 [${eventName}]`, e);
           }

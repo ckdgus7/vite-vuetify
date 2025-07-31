@@ -9,17 +9,41 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watchEffect, reactive, watch, useTemplateRef } from 'vue';
+import axios from 'axios';
+import { useBuilderStore } from '@/_builder/stores/useBuilderStore';
+import { useFormStore } from '@/_builder/stores/useFormStore';
 // import MonacoEditor from 'monaco-editor-vue3';
 
 const props = defineProps<{ element: any }>();
 const emit = defineEmits(['update']);
+const formStore = useFormStore();
+const builder = useBuilderStore();
 
 const selectedEvent = ref('');
 const handlerName = ref('');
 const handlerCode = ref('');
 const preview = ref('');
 const availableEvents = ['click', 'input', 'submit'];
+
+watchEffect(() => {
+  // console.log(props.element.events);
+  if (props.element.events) {
+    // for (const [eventName, eventData] of Object.entries(props.element.events)) {
+    for (const [key, value] of Object.entries(props.element.events)) {
+      const obj: any = value;
+      const eventName: string = key;
+      selectedEvent.value = eventName;
+      handlerName.value = obj.handlerName;
+      handlerCode.value = obj.code;
+    }
+  } else {
+    selectedEvent.value = '';
+    handlerName.value = '';
+    handlerCode.value = '';
+  }
+  preview.value = '';
+});
 
 const onSave = () => {
   emit('update', {
@@ -34,7 +58,20 @@ const onPreview = () => {
     let out = '';
     const fakeConsole = { log: (...a: any[]) => (out += a.join(' ') + '\n') };
     const fn = new Function('event', 'context', handlerCode.value);
-    fn({ type: selectedEvent.value }, { console: fakeConsole });
+    fn(
+      { type: selectedEvent.value },
+      {
+        console: fakeConsole,
+        ref,
+        reactive,
+        watch,
+        props,
+        builderStore: builder,
+        formStore,
+        axios,
+        useTemplateRef,
+      }
+    );
     preview.value = out || '✅ 실행됨';
   } catch (e: any) {
     preview.value = `오류: ${e.message}`;

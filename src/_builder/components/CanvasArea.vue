@@ -8,7 +8,7 @@
     @dragover.prevent
     @drop="onDrop"
   >
-    <draggable :list="elements" tag="transition-group" :component-data="{ name: 'fade' }">
+    <draggable :list="elements" itemKey="id" :component-data="{ name: 'fade' }">
       <template #item="{ element }">
         <ElementWrapper :key="element.id" :element="element" :data-builder-id="element.id" />
       </template>

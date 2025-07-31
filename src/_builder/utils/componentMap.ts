@@ -41,6 +41,8 @@ export const ComponentRegistry: any = {
     component: 'v-btn',
     propsMeta: [
       { key: 'class', label: 'css class', type: 'text' },
+      { key: 'id', label: 'id', type: 'text' },
+      { key: 'ref', label: 'ref', type: 'text' },
       { key: 'text', label: 'text', type: 'text' },
       {
         key: 'color',
@@ -72,7 +74,6 @@ export const ComponentRegistry: any = {
         options: ['x-small', 'small', 'default', 'large', 'x-large'],
       },
       { key: 'slim', label: 'slim', type: 'boolean' },
-      { key: 'text', label: 'text', type: 'text' },
       { key: 'tile', label: 'tile', type: 'boolean' },
       { key: 'to', label: 'to', type: 'text' },
       {
@@ -97,6 +98,7 @@ export const ComponentRegistry: any = {
     label: 'text-field',
     component: 'v-text-field',
     propsMeta: [
+      { key: 'ref', label: 'ref', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
       { key: 'clearable', label: 'Clearable', type: 'boolean' },
       { key: 'placeholder', label: 'Placeholder', type: 'text' },
@@ -123,6 +125,7 @@ export const ComponentRegistry: any = {
       { key: 'readonly', label: 'readonly', type: 'boolean' },
       { key: 'rounded', label: 'rounded', type: 'boolean' },
       { key: 'tile', label: 'tile', type: 'boolean' },
+      { key: 'value', label: 'value', type: 'text' },
       {
         key: 'variant',
         label: 'variant',
