@@ -56,6 +56,7 @@ const columnDefs = ref([
   { field: 'electric' },
 ]);
 defineExpose({
+  rowData,
   getRowData,
   setRowData,
 });

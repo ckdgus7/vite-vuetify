@@ -769,6 +769,10 @@ export const ComponentRegistry: any = {
   'my-ck-editor': {
     label: 'CKEditor',
     component: MyCkEditor,
-    propsMeta: [],
+    propsMeta: [
+      { key: 'class', label: 'css class', type: 'text' },
+      { key: 'id', label: 'id', type: 'text' },
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
+    ],
   },
 };

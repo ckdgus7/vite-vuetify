@@ -29,7 +29,7 @@
         v-bind="element.props"
         v-on="bindings"
         :style="element.styles"
-        :ref="formRef"
+        ref="formRef"
       />
 
       <!-- v-model을 지원하지 않는 컴포넌트 -->
@@ -39,7 +39,7 @@
         v-bind="element.props"
         v-on="bindings"
         :style="element.styles"
-        :ref="formRef"
+        ref="formRef"
       >
         {{ element.props?.text }}
       </component>
@@ -65,11 +65,12 @@ import ElementWrapper from './ElementWrapper.vue';
 import { ComponentRegistry } from '@/_builder/utils/componentMap';
 import { useVmodel } from '@/_builder/utils/isVmodelElement';
 import store from '@/_builder/stores/index';
-
 const props = defineProps<{ element: any; isPage?: boolean }>();
 const registry = store.useComponentRegistryStore();
-const formRef = ref(ComponentRegistry[props.element.type].component);
+const formRef = ref();
 
+// const getExposeId: any = computed(() => props.element.props.exposeId || '');
+// const agGridRef = useTemplateRef('ab');
 watch(
   () => props.element,
   (val) => {
@@ -77,10 +78,11 @@ watch(
       if (props.element.props.exposeId) {
         // console.log('props.element.props.exposeId', props.element.props.exposeId);
         // console.log('formRef', formRef);
-        const abc = setTimeout(() => {
-          clearTimeout(abc);
-          registry.register(props.element.props.exposeId, formRef);
-          console.log('watch', props.element.props.exposeId);
+        const timeout = setTimeout(() => {
+          clearTimeout(timeout);
+          // console.log(formRef.value);
+          registry.register(props.element.props.exposeId, formRef.value);
+          // console.log('watch', props.element.props.exposeId);
           // console.log('formRef', formRef);
         }, 1000);
       }

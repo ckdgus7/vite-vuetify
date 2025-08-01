@@ -20,7 +20,6 @@ import {
   onBeforeUnmount,
   onUnmounted,
   computed,
-  getCurrentInstance,
 } from 'vue';
 import axios from 'axios';
 import store from '@/_builder/stores/index';
@@ -83,7 +82,6 @@ const onPreview = () => {
         onBeforeUnmount,
         onUnmounted,
         computed,
-        getCurrentInstance,
       }
     );
     preview.value = out || '✅ 실행됨';
