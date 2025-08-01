@@ -29,6 +29,7 @@
         v-bind="element.props"
         v-on="bindings"
         :style="element.styles"
+        :ref="formRef"
       />
 
       <!-- v-model을 지원하지 않는 컴포넌트 -->
@@ -38,6 +39,7 @@
         v-bind="element.props"
         v-on="bindings"
         :style="element.styles"
+        :ref="formRef"
       >
         {{ element.props?.text }}
       </component>
@@ -46,17 +48,56 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, reactive, watch, watchEffect, useTemplateRef } from 'vue';
+import {
+  ref,
+  watchEffect,
+  reactive,
+  watch,
+  useTemplateRef,
+  onMounted,
+  onBeforeMount,
+  onBeforeUnmount,
+  onUnmounted,
+  computed,
+} from 'vue';
 import axios from 'axios';
-import { useBuilderStore } from '@/_builder/stores/useBuilderStore';
 import ElementWrapper from './ElementWrapper.vue';
 import { ComponentRegistry } from '@/_builder/utils/componentMap';
 import { useVmodel } from '@/_builder/utils/isVmodelElement';
-import { useFormStore } from '@/_builder/stores/useFormStore';
+import store from '@/_builder/stores/index';
 
 const props = defineProps<{ element: any; isPage?: boolean }>();
-const formStore = useFormStore();
-const builder = useBuilderStore();
+const registry = store.useComponentRegistryStore();
+const formRef = ref(ComponentRegistry[props.element.type].component);
+
+watch(
+  () => props.element,
+  (val) => {
+    if (val) {
+      if (props.element.props.exposeId) {
+        // console.log('props.element.props.exposeId', props.element.props.exposeId);
+        // console.log('formRef', formRef);
+        const abc = setTimeout(() => {
+          clearTimeout(abc);
+          registry.register(props.element.props.exposeId, formRef);
+          console.log('watch', props.element.props.exposeId);
+          // console.log('formRef', formRef);
+        }, 1000);
+      }
+    }
+  },
+  {
+    deep: true,
+  }
+);
+onUnmounted(() => {
+  if (props.element.props.exposeId) {
+    console.log('onUnmounted', props.element.props.exposeId);
+    registry.unregister(props.element.props.exposeId);
+  }
+});
+const formStore = store.useFormStore();
+const builder = store.useBuilderStore();
 const bindings = ref<Record<string, Function>>({});
 // const runtimeFns = useRuntimeFunctions();
 // v-model 연동 지원 여부 확인
@@ -111,10 +152,14 @@ watchEffect(() => {
               reactive,
               watch,
               props,
-              builderStore: builder,
-              formStore,
+              store,
               axios,
               useTemplateRef,
+              onMounted,
+              onBeforeMount,
+              onBeforeUnmount,
+              onUnmounted,
+              computed,
             });
           } catch (e) {
             console.error(`이벤트 실행 오류 [${eventName}]`, e);

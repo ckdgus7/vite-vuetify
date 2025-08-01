@@ -10,15 +10,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, shallowRef } from 'vue';
-import type {
-  ColDef,
-  ColGroupDef,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-  HeaderClassParams,
-} from 'ag-grid-community';
+import { ref } from 'vue';
+import type { ColDef } from 'ag-grid-community';
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
@@ -44,6 +37,17 @@ const rowData = ref([
   { make: 'Toyota', model: 'Corolla', price: 29600, electric: false },
 ]);
 
+const getRowData = () => {
+  return rowData;
+};
+
+const setRowData = () => {
+  rowData.value = [
+    { make: 'Toyota', model: 'Corolla', price: 64950, electric: true },
+    { make: 'Tesla', model: 'Model Y', price: 33850, electric: false },
+  ];
+};
+
 // Column Definitions: Defines the columns to be displayed.
 const columnDefs = ref([
   { field: 'make' },
@@ -51,70 +55,10 @@ const columnDefs = ref([
   { field: 'price' },
   { field: 'electric' },
 ]);
-const columnDefs2 = ref<(ColDef | ColGroupDef)[]>([
-  {
-    headerName: 'Athlete Details',
-    headerStyle: { color: 'white', backgroundColor: 'cadetblue' },
-    children: [
-      {
-        field: 'athlete',
-        headerStyle: { color: 'white', backgroundColor: 'teal' },
-      },
-      { field: 'age', initialWidth: 120 },
-      {
-        field: 'country',
-        headerStyle: (params: HeaderClassParams) => {
-          return {
-            color: 'white',
-            backgroundColor: params.floatingFilter ? 'cornflowerblue' : 'teal',
-          };
-        },
-      },
-    ],
-  },
-  {
-    field: 'sport',
-    wrapHeaderText: true,
-    autoHeaderHeight: true,
-    headerName: 'The Sport the athlete participated in',
-    headerClass: 'sport-header',
-  },
-  {
-    headerName: 'Medal Details',
-    headerStyle: (params) => {
-      return {
-        color: 'white',
-        backgroundColor: params.columnGroup?.isExpanded() ? 'cornflowerblue' : 'orangered',
-      };
-    },
-    children: [
-      { field: 'bronze', columnGroupShow: 'open' },
-      { field: 'silver', columnGroupShow: 'open' },
-      { field: 'gold', columnGroupShow: 'open' },
-      {
-        columnGroupShow: 'closed',
-        field: 'total',
-      },
-    ],
-  },
-]);
-const defaultColDef2 = ref<ColDef>({
-  initialWidth: 200,
-  floatingFilter: true,
-  filter: true,
+defineExpose({
+  getRowData,
+  setRowData,
 });
-// Row Data: The data to be displayed.
-const rowData2 = ref<any[]>([]);
-const gridApi = shallowRef<GridApi | null>(null);
-const onGridReady = (params: GridReadyEvent) => {
-  gridApi.value = params.api;
-
-  const updateData = (data: any) => (rowData2.value = data);
-
-  fetch('https://www.ag-grid.com/example-assets/olympic-winners.json')
-    .then((resp) => resp.json())
-    .then((data) => updateData(data));
-};
 </script>
 
 <style scoped></style>

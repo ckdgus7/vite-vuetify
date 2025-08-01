@@ -760,7 +760,11 @@ export const ComponentRegistry: any = {
   'my-ag-grid': {
     label: 'AG GRid',
     component: MyAgGrid,
-    propsMeta: [],
+    propsMeta: [
+      { key: 'class', label: 'css class', type: 'text' },
+      { key: 'id', label: 'id', type: 'text' },
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
+    ],
   },
   'my-ck-editor': {
     label: 'CKEditor',

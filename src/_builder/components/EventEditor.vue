@@ -9,16 +9,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect, reactive, watch, useTemplateRef } from 'vue';
+import {
+  ref,
+  watchEffect,
+  reactive,
+  watch,
+  useTemplateRef,
+  onMounted,
+  onBeforeMount,
+  onBeforeUnmount,
+  onUnmounted,
+  computed,
+  getCurrentInstance,
+} from 'vue';
 import axios from 'axios';
-import { useBuilderStore } from '@/_builder/stores/useBuilderStore';
-import { useFormStore } from '@/_builder/stores/useFormStore';
+import store from '@/_builder/stores/index';
 // import MonacoEditor from 'monaco-editor-vue3';
 
 const props = defineProps<{ element: any }>();
 const emit = defineEmits(['update']);
-const formStore = useFormStore();
-const builder = useBuilderStore();
 
 const selectedEvent = ref('');
 const handlerName = ref('');
@@ -66,10 +75,15 @@ const onPreview = () => {
         reactive,
         watch,
         props,
-        builderStore: builder,
-        formStore,
+        store,
         axios,
         useTemplateRef,
+        onMounted,
+        onBeforeMount,
+        onBeforeUnmount,
+        onUnmounted,
+        computed,
+        getCurrentInstance,
       }
     );
     preview.value = out || '✅ 실행됨';
