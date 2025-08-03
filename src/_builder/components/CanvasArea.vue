@@ -3,7 +3,7 @@
     id="builder-canvas"
     height="auto"
     elevation="1"
-    color="grey-lighten-2"
+    color="grey-lighten-5"
     :style="{ minHeight: '580px' }"
     @dragover.prevent
     @drop="onDrop"

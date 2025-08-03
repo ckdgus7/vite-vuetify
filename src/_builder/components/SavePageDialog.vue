@@ -29,6 +29,7 @@ const routerPath = ref('');
 const builder = useBuilderStore();
 
 const save = async () => {
+  // console.log(builder.saveSchema());
   await savePage({
     id: pageId.value,
     name: pageName.value,

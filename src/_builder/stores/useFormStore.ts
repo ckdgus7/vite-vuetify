@@ -4,7 +4,7 @@ import { ref } from 'vue';
 export const useFormStore = defineStore('form', () => {
   const formData = ref<Record<string, any>>({});
 
-  function updateValue(id: string, value: any) {
+  function setValue(id: string, value: any) {
     formData.value[id] = value;
   }
 
@@ -18,7 +18,7 @@ export const useFormStore = defineStore('form', () => {
 
   return {
     formData,
-    updateValue,
+    setValue,
     getValue,
     resetForm,
   };

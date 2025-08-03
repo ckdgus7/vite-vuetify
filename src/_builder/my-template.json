@@ -5,7 +5,7 @@
     "label": "그룹",
     "props": {},
     "styles": {
-      "padding": "20px",
+      "padding": "3px",
       "border": "1px dashed gray"
     },
     "children": [

@@ -1,6 +1,6 @@
 <template>
   <v-card class="pa-4" elevation="2" v-if="selectedElement">
-    <v-card-title>속성 편집</v-card-title>
+    <v-card-title>Attribute</v-card-title>
     <v-divider class="mb-2" />
 
     <template v-for="meta in metaList" :key="meta.key">
@@ -20,6 +20,7 @@
           v-else-if="meta.type === 'boolean'"
           v-model="selectedElement.props[meta.key]"
           :label="meta.label"
+          hide-details
         />
         <v-radio-group
           v-else-if="meta.type === 'radio'"
@@ -39,6 +40,7 @@
           :items="meta.options"
           :label="meta.label"
           density="compact"
+          hide-details
         />
 
         <!-- color -->
@@ -48,6 +50,7 @@
           :label="meta.label"
           hide-canvas
           mode="hexa"
+          hide-details
         />
 
         <!-- object -->
@@ -73,7 +76,6 @@
             v-for="(item, idx) in selectedElement.props[meta.key]"
             :key="idx"
             class="mb-2 pa-2"
-            variant="outlined"
           >
             <div class="d-flex flex-column gap-2">
               <template v-for="field in meta.itemFields" :key="field.key">
@@ -163,26 +165,34 @@
           v-if="meta.type === 'text'"
           v-model="selectedElement.styles[meta.key]"
           :label="meta.label"
-          variant="outlined"
+          hide-details
+          dense
         />
         <v-textarea
           v-else-if="meta.type === 'textarea'"
           v-model="selectedElement.styles[meta.key]"
           :label="meta.label"
-          variant="outlined"
           auto-grow
+          hide-details
         />
         <v-select
           v-else-if="meta.type === 'select'"
           v-model="selectedElement.styles[meta.key]"
           :label="meta.label"
           :items="meta.options"
-          variant="outlined"
+          hide-details
+        />
+        <v-switch
+          v-else-if="meta.type === 'boolean'"
+          v-model="selectedElement.props[meta.key]"
+          :label="meta.label"
+          hide-details
         />
         <v-radio-group
           v-else-if="meta.type === 'radio'"
           v-model="selectedElement.styles[meta.key]"
           :label="meta.label"
+          hide-details
         >
           <v-radio label="True" :value="true"></v-radio>
           <v-radio label="False" :value="false"></v-radio>

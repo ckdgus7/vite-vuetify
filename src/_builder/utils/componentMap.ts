@@ -10,8 +10,11 @@ export const ComponentRegistry: any = {
     label: '그룹',
     component: 'group',
     propsMeta: [
+      { key: 'class', label: 'css class', type: 'text' },
       { key: 'width', label: 'width', type: 'text' },
       { key: 'height', label: 'height', type: 'text' },
+      { key: 'border', label: 'border', type: 'text' },
+      { key: 'padding', label: '패딩 (padding)', type: 'text' },
       { key: 'display', label: 'Display', type: 'select', options: ['flex', 'grid', 'block'] },
       {
         key: 'flexDirection',
@@ -32,14 +35,15 @@ export const ComponentRegistry: any = {
         options: ['flex-start', 'center', 'flex-end', 'stretch'],
       },
       { key: 'gap', label: '갭 (gap)', type: 'text' },
-      { key: 'padding', label: '패딩 (padding)', type: 'text' },
       { key: 'backgroundColor', label: '배경색 (background color)', type: 'text' },
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
   'v-btn': {
     label: 'btn',
     component: 'v-btn',
     propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
       { key: 'id', label: 'id', type: 'text' },
       { key: 'ref', label: 'ref', type: 'text' },
@@ -83,6 +87,7 @@ export const ComponentRegistry: any = {
         options: ['flat', 'text', 'elevated', 'tonal', 'outlined', 'plain'],
       },
       { key: 'width', label: 'width', type: 'text' },
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
       // {
       //   key: 'style',
       //   label: '스타일',
@@ -98,7 +103,7 @@ export const ComponentRegistry: any = {
     label: 'text-field',
     component: 'v-text-field',
     propsMeta: [
-      { key: 'ref', label: 'ref', type: 'text' },
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
       { key: 'clearable', label: 'Clearable', type: 'boolean' },
       { key: 'placeholder', label: 'Placeholder', type: 'text' },
@@ -141,6 +146,7 @@ export const ComponentRegistry: any = {
         ],
       },
       { key: 'width', label: 'width', type: 'text' },
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
       // {
       //   key: 'style',
       //   label: '스타일',
@@ -156,6 +162,7 @@ export const ComponentRegistry: any = {
     label: 'checkbox',
     component: 'v-checkbox',
     propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
       { key: 'disabled', label: 'disabled', type: 'boolean' },
       {
@@ -173,6 +180,7 @@ export const ComponentRegistry: any = {
       { key: 'name', label: 'name', type: 'text' },
       { key: 'readonly', label: 'readonly', type: 'boolean' },
       { key: 'width', label: 'width', type: 'text' },
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
   // 'v-radio': {
@@ -200,6 +208,7 @@ export const ComponentRegistry: any = {
     label: 'combobox',
     component: 'v-combobox',
     propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
       { key: 'autofocus', label: 'disabled', type: 'boolean' },
       { key: 'placeholder', label: 'placeholder', type: 'text' },
@@ -261,12 +270,14 @@ export const ComponentRegistry: any = {
         ],
       },
       { key: 'width', label: 'width', type: 'text' },
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
   'v-file-input': {
     label: 'file-input',
     component: 'v-file-input',
     propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
       { key: 'clearable', label: 'Clearable', type: 'boolean' },
       {
@@ -308,6 +319,7 @@ export const ComponentRegistry: any = {
         ],
       },
       { key: 'width', label: 'width', type: 'text' },
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
       // {
       //   key: 'style',
       //   label: '스타일',
@@ -323,6 +335,7 @@ export const ComponentRegistry: any = {
     label: 'select',
     component: 'v-select',
     propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
       { key: 'autofocus', label: 'autofocus', type: 'boolean' },
       { key: 'clearable', label: 'clearable', type: 'boolean' },
@@ -382,12 +395,14 @@ export const ComponentRegistry: any = {
         ],
       },
       { key: 'width', label: 'width', type: 'text' },
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
   'v-switch': {
     label: 'switch',
     component: 'v-switch',
     propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
       {
         key: 'density',
@@ -411,6 +426,7 @@ export const ComponentRegistry: any = {
       { key: 'name', label: 'name', type: 'text' },
       { key: 'readonly', label: 'readonly', type: 'boolean' },
       { key: 'width', label: 'width', type: 'text' },
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
       // {
       //   key: 'style',
       //   label: '스타일',
@@ -426,6 +442,7 @@ export const ComponentRegistry: any = {
     label: 'textarea',
     component: 'v-textarea',
     propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
       { key: 'clearable', label: 'Clearable', type: 'boolean' },
       { key: 'placeholder', label: 'Placeholder', type: 'text' },
@@ -472,6 +489,7 @@ export const ComponentRegistry: any = {
         ],
       },
       { key: 'width', label: 'width', type: 'text' },
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
       // {
       //   key: 'style',
       //   label: '스타일',
@@ -487,6 +505,7 @@ export const ComponentRegistry: any = {
     label: 'date-input',
     component: 'v-date-input',
     propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
       { key: 'allowed-dates', label: 'allowed-dates', type: 'text' },
       { key: 'allowed-months', label: 'allowed-months', type: 'text' },
@@ -574,6 +593,7 @@ export const ComponentRegistry: any = {
       },
       { key: 'width', label: 'width', type: 'text' },
       { key: 'year', label: 'year', type: 'text' },
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
       // {
       //   key: 'style',
       //   label: '스타일',
@@ -637,6 +657,7 @@ export const ComponentRegistry: any = {
     label: 'alert',
     component: 'v-alert',
     propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
       { key: 'text', label: 'text', type: 'text' },
       {
@@ -678,6 +699,7 @@ export const ComponentRegistry: any = {
         options: ['flat', 'text', 'elevated', 'tonal', 'outlined', 'plain'],
       },
       { key: 'width', label: 'width', type: 'text' },
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
       // {
       //   key: 'style',
       //   label: '스타일',
@@ -693,11 +715,15 @@ export const ComponentRegistry: any = {
     label: '노트박스',
     component: MyNoteBox,
     propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
+      { key: 'class', label: 'css class', type: 'text' },
       { key: 'title', label: 'title', type: 'text' },
       { key: 'messageBefore', label: 'messageBefore', type: 'text' },
       { key: 'linkText', label: 'linkText', type: 'text' },
       { key: 'linkHref', label: 'linkHref', type: 'text' },
       { key: 'messageAfter', label: 'messageAfter', type: 'text' },
+
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
   // 'my-card': {
@@ -713,6 +739,8 @@ export const ComponentRegistry: any = {
     label: 'subject text',
     component: MySubjectText,
     propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
+      { key: 'class', label: 'css class', type: 'text' },
       { key: 'title', label: '타이틀제목', type: 'text' },
       {
         key: 'icon',
@@ -743,26 +771,33 @@ export const ComponentRegistry: any = {
         type: 'select',
         options: [true, false],
       },
+
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
   'my-page-title': {
     label: 'Page Title',
     component: MyPageTitle,
     propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
+      { key: 'class', label: 'css class', type: 'text' },
       { key: 'title', label: '페이지타이틀', type: 'text' },
       {
         key: 'breadcrumb',
         label: 'breadcrumb',
         type: 'text',
       },
+
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
   'my-ag-grid': {
     label: 'AG GRid',
     component: MyAgGrid,
     propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
-      { key: 'id', label: 'id', type: 'text' },
+
       { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
@@ -770,8 +805,9 @@ export const ComponentRegistry: any = {
     label: 'CKEditor',
     component: MyCkEditor,
     propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
-      { key: 'id', label: 'id', type: 'text' },
+
       { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },

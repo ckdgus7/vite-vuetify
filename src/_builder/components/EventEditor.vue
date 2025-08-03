@@ -1,8 +1,16 @@
 <template>
-  <v-select v-model="selectedEvent" :items="availableEvents" label="이벤트" />
-  <v-text-field v-model="handlerName" label="핸들러 이름" />
+  <v-card-title>Event</v-card-title>
+  <v-divider class="mb-2" />
+  <v-select
+    v-model="selectedEvent"
+    :items="availableEvents"
+    label="이벤트"
+    density="compact"
+    hide-details
+  />
+  <v-text-field v-model="handlerName" label="핸들러 이름" hide-details dense />
   <!-- <MonacoEditor v-model="handlerCode" height="200" language="javascript" /> -->
-  <v-textarea v-model="handlerCode" height="200" />
+  <v-textarea v-model="handlerCode" height="200" hide-details dense />
   <v-btn @click="onPreview">미리보기</v-btn>
   <v-alert v-if="preview">{{ preview }}</v-alert>
   <v-btn color="primary" @click="onSave">저장</v-btn>
@@ -34,21 +42,24 @@ const handlerCode = ref('');
 const preview = ref('');
 const availableEvents = ['click', 'input', 'submit'];
 
+const setEventRef = (eventName = '', funcName = '', code = '') => {
+  selectedEvent.value = eventName ? eventName : '';
+  handlerName.value = funcName ? funcName : '';
+  handlerCode.value = code ? code : '';
+};
 watchEffect(() => {
   // console.log(props.element.events);
   if (props.element.events) {
-    // for (const [eventName, eventData] of Object.entries(props.element.events)) {
+    let changed = false;
     for (const [key, value] of Object.entries(props.element.events)) {
       const obj: any = value;
       const eventName: string = key;
-      selectedEvent.value = eventName;
-      handlerName.value = obj.handlerName;
-      handlerCode.value = obj.code;
+      setEventRef(eventName, obj.handlerName, obj.code);
+      changed = true;
     }
+    if (!changed) setEventRef();
   } else {
-    selectedEvent.value = '';
-    handlerName.value = '';
-    handlerCode.value = '';
+    setEventRef();
   }
   preview.value = '';
 });
@@ -74,6 +85,7 @@ const onPreview = () => {
         reactive,
         watch,
         props,
+        emit,
         store,
         axios,
         useTemplateRef,

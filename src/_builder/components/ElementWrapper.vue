@@ -1,6 +1,6 @@
 <template>
   <div
-    class="pa-2"
+    class="pa-1"
     :class="{ selected: isSelected, 'selected-outline': isSelected }"
     :data-builder-id="element.id"
     @click.stop="selectElement"
@@ -21,28 +21,30 @@
         v-on="bindings"
         :style="element.styles"
       /> -->
-      <!-- v-model을 지원하는 컴포넌트인 경우 -->
-      <component
-        v-if="supportsVModel"
-        :is="getComponent"
-        v-model="modelValue"
-        v-bind="element.props"
-        v-on="bindings"
-        :style="element.styles"
-        ref="formRef"
-      />
+      <div :class="supportsVModel ? element.props.wrapClass : element.styles.wrapClass">
+        <!-- v-model을 지원하는 컴포넌트인 경우 -->
+        <component
+          v-if="supportsVModel"
+          :is="getComponent"
+          v-model="modelValue"
+          v-bind="element.props"
+          v-on="bindings"
+          :style="element.styles"
+          ref="formRef"
+        />
 
-      <!-- v-model을 지원하지 않는 컴포넌트 -->
-      <component
-        v-else
-        :is="getComponent"
-        v-bind="element.props"
-        v-on="bindings"
-        :style="element.styles"
-        ref="formRef"
-      >
-        {{ element.props?.text }}
-      </component>
+        <!-- v-model을 지원하지 않는 컴포넌트 -->
+        <component
+          v-else
+          :is="getComponent"
+          v-bind="element.props"
+          v-on="bindings"
+          :style="element.styles"
+          ref="formRef"
+        >
+          {{ element.props?.text }}
+        </component>
+      </div>
     </template>
   </div>
 </template>
@@ -106,10 +108,14 @@ const bindings = ref<Record<string, Function>>({});
 const supportsVModel = computed(() => useVmodel.includes(props.element.type));
 
 const modelValue = computed({
-  get: () => formStore.getValue(props.element.id),
-  set: (val) => formStore.updateValue(props.element.id, val),
+  get: () => {
+    return formStore.getValue(props.element.id);
+  },
+  set: (val) => {
+    formStore.setValue(props.element.id, val);
+  },
 });
-const isSelected = computed(() => builder.selectedElementId === props.element.id);
+const isSelected = computed(() => !props.isPage && builder.selectedElementId === props.element.id);
 const selectElement = () => builder.selectElement(props.element.id);
 const getComponent = computed(() => {
   const config = ComponentRegistry[props.element.type];
@@ -120,13 +126,19 @@ const getGroupStyles = computed(() => {
     // 페이지 렌더링 시 그룹 스타일을 제거
     return '';
   }
-  return props.element.styles || { border: '1px dashed #ccc', padding: '8px' };
+  return props.element.styles || { border: '1px dashed #ccc', padding: '5px' };
 });
 const onDrop = (e: DragEvent) => {
   e.stopPropagation(); // ✅ 이벤트 전파 방지 (중복 drop 방지)
-  const type = e.dataTransfer?.getData('component-type');
-  if (props.element.type === 'group' && type) {
-    builder.addElementToGroup(props.element.id, props.element.type, type);
+  const dropObj = {
+    type: e.dataTransfer?.getData('component-type'),
+    label: e.dataTransfer?.getData('component-label'),
+    styles: e.dataTransfer?.getData('component-styles'),
+    class: e.dataTransfer?.getData('component-class'),
+    props: e.dataTransfer?.getData('component-props'),
+  };
+  if (props.element.type === 'group' && dropObj.type) {
+    builder.addElementToGroup(props.element.id, props.element.type, dropObj);
   }
 };
 const onDragOver = (e: DragEvent) => {
