@@ -1,5 +1,5 @@
 // componentMap.ts
-import MyCard from '@/_builder/components/custom/MyCard.vue';
+import MyDataTable from '@/_builder/components/custom/CustomDataTable.vue';
 import MyAgGrid from '@/_builder/components/custom/CustomAgGrid.vue';
 import MyCkEditor from '@/_builder/components/custom/CustomCkEditor.vue';
 import MyPageTitle from '@/_builder/components/custom/CustomPageTitle.vue';
@@ -711,6 +711,93 @@ export const ComponentRegistry: any = {
       // },
     ],
   },
+  'my-data-table': {
+    label: 'data-table',
+    component: MyDataTable,
+    propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
+      { key: 'class', label: 'css class', type: 'text' },
+      {
+        key: 'density',
+        label: 'density',
+        type: 'select',
+        options: ['default', 'comfortable', 'compact'],
+      },
+      { key: 'fixed-footer', label: 'fixed-footer', type: 'boolean' },
+      { key: 'fixed-header', label: 'fixed-header', type: 'boolean' },
+      { key: 'height', label: 'height', type: 'text' },
+      { key: 'hide-default-body', label: 'hide-default-body', type: 'boolean' },
+      { key: 'hide-default-footer', label: 'hide-default-footer', type: 'boolean' },
+      { key: 'hide-default-header', label: 'hide-default-header', type: 'boolean' },
+      { key: 'hide-no-data', label: 'hide-no-data', type: 'boolean' },
+      {
+        key: 'headers',
+        label: 'Header',
+        type: 'array',
+        itemType: 'object',
+        itemFields: [
+          { key: 'title', label: 'Title', type: 'text' },
+          { key: 'align', label: 'Align', type: 'text' },
+          { key: 'key', label: 'Key', type: 'text' },
+        ],
+      },
+      { key: 'items-per-page', label: 'items-per-page', type: 'text' },
+      { key: 'loading', label: 'loading', type: 'boolean' },
+      { key: 'sticky', label: 'sticky', type: 'boolean' },
+      {
+        key: 'striped',
+        label: 'striped',
+        type: 'select',
+        options: ['odd', 'even'],
+      },
+      { key: 'width', label: 'width', type: 'text' },
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // {
+      //   key: 'style',
+      //   label: '스타일',
+      //   type: 'object',
+      //   fields: [
+      //     { key: 'width', label: '너비', type: 'text' },
+      //     { key: 'height', label: '높이', type: 'text' }
+      //   ],
+      // },
+    ],
+  },
+  // 'my-tabs': {
+  //   label: 'tabs',
+  //   component: MyTabs,
+  //   propsMeta: [
+  //     { key: 'wrapClass', label: 'wrapClass', type: 'text' },
+  //     { key: 'class', label: 'css class', type: 'text' },
+  //     { key: 'align-tabs', label: 'align-tabs', type: 'text' },
+  //     { key: 'bg-color', label: 'bg-color', type: 'text' },
+  //     { key: 'center-active', label: 'center-active', type: 'boolean' },
+  //     { key: 'color', label: 'color', type: 'text' },
+  //     {
+  //       key: 'density',
+  //       label: 'density',
+  //       type: 'select',
+  //       options: ['default', 'comfortable', 'compact'],
+  //     },
+  //     { key: 'disabled', label: 'disabled', type: 'boolean' },
+  //     { key: 'height', label: 'height', type: 'text' },
+  //     { key: 'hide-slider', label: 'hide-slider', type: 'boolean' },
+  //     {
+  //       key: 'items',
+  //       label: 'items',
+  //       type: 'array',
+  //       itemType: 'object',
+  //       itemFields: [
+  //         { key: 'text', label: 'Title', type: 'text' },
+  //         { key: 'to', label: 'To', type: 'text' },
+  //         { key: 'color', label: 'Color', type: 'text' },
+  //       ],
+  //     },
+  //     { key: 'selected-class', label: 'selected-class', type: 'text' },
+  //     { key: 'show-arrows', label: 'show-arrows', type: 'boolean' },
+  //     { key: 'slider-color', label: 'slider-color', type: 'text' },
+  //   ],
+  // },
   'my-note-box': {
     label: '노트박스',
     component: MyNoteBox,
