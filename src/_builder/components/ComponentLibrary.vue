@@ -32,7 +32,16 @@ const exportsd = () => {
   builder.exportToJsonFile('my-template.json');
 };
 const componentList: CompList[] = [
-  { type: 'group', label: '그룹' },
+  {
+    type: 'group',
+    label: '그룹',
+    styles: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+    },
+  },
   {
     type: 'v-btn',
     label: 'button',
