@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import type { ColDef } from 'ag-grid-community';
 import {
   ClientSideRowModelModule,
@@ -30,12 +30,28 @@ const defaultColDef = ref<ColDef>({
   flex: 1,
   editable: true,
 });
-// Row Data: The data to be displayed.
-const rowData = ref([
-  { make: 'Tesla', model: 'Model Y', price: 64950, electric: true },
-  { make: 'Ford', model: 'F-Series', price: 33850, electric: false },
-  { make: 'Toyota', model: 'Corolla', price: 29600, electric: false },
+
+const rowData = ref<any[]>([]);
+
+const columnDefs = ref<ColDef[]>([
+  { field: 'mission' },
+  { field: 'company' },
+  { field: 'location' },
+  { field: 'date' },
+  { field: 'price' },
+  { field: 'successful' },
+  { field: 'rocket' },
 ]);
+
+// Fetch data when the component is mounted
+onMounted(async () => {
+  rowData.value = await fetchData();
+});
+
+const fetchData = async () => {
+  const response = await fetch('https://www.ag-grid.com/example-assets/space-mission-data.json');
+  return response.json();
+};
 
 const getRowData = () => {
   return rowData;
@@ -48,13 +64,6 @@ const setRowData = () => {
   ];
 };
 
-// Column Definitions: Defines the columns to be displayed.
-const columnDefs = ref([
-  { field: 'make' },
-  { field: 'model' },
-  { field: 'price' },
-  { field: 'electric' },
-]);
 defineExpose({
   rowData,
   getRowData,
