@@ -119,6 +119,7 @@ const isSelected = computed(() => !props.isPage && builder.selectedElementId ===
 const selectElement = () => builder.selectElement(props.element.id);
 const getComponent = computed(() => {
   const config = ComponentRegistry[props.element.type];
+  console.log(config.component);
   return config ? config.component : 'div';
 });
 const getGroupStyles = computed(() => {

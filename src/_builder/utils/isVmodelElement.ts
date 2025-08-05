@@ -1,1 +1,18 @@
-export const useVmodel = ['v-text-field', 'v-textarea', 'v-select', 'v-radio', 'v-checkbox', 'v-switch', 'v-combobox', 'v-file-input', 'v-data-input', 'v-color-input', 'v-btn', 'v-tabs', 'v-banner', 'v-alert', 'v-file-upload'];
+export const useVmodel = [
+  'v-text-field',
+  'v-textarea',
+  'v-select',
+  'v-radio',
+  'v-checkbox',
+  'v-switch',
+  'v-combobox',
+  'v-file-input',
+  'v-data-input',
+  'v-color-input',
+  'v-btn',
+  'v-tabs',
+  'v-banner',
+  'v-alert',
+  'v-file-upload',
+  'my-tabs',
+];
