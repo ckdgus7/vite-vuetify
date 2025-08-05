@@ -798,9 +798,71 @@ export const ComponentRegistry: any = {
       { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
 
+      { key: 'apiUrl', label: 'API URL', type: 'text' },
+      {
+        key: 'defaultColDef',
+        label: 'defaultColDef',
+        type: 'array',
+        itemType: 'object',
+        itemFields: [
+          { key: 'flex', label: 'flex', type: 'text' },
+          { key: 'sortable', label: 'sortable', type: 'boolean' },
+          { key: 'filter', label: 'filter', type: 'boolean' },
+          { key: 'editable', label: 'editable', type: 'boolean' },
+          { key: 'width', label: 'width', type: 'text' },
+        ],
+      },
+      {
+        key: 'columnDefs',
+        label: 'columnDefs',
+        type: 'array',
+        itemType: 'object',
+        itemFields: [
+          { key: 'headerName', label: 'headerName', type: 'text' },
+          { key: 'field', label: 'field', type: 'text' },
+          { key: 'type', label: 'type', type: 'text' },
+          { key: 'width', label: 'width', type: 'text' },
+          { key: 'maxWidth', label: 'maxWidth', type: 'text' },
+          { key: 'pinned', label: 'pinned', type: 'text' },
+          { key: 'initialWidth', label: 'initialWidth', type: 'text' },
+          { key: 'initialPinned', label: 'initialPinned', type: 'text' },
+          { key: 'hide', label: 'hide', type: 'boolean' },
+          { key: 'sort', label: 'sort', type: 'select', options: ['asc', 'desc'] },
+          {
+            key: 'filter',
+            label: 'filter',
+            type: 'select',
+            options: [
+              'agSetColumnFilter',
+              'agMultiColumnFilter',
+              'agNumberColumnFilter',
+              'agDateColumnFilter',
+            ],
+          },
+          { key: 'sortIndex', label: 'sortIndex', type: 'text' },
+        ],
+      },
+      { key: 'content', label: '내용', type: 'textarea' },
+      { key: 'treeData', label: 'treeData', type: 'text' },
+      { key: 'groupDefaultExpanded', label: 'groupDefaultExpanded', type: 'text' },
+
       { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
+  // const apiUrl = 'https://www.ag-grid.com/example-assets/space-mission-data.json';
+  // const defaultColDef = ref<ColDef>({
+  //   flex: 1,
+  //   editable: true,
+  // });
+  // const columnDefs = ref<ColDef[]>([
+  //   { field: 'mission' },
+  //   { field: 'company' },
+  //   { field: 'location' },
+  //   { field: 'date' },
+  //   { field: 'price' },
+  //   { field: 'successful' },
+  //   { field: 'rocket' },
+  // ]);
   'my-ck-editor': {
     label: 'CKEditor',
     component: MyCkEditor,

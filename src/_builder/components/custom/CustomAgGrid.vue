@@ -1,17 +1,18 @@
 <template>
   <div style="margin: 20px">
-    <BaseAgGrid
+    <ag-grid-vue
       :rowData="rowData"
-      :columnDefs="columnDefs"
-      :defaultColDef="defaultColDef"
-      :style="'height: 200px'"
-    ></BaseAgGrid>
+      :columnDefs="getColumnDefs"
+      :defaultColDef="props.defaultColDef"
+      :style="props.style || 'height: 200px'"
+      @grid-ready="getOnGridReady"
+    ></ag-grid-vue>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import type { ColDef } from 'ag-grid-community';
+import { ref, onMounted, computed } from 'vue';
+// import type { ColDef } from 'ag-grid-community';
 import {
   ClientSideRowModelModule,
   ModuleRegistry,
@@ -25,44 +26,60 @@ ModuleRegistry.registerModules([
   NumberFilterModule,
   // ...(process.env.NODE_ENV !== "production" ? [ValidationModule] : []),
 ]);
-import BaseAgGrid from '@/components/base/BaseAgGrid.vue';
-const defaultColDef = ref<ColDef>({
-  flex: 1,
-  editable: true,
-});
-
+const props = defineProps(['apiUrl', 'defaultColDef', 'columnDefs', 'style', 'onGridReady']);
 const rowData = ref<any[]>([]);
 
-const columnDefs = ref<ColDef[]>([
-  { field: 'mission' },
-  { field: 'company' },
-  { field: 'location' },
-  { field: 'date' },
-  { field: 'price' },
-  { field: 'successful' },
-  { field: 'rocket' },
-]);
-
-// Fetch data when the component is mounted
-onMounted(async () => {
-  rowData.value = await fetchData();
+// const apiUrl = 'https://www.ag-grid.com/example-assets/space-mission-data.json';
+// const defaultColDef = ref<ColDef>({
+//   flex: 1,
+//   editable: true,
+// });
+// const columnDefs = ref<ColDef[]>([
+//   { field: 'mission' },
+//   { field: 'company' },
+//   { field: 'location' },
+//   { field: 'date' },
+//   { field: 'price' },
+//   { field: 'successful' },
+//   { field: 'rocket' },
+// ]);
+const getOnGridReady = computed(() => {
+  const func = props?.onGridReady ?? function () {};
+  return func;
+});
+const getColumnDefs = computed(() => {
+  const colDefs = props?.columnDefs ?? [];
+  if (colDefs.length) {
+    return colDefs.map((col: string) => {
+      return { field: col };
+    });
+  } else {
+    [{}];
+  }
 });
 
 const fetchData = async () => {
-  const response = await fetch('https://www.ag-grid.com/example-assets/space-mission-data.json');
-  return response.json();
+  const url = props?.apiUrl ?? '';
+  if (url) {
+    const response = await fetch(url);
+    return response.json();
+  } else {
+    return null;
+  }
 };
 
 const getRowData = () => {
   return rowData;
 };
 
-const setRowData = () => {
-  rowData.value = [
-    { make: 'Toyota', model: 'Corolla', price: 64950, electric: true },
-    { make: 'Tesla', model: 'Model Y', price: 33850, electric: false },
-  ];
+const setRowData = async () => {
+  rowData.value = await fetchData();
 };
+
+// Fetch data when the component is mounted
+onMounted(async () => {
+  rowData.value = await fetchData();
+});
 
 defineExpose({
   rowData,
