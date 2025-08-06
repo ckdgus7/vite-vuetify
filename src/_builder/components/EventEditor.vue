@@ -76,7 +76,9 @@ const onPreview = () => {
   try {
     let out = '';
     const fakeConsole = { log: (...a: any[]) => (out += a.join(' ') + '\n') };
-    const fn = new Function('event', 'context', handlerCode.value);
+    const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
+    const fn = new AsyncFunction('event', 'context', handlerCode.value);
+    // const fn = new Function('event', 'context', handlerCode.value);
     fn(
       { type: selectedEvent.value },
       {

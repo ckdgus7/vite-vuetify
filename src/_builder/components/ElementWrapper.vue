@@ -160,7 +160,10 @@ watchEffect(() => {
         const code = e[1].code;
         result[eventName] = (...args: any[]) => {
           try {
-            const fn = new Function('event', 'context', code);
+            const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
+            const fn = new AsyncFunction('event', 'context', code);
+            // await fn(context, event) // ✅ await 가능
+            // const fn = new Function('event', 'context', code);
             fn(args[0], {
               console,
               ref,

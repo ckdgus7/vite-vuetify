@@ -1,0 +1,6 @@
+const ag = context.store.useComponentRegistryStore().get('ag');
+const rowData = await context.axios.get(
+  'https://www.ag-grid.com/example-assets/space-mission-data.json'
+);
+console.log(rowData.data);
+ag.setExternalApiData(rowData.data);
