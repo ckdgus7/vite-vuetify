@@ -424,31 +424,31 @@ const componentList: CompList[] = [
     type: 'my-note-box',
     label: 'Note box',
     cssClass: '',
-    styles: { border: '1px dashed #ccc', padding: '5px' },
+    // styles: { border: '1px dashed #ccc', padding: '5px' },
   }, // 사용자 정의 컴포넌트
   {
     type: 'my-subject-text',
     label: 'Subject Text',
     cssClass: '',
-    styles: { border: '1px dashed #ccc', padding: '5px' },
+    // styles: { border: '1px dashed #ccc', padding: '5px' },
   }, // 사용자 정의 컴포넌트
   {
     type: 'my-page-title',
     label: 'Page Ttile',
     cssClass: '',
-    styles: { border: '1px dashed #ccc', padding: '5px' },
+    // styles: { border: '1px dashed #ccc', padding: '5px' },
   }, // 사용자 정의 컴포넌트
   {
     type: 'my-ck-editor',
     label: 'CKEditor',
     cssClass: '',
-    styles: { border: '1px dashed #ccc', padding: '5px' },
+    // styles: { border: '1px dashed #ccc', padding: '5px' },
   }, // CKEditor 컴포넌트
   {
     type: 'my-ag-grid',
     label: 'AG Grid',
     cssClass: '',
-    styles: { border: '1px dashed #ccc', padding: '5px' },
+    // styles: { border: '1px dashed #ccc', padding: '5px' },
   }, // AG Grid 컴포넌트
 ];
 

@@ -885,20 +885,6 @@ export const ComponentRegistry: any = {
       { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
 
-      { key: 'apiUrl', label: 'API URL', type: 'text' },
-      {
-        key: 'defaultColDef',
-        label: 'defaultColDef',
-        type: 'array',
-        itemType: 'object',
-        itemFields: [
-          { key: 'flex', label: 'flex', type: 'text' },
-          { key: 'sortable', label: 'sortable', type: 'boolean' },
-          { key: 'filter', label: 'filter', type: 'boolean' },
-          { key: 'editable', label: 'editable', type: 'boolean' },
-          { key: 'width', label: 'width', type: 'text' },
-        ],
-      },
       {
         key: 'columnDefs',
         label: 'columnDefs',
@@ -929,9 +915,19 @@ export const ComponentRegistry: any = {
           { key: 'sortIndex', label: 'sortIndex', type: 'text' },
         ],
       },
-      { key: 'content', label: '내용', type: 'textarea' },
-      { key: 'treeData', label: 'treeData', type: 'text' },
-      { key: 'groupDefaultExpanded', label: 'groupDefaultExpanded', type: 'text' },
+      {
+        key: 'defaultColDef',
+        label: 'defaultColDef',
+        type: 'object',
+        itemFields: [
+          { key: 'flex', label: 'flex', type: 'text' },
+          { key: 'sortable', label: 'sortable', type: 'boolean' },
+          { key: 'filter', label: 'filter', type: 'boolean' },
+          { key: 'editable', label: 'editable', type: 'boolean' },
+          // { key: 'width', label: 'width', type: 'text' },
+        ],
+      },
+      { key: 'apiUrl', label: 'API URL', type: 'text' },
 
       { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],

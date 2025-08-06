@@ -57,13 +57,40 @@
         <div v-else-if="meta.type === 'object'">
           <label class="text-subtitle-2 mb-1">{{ meta.label }}</label>
 
-          <template v-for="field in meta.fields || []" :key="field.key">
+          <template v-for="(field, idx) in meta.itemFields" :key="field.key">
             <v-text-field
-              v-model="selectedElement.props[field.key]"
+              v-if="field.type === 'text' || field.type === 'number'"
+              v-model="selectedElement.props[meta.key][field.key]"
               :label="field.label"
-              :type="field.type || 'text'"
               hide-details
               dense
+            />
+            <!-- boolean -->
+            <v-switch
+              v-else-if="field.type === 'boolean'"
+              v-model="selectedElement.props[meta.key][field.key]"
+              :label="field.label"
+              hide-details
+            />
+            <v-radio-group
+              v-else-if="field.type === 'radio'"
+              v-model="selectedElement.props[meta.key][field.key]"
+              :label="field.label"
+              hide-details
+              dense
+            >
+              <v-radio label="True" :value="true"></v-radio>
+              <v-radio label="False" :value="false"></v-radio>
+            </v-radio-group>
+
+            <!-- select -->
+            <v-select
+              v-else-if="field.type === 'select'"
+              v-model="selectedElement.props[meta.key][field.key]"
+              :items="field.options"
+              :label="field.label"
+              density="compact"
+              hide-details
             />
           </template>
         </div>
@@ -244,10 +271,15 @@ watchEffect(() => {
     // object 초기화
     if (meta.type === 'object' && !Array.isArray(selectedElement.value.props[meta.key])) {
       // selectedElement.value.props = [];
-      // selectedElement.value.props['style'] = {};
+      selectedElement.value.props[meta.key] = {};
 
-      for (const field of meta.fields || []) {
-        selectedElement.value.props[field.key] = '';
+      // for (const key in myObject) {
+      //   if (myObject.hasOwnProperty(key)) { // 객체 자신의 속성만 순회하도록 확인
+      //     console.log(`Key: ${key}, Value: ${myObject[key]}`);
+      //   }
+      // }
+      for (const field of meta.itemFields) {
+        selectedElement.value.props[key][field.key] = '';
       }
     }
 
