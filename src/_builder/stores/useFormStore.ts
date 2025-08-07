@@ -6,6 +6,7 @@ export const useFormStore = defineStore('form', () => {
 
   function setValue(id: string, value: any) {
     formData.value[id] = value;
+    console.log(id);
   }
 
   function getValue(id: string) {

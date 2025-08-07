@@ -71,21 +71,14 @@ const props = defineProps<{ element: any; isPage?: boolean }>();
 const registry = store.useComponentRegistryStore();
 const formRef = ref();
 
-// const getExposeId: any = computed(() => props.element.props.exposeId || '');
-// const agGridRef = useTemplateRef('ab');
 watch(
   () => props.element,
   (val) => {
     if (val) {
-      if (props.element.props.exposeId) {
-        // console.log('props.element.props.exposeId', props.element.props.exposeId);
-        // console.log('formRef', formRef);
+      if (props.element.props.id) {
         const timeout = setTimeout(() => {
           clearTimeout(timeout);
-          // console.log(formRef.value);
-          registry.register(props.element.props.exposeId, formRef.value);
-          // console.log('watch', props.element.props.exposeId);
-          // console.log('formRef', formRef);
+          registry.register(props.element.props.id, formRef.value);
         }, 1000);
       }
     }
@@ -95,9 +88,8 @@ watch(
   }
 );
 onUnmounted(() => {
-  if (props.element.props.exposeId) {
-    console.log('onUnmounted', props.element.props.exposeId);
-    registry.unregister(props.element.props.exposeId);
+  if (props.element.props.id) {
+    registry.unregister(props.element.props.id);
   }
 });
 const formStore = store.useFormStore();
@@ -109,10 +101,10 @@ const supportsVModel = computed(() => useVmodel.includes(props.element.type));
 
 const modelValue = computed({
   get: () => {
-    return formStore.getValue(props.element.id);
+    return formStore.getValue(props.element.props.id);
   },
   set: (val) => {
-    formStore.setValue(props.element.id, val);
+    formStore.setValue(props.element.props.id, val);
   },
 });
 const isSelected = computed(() => !props.isPage && builder.selectedElementId === props.element.id);
