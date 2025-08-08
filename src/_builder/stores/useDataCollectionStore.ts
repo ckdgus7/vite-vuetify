@@ -8,7 +8,7 @@ export const useDataCollectionStore = defineStore('data-collection', () => {
     {
       id: 'nameDataMap',
       type: 'dataMap',
-      fields: [
+      columns: [
         {
           id: 'firstName',
           name: 'firstName',
@@ -20,11 +20,15 @@ export const useDataCollectionStore = defineStore('data-collection', () => {
           dataType: 'text',
         },
       ],
+      datas: {
+        firstName: '',
+        lastName: '',
+      },
     },
     {
       id: 'emailDataMap',
       type: 'dataMap',
-      fields: [
+      columns: [
         {
           id: 'email',
           name: 'email',
@@ -36,13 +40,17 @@ export const useDataCollectionStore = defineStore('data-collection', () => {
           dataType: 'text',
         },
       ],
+      datas: {
+        email: '',
+        telephone: '',
+      },
     },
   ]);
   const dataListMap = ref<any[]>([
     {
       id: 'missionDataListMap',
       type: 'dataListMap',
-      fields: [
+      columns: [
         {
           id: 'mission',
           name: 'mission',
@@ -79,11 +87,22 @@ export const useDataCollectionStore = defineStore('data-collection', () => {
           dataType: 'text',
         },
       ],
+      datas: [
+        {
+          mission: '',
+          company: '',
+          location: '',
+          date: '',
+          price: '',
+          successful: '',
+          rocket: '',
+        },
+      ],
     },
     {
       id: 'mission2DataListMap',
       type: 'dataListMap',
-      fields: [
+      columns: [
         {
           id: 'mission_2',
           name: 'mission_2',
@@ -118,6 +137,17 @@ export const useDataCollectionStore = defineStore('data-collection', () => {
           id: 'rocket_2',
           name: 'rocket_2',
           dataType: 'text',
+        },
+      ],
+      datas: [
+        {
+          mission_2: '',
+          company_2: '',
+          location_2: '',
+          date_2: '',
+          price_2: '',
+          successful_2: '',
+          rocket_2: '',
         },
       ],
     },
