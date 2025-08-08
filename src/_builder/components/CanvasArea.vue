@@ -1,5 +1,6 @@
 <template>
-  <v-sheet
+  <v-container
+    class="py-6"
     id="builder-canvas"
     height="auto"
     elevation="1"
@@ -14,17 +15,23 @@
       </template>
     </draggable>
     <div style="height: 50px" class="pl-2"></div>
-  </v-sheet>
+  </v-container>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import ElementWrapper from '@/_builder/components/ElementWrapper.vue';
-import { useBuilderStore } from '@/_builder/stores/useBuilderStore';
+import store from '@/_builder/stores/index';
 import { useElementSelector } from '@/_builder/composables/useElementSelector';
 import draggable from 'vuedraggable';
-const builder = useBuilderStore();
+const builder = store.useBuilderStore();
 const elements = builder.elements;
+
+// const collection = store.useDataCollectionStore();
+// 컬렉션 데이터 설정 (테스트는 임시 지정)
+// collectionApi rest api 호출 후 store에 데이터 설정
+// collection.setDataMap(elements);
+// collection.setDataListMap(elements);
 
 useElementSelector();
 
