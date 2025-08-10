@@ -43,6 +43,9 @@ import CanvasArea from '@/_builder/components/CanvasArea.vue';
 import InspectorPanel from '@/_builder/components/InspectorPanel.vue';
 import SavePageDialog from '@/_builder/components/SavePageDialog.vue';
 import { useBuilderStore } from '@/_builder/stores/useBuilderStore';
+import store from '@/_builder/stores/index';
+
+const registry = store.useComponentRegistryStore();
 
 const saveDialogRef = ref();
 const builder = useBuilderStore();
@@ -52,6 +55,11 @@ const openSaveDialog = () => {
 };
 
 const removeElement = () => {
-  builder.removeElement(builder.selectedElementId || '');
+  if (builder.selectedElementId) {
+    builder.removeElement(builder.selectedElementId);
+    registry.unregister(builder.selectedElementId);
+  } else {
+    alert('요소를 선택해 주세요.');
+  }
 };
 </script>

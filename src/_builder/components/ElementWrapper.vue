@@ -73,11 +73,14 @@ const formRef = ref();
 
 watch(
   () => props.element,
-  (val) => {
+  (val, oldVal) => {
     if (val) {
       if (props.element.props.id) {
         const timeout = setTimeout(() => {
           clearTimeout(timeout);
+          if (oldVal) {
+            registry.unregister(props.element.props.id);
+          }
           registry.register(props.element.props.id, formRef.value);
         }, 1000);
       }

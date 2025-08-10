@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useBuilderStore } from '@/_builder/stores/useBuilderStore';
-import { savePage } from '@/_builder/stores/usePageStore';
+import { savePage } from '@/_builder/composables/useIdbPage';
 
 const dialog = ref(false);
 const pageId = ref('');
