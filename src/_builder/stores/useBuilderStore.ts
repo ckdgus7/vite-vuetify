@@ -104,6 +104,8 @@ export const useBuilderStore = defineStore('builder', () => {
       styles: {
         padding: '5px',
         border: '1px dashed gray',
+        height: '100px',
+        display: 'flex',
       },
       cssClass: '',
       children: [],
@@ -114,11 +116,6 @@ export const useBuilderStore = defineStore('builder', () => {
     // console.log(els);
     const group = els.find((el: any) => el.id === groupId);
     const group2 = els[0].children.find((el: any) => el.id === groupId);
-    // console.log('group', group);
-    // console.log('group2', group2);
-    // console.log('groupType', groupType);
-    // console.log('type', dropObj.type);
-    // if (!group || group.type !== 'group') return;
 
     const propsId = `v_${Date.now()}`;
     if (group) {
@@ -130,7 +127,9 @@ export const useBuilderStore = defineStore('builder', () => {
         props: { id: propsId },
         styles: {
           padding: '5px',
-          border: '1px dashed gray',
+          border: dropObj.type === 'group' ? '1px dashed gray' : '1px dashed blue',
+          height: dropObj.type === 'group' ? '100px' : '',
+          display: dropObj.type === 'group' ? 'flex' : '',
         },
         cssClass: '',
         children: [],
@@ -144,7 +143,9 @@ export const useBuilderStore = defineStore('builder', () => {
         props: { id: propsId },
         styles: {
           padding: '5px',
-          border: '1px dashed gray',
+          border: dropObj.type === 'group' ? '1px dashed gray' : '1px dashed blue',
+          height: dropObj.type === 'group' ? '100px' : '',
+          display: dropObj.type === 'group' ? 'flex' : '',
         },
         cssClass: '',
         children: [],

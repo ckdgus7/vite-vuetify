@@ -5,6 +5,23 @@ import MyCkEditor from '@/_builder/components/custom/CustomCkEditor.vue';
 import MyPageTitle from '@/_builder/components/custom/CustomPageTitle.vue';
 import MySubjectText from '@/_builder/components/custom/CustomSubjectText.vue';
 import MyNoteBox from '@/_builder/components/custom/CustomNoteBox.vue';
+import MyCarousel from '@/_builder/components/custom/CustomCarousel.vue';
+import MyCard from '@/_builder/components/custom/CustomCard.vue';
+import MyFooter from '@/_builder/components/custom/CustomFooter.vue';
+
+// custom form
+import MyInput from '@/_builder/components/custom/form/CustomInput.vue';
+import MyAutocomplate from '@/_builder/components/custom/form/CustomAutocomplate.vue';
+import MyTextarea from '@/_builder/components/custom/form/CustomTextarea.vue';
+import MySelect from '@/_builder/components/custom/form/CustomSelect.vue';
+import MyCheckboxGroup from '@/_builder/components/custom/form/CustomCheckboxGroup.vue';
+import MyRadioGroup from '@/_builder/components/custom/form/CustomRadioGroup.vue';
+import MyCombobox from '@/_builder/components/custom/form/CustomCombobox.vue';
+import MyFileInput from '@/_builder/components/custom/form/CustomFileInput.vue';
+import MySwitch from '@/_builder/components/custom/form/CustomSwitch.vue';
+import MyDateInput from '@/_builder/components/custom/form/CustomDateInput.vue';
+import MyFileUploader from '@/_builder/components/custom/form/CustomFileUploader.vue';
+
 export const ComponentRegistry: any = {
   group: {
     label: '그룹',
@@ -40,13 +57,12 @@ export const ComponentRegistry: any = {
     ],
   },
   'v-btn': {
-    label: 'btn',
+    label: 'button',
     component: 'v-btn',
     propsMeta: [
       { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
       { key: 'id', label: 'id', type: 'text' },
-      { key: 'ref', label: 'ref', type: 'text' },
       { key: 'text', label: 'text', type: 'text' },
       {
         key: 'color',
@@ -99,9 +115,9 @@ export const ComponentRegistry: any = {
       // },
     ],
   },
-  'v-text-field': {
+  'my-text-field': {
     label: 'text-field',
-    component: 'v-text-field',
+    component: MyInput,
     propsMeta: [
       { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
@@ -130,7 +146,7 @@ export const ComponentRegistry: any = {
       { key: 'readonly', label: 'readonly', type: 'boolean' },
       { key: 'rounded', label: 'rounded', type: 'boolean' },
       { key: 'tile', label: 'tile', type: 'boolean' },
-      { key: 'value', label: 'value', type: 'text' },
+      // { key: 'value', label: 'value', type: 'text' },
       {
         key: 'variant',
         label: 'variant',
@@ -147,8 +163,8 @@ export const ComponentRegistry: any = {
       },
       { key: 'width', label: 'width', type: 'text' },
       { key: 'exposeId', label: 'exposeId', type: 'text' },
-      { key: 'dataSchema', label: 'dataSchema', type: 'select', options: ['nameDataMap'] },
-      { key: 'dataKey', label: 'dataKey', type: 'select', options: ['firstName'] },
+      { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
+      { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
       // {
       //   key: 'style',
       //   label: '스타일',
@@ -160,9 +176,9 @@ export const ComponentRegistry: any = {
       // },
     ],
   },
-  'v-autocomplete': {
+  'my-autocomplete': {
     label: 'autocomplete',
-    component: 'v-autocomplete',
+    component: MyAutocomplate,
     propsMeta: [
       { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
@@ -211,6 +227,62 @@ export const ComponentRegistry: any = {
       { key: 'readonly', label: 'readonly', type: 'boolean' },
 
       { key: 'rounded', label: 'rounded', type: 'boolean' },
+      { key: 'tile', label: 'tile', type: 'boolean' },
+      // { key: 'value', label: 'value', type: 'text' },
+      {
+        key: 'variant',
+        label: 'variant',
+        type: 'select',
+        options: [
+          'outlined',
+          'plain',
+          'underlined',
+          'filled',
+          'solo',
+          'solo-inverted',
+          'solo-filled',
+        ],
+      },
+      { key: 'width', label: 'width', type: 'text' },
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
+    ],
+  },
+  'my-textarea': {
+    label: 'textarea',
+    component: MyTextarea,
+    propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
+      { key: 'class', label: 'css class', type: 'text' },
+
+      { key: 'autofocus', label: 'autofocus', type: 'boolean' },
+      { key: 'auto-grow', label: 'auto-grow', type: 'boolean' },
+      { key: 'clearable', label: 'Clearable', type: 'boolean' },
+      { key: 'counter', label: 'counter', type: 'boolean' },
+      {
+        key: 'density',
+        label: 'density',
+        type: 'select',
+        options: ['default', 'comfortable', 'compact'],
+      },
+      { key: 'details', label: 'details', type: 'boolean' },
+      { key: 'dirty', label: 'dirty', type: 'boolean' },
+      { key: 'disabled', label: 'disabled', type: 'boolean' },
+      { key: 'flat', label: 'flat', type: 'boolean' },
+      { key: 'focused', label: 'focused', type: 'boolean' },
+      { key: 'hide-details', label: 'hide-details', type: 'boolean' },
+      { key: 'hide-spin-buttons', label: 'hide-spin-buttons', type: 'boolean' },
+      { key: 'hint', label: 'hint', type: 'text' },
+      { key: 'id', label: 'id', type: 'text' },
+      { key: 'label', label: 'label', type: 'text' },
+      { key: 'max-rows', label: 'max-rows', type: 'text' },
+      { key: 'max-width', label: 'max-width', type: 'text' },
+      { key: 'min-width', label: 'min-width', type: 'text' },
+      { key: 'name', label: 'name', type: 'text' },
+      { key: 'readonly', label: 'readonly', type: 'boolean' },
+      { key: 'no-resize', label: 'no-resize', type: 'boolean' },
+      { key: 'placeholder', label: 'Placeholder', type: 'text' },
+      { key: 'rounded', label: 'rounded', type: 'boolean' },
+      { key: 'rows', label: 'rows', type: 'text' },
       { key: 'tile', label: 'tile', type: 'boolean' },
       {
         key: 'variant',
@@ -264,30 +336,82 @@ export const ComponentRegistry: any = {
       { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
-  // 'v-radio': {
-  //   label: 'radio',
-  //   component: 'v-radio',
-  //   propsMeta: [
-  //     { key: 'class', label: 'css class', type: 'text' },
-  //     { key: 'disabled', label: 'disabled', type: 'boolean' },
-  //     {
-  //       key: 'density',
-  //       label: 'density',
-  //       type: 'select',
-  //       options: ['default', 'comfortable', 'compact'],
-  //     },
-  //     { key: 'false-value', label: 'false-value', type: 'text' },
-  //     { key: 'inline', label: 'inline', type: 'boolean' },
-  //     { key: 'id', label: 'id', type: 'text' },
-  //     { key: 'label', label: 'label', type: 'text' },
-  //     { key: 'name', label: 'name', type: 'text' },
-  //     { key: 'readonly', label: 'readonly', type: 'boolean' },
-  //     { key: 'true-value', label: 'true-value', type: 'text' },
-  //   ],
-  // },
-  'v-combobox': {
+  'my-checkbox-group': {
+    label: 'checkbox-group',
+    component: MyCheckboxGroup,
+    propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
+      { key: 'class', label: 'css class', type: 'text' },
+
+      { key: 'direction', label: 'direction', type: 'select', options: ['horizontal', 'vertical'] },
+      { key: 'disabled', label: 'disabled', type: 'boolean' },
+      {
+        key: 'density',
+        label: 'density',
+        type: 'select',
+        options: ['default', 'comfortable', 'compact'],
+      },
+      { key: 'hide-detail', label: 'hide-detail', type: 'boolean' },
+      { key: 'hint', label: 'hint', type: 'text' },
+      { key: 'id', label: 'id', type: 'text' },
+      {
+        key: 'items',
+        label: '옵션 목록',
+        type: 'array',
+        itemType: 'object',
+        itemFields: [
+          { key: 'label', label: 'Label', type: 'text' },
+          { key: 'value', label: 'Value', type: 'text' },
+        ],
+      },
+      { key: 'max-width', label: 'max-width', type: 'text' },
+      { key: 'min-width', label: 'min-width', type: 'text' },
+      { key: 'name', label: 'name', type: 'text' },
+      { key: 'readonly', label: 'readonly', type: 'boolean' },
+      { key: 'width', label: 'width', type: 'text' },
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
+    ],
+  },
+  'my-radio-group': {
+    label: 'radio-group',
+    component: MyRadioGroup,
+    propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
+      { key: 'class', label: 'css class', type: 'text' },
+
+      {
+        key: 'density',
+        label: 'density',
+        type: 'select',
+        options: ['default', 'comfortable', 'compact'],
+      },
+      { key: 'direction', label: 'direction', type: 'select', options: ['horizontal', 'vertical'] },
+      { key: 'disabled', label: 'disabled', type: 'boolean' },
+      { key: 'hide-detail', label: 'hide-detail', type: 'boolean' },
+      { key: 'hide-spin-buttons', label: 'hide-spin-buttons', type: 'boolean' },
+      { key: 'hint', label: 'hint', type: 'text' },
+      { key: 'id', label: 'id', type: 'text' },
+      { key: 'inline', label: 'inline', type: 'text' },
+      {
+        key: 'items',
+        label: '옵션 목록',
+        type: 'array',
+        itemType: 'object',
+        itemFields: [
+          { key: 'label', label: 'Label', type: 'text' },
+          { key: 'value', label: 'Value', type: 'text' },
+        ],
+      },
+      { key: 'max-width', label: 'max-width', type: 'text' },
+      { key: 'min-width', label: 'min-width', type: 'text' },
+      { key: 'readonly', label: 'readonly', type: 'boolean' },
+      { key: 'width', label: 'width', type: 'text' },
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
+    ],
+  },
+  'my-combobox': {
     label: 'combobox',
-    component: 'v-combobox',
+    component: MyCombobox,
     propsMeta: [
       { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
@@ -318,7 +442,7 @@ export const ComponentRegistry: any = {
         type: 'array',
         itemType: 'object',
         itemFields: [
-          { key: 'title', label: 'Key', type: 'text' },
+          { key: 'title', label: 'Label', type: 'text' },
           { key: 'value', label: 'Value', type: 'text' },
         ],
       },
@@ -354,9 +478,9 @@ export const ComponentRegistry: any = {
       { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
-  'v-file-input': {
+  'my-file-input': {
     label: 'file-input',
-    component: 'v-file-input',
+    component: MyFileInput,
     propsMeta: [
       { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
@@ -401,20 +525,11 @@ export const ComponentRegistry: any = {
       },
       { key: 'width', label: 'width', type: 'text' },
       { key: 'exposeId', label: 'exposeId', type: 'text' },
-      // {
-      //   key: 'style',
-      //   label: '스타일',
-      //   type: 'object',
-      //   fields: [
-      //     { key: 'width', label: '너비', type: 'text' },
-      //     { key: 'min-height', label: '높이', type: 'text' },
-      //   ],
-      // },
     ],
   },
-  'v-select': {
+  'my-select': {
     label: 'select',
-    component: 'v-select',
+    component: MySelect,
     propsMeta: [
       { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
@@ -479,9 +594,9 @@ export const ComponentRegistry: any = {
       { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
-  'v-switch': {
+  'my-switch': {
     label: 'switch',
-    component: 'v-switch',
+    component: MySwitch,
     propsMeta: [
       { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
@@ -519,72 +634,69 @@ export const ComponentRegistry: any = {
       // },
     ],
   },
-  'v-textarea': {
-    label: 'textarea',
-    component: 'v-textarea',
+  'v-chip': {
+    label: 'chip',
+    component: 'v-chip',
     propsMeta: [
       { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
-      { key: 'clearable', label: 'Clearable', type: 'boolean' },
-      { key: 'placeholder', label: 'Placeholder', type: 'text' },
-      { key: 'autofocus', label: 'autofocus', type: 'boolean' },
-      { key: 'auto-grow', label: 'auto-grow', type: 'boolean' },
-      { key: 'counter', label: 'counter', type: 'boolean' },
+      { key: 'color', label: 'color', type: 'text' },
       {
         key: 'density',
         label: 'density',
         type: 'select',
         options: ['default', 'comfortable', 'compact'],
       },
-      { key: 'details', label: 'details', type: 'boolean' },
-      { key: 'dirty', label: 'dirty', type: 'boolean' },
-      { key: 'disabled', label: 'disabled', type: 'boolean' },
-      { key: 'flat', label: 'flat', type: 'boolean' },
-      { key: 'focused', label: 'focused', type: 'boolean' },
-      { key: 'hide-details', label: 'hide-details', type: 'boolean' },
-      { key: 'hide-spin-buttons', label: 'hide-spin-buttons', type: 'boolean' },
-      { key: 'hint', label: 'hint', type: 'text' },
-      { key: 'id', label: 'id', type: 'text' },
-      { key: 'label', label: 'label', type: 'text' },
-      { key: 'max-rows', label: 'max-rows', type: 'text' },
-      { key: 'max-width', label: 'max-width', type: 'text' },
-      { key: 'min-width', label: 'min-width', type: 'text' },
-      { key: 'name', label: 'name', type: 'text' },
-      { key: 'readonly', label: 'readonly', type: 'boolean' },
-      { key: 'no-resize', label: 'no-resize', type: 'boolean' },
+      { key: 'href', label: 'href', type: 'text' },
+      { key: 'pill', label: 'pill', type: 'boolean' },
       { key: 'rounded', label: 'rounded', type: 'boolean' },
-      { key: 'rows', label: 'rows', type: 'text' },
+
+      {
+        key: 'size',
+        label: 'size',
+        type: 'select',
+        options: ['x-small', 'small', 'default', 'large', 'x-large'],
+      },
+      { key: 'text', label: 'text', type: 'text' },
       { key: 'tile', label: 'tile', type: 'boolean' },
+      { key: 'to', label: 'to', type: 'text' },
       {
         key: 'variant',
         label: 'variant',
         type: 'select',
-        options: [
-          'outlined',
-          'plain',
-          'underlined',
-          'filled',
-          'solo',
-          'solo-inverted',
-          'solo-filled',
-        ],
+        options: ['flat', 'text', 'elevated', 'tonal', 'outlined', 'plain'],
       },
-      { key: 'width', label: 'width', type: 'text' },
       { key: 'exposeId', label: 'exposeId', type: 'text' },
-      // {
-      //   key: 'style',
-      //   label: '스타일',
-      //   type: 'object',
-      //   fields: [
-      //     { key: 'width', label: '너비', type: 'text' },
-      //     { key: 'min-height', label: '높이', type: 'text' },
-      //   ],
-      // },
     ],
   },
-  'v-date-input': {
+  'v-img': {
+    label: 'img',
+    component: 'v-img',
+    propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
+      { key: 'class', label: 'css class', type: 'text' },
+      { key: 'alt', label: 'alt', type: 'text' },
+      { key: 'cover', label: 'cover', type: 'boolean' },
+      { key: 'color', label: 'color', type: 'text' },
+      { key: 'gradient', label: 'gradient', type: 'text' },
+      { key: 'height', label: 'height', type: 'text' },
+      { key: 'inline', label: 'inline', type: 'boolean' },
+      { key: 'lazy-src', label: 'lazy-src', type: 'text' },
+      { key: 'max-height', label: 'max-height', type: 'text' },
+      { key: 'max-width', label: 'max-width', type: 'text' },
+      { key: 'min-height', label: 'min-height', type: 'text' },
+      { key: 'min-width', label: 'min-width', type: 'text' },
+      { key: 'rounded', label: 'rounded', type: 'boolean' },
+      { key: 'src', label: 'src', type: 'text' },
+      { key: 'tile', label: 'tile', type: 'boolean' },
+      { key: 'transition', label: 'transition', type: 'text' },
+      { key: 'width', label: 'width', type: 'text' },
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
+    ],
+  },
+  'my-date-input': {
     label: 'date-input',
-    component: 'v-date-input',
+    component: MyDateInput,
     propsMeta: [
       { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
@@ -675,200 +787,45 @@ export const ComponentRegistry: any = {
       { key: 'width', label: 'width', type: 'text' },
       { key: 'year', label: 'year', type: 'text' },
       { key: 'exposeId', label: 'exposeId', type: 'text' },
-      // {
-      //   key: 'style',
-      //   label: '스타일',
-      //   type: 'object',
-      //   fields: [
-      //     { key: 'width', label: '너비', type: 'text' },
-      //     { key: 'min-height', label: '높이', type: 'text' },
-      //   ],
-      // },
     ],
   },
-  // 'v-file-upload': {
-  //   label: 'file-upload',
-  //   component: 'v-file-upload',
-  //   propsMeta: [
-  //     { key: 'class', label: 'css class', type: 'text' },
-  //     { key: 'clearable', label: 'Clearable', type: 'boolean' },
-  //     {
-  //       key: 'density',
-  //       label: 'density',
-  //       type: 'select',
-  //       options: ['default', 'comfortable', 'compact'],
-  //     },
-  //     { key: 'disabled', label: 'disabled', type: 'boolean' },
-  //     { key: 'divider-text', label: 'divider-text', type: 'text' },
-  //     { key: 'elevation', label: 'elevation', type: 'text' },
-  //     { key: 'height', label: 'height', type: 'text' },
-  //     { key: 'hide-browse', label: 'hide-browse', type: 'boolean' },
-  //     { key: 'length', label: 'length', type: 'text' },
-  //     { key: 'max-height', label: 'max-height', type: 'text' },
-  //     { key: 'max-width', label: 'max-width', type: 'text' },
-  //     { key: 'min-height', label: 'min-height', type: 'text' },
-  //     { key: 'min-width', label: 'min-width', type: 'text' },
-  //     { key: 'multiple', label: 'multiple', type: 'boolean' },
-  //     { key: 'name', label: 'name', type: 'text' },
-  //     {
-  //       key: 'position',
-  //       label: 'position',
-  //       type: 'select',
-  //       options: ['fixed', 'static', 'relative', 'absolute', 'sticky'],
-  //     },
-  //     { key: 'rounded', label: 'rounded', type: 'boolean' },
-  //     { key: 'scrim', label: 'scrim', type: 'boolean' },
-  //     { key: 'show-size', label: 'show-size', type: 'boolean' },
-  //     { key: 'subtitle', label: 'subtitle', type: 'text' },
-  //     { key: 'tile', label: 'tile', type: 'boolean' },
-  //     { key: 'title', label: 'title', type: 'text' },
-  //     { key: 'width', label: 'width', type: 'text' },
-  //     // {
-  //     //   key: 'style',
-  //     //   label: '스타일',
-  //     //   type: 'object',
-  //     //   fields: [
-  //     //     { key: 'width', label: '너비', type: 'text' },
-  //     //     { key: 'min-height', label: '높이', type: 'text' },
-  //     //   ],
-  //     // },
-  //   ],
-  // },
-  'v-img': {
-    label: 'img',
-    component: 'v-img',
+  'my-file-uploader': {
+    label: 'file-upload',
+    component: MyFileUploader,
     propsMeta: [
-      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
-      { key: 'alt', label: 'alt', type: 'text' },
-      { key: 'cover', label: 'cover', type: 'boolean' },
-      { key: 'color', label: 'color', type: 'text' },
-      { key: 'gradient', label: 'gradient', type: 'text' },
-      { key: 'height', label: 'height', type: 'text' },
-      { key: 'inline', label: 'inline', type: 'boolean' },
-      { key: 'lazy-src', label: 'lazy-src', type: 'text' },
-      { key: 'max-height', label: 'max-height', type: 'text' },
-      { key: 'max-width', label: 'max-width', type: 'text' },
-      { key: 'min-height', label: 'min-height', type: 'text' },
-      { key: 'min-width', label: 'min-width', type: 'text' },
-      { key: 'rounded', label: 'rounded', type: 'boolean' },
-      { key: 'src', label: 'src', type: 'text' },
-      { key: 'tile', label: 'tile', type: 'boolean' },
-      { key: 'transition', label: 'transition', type: 'text' },
-      { key: 'width', label: 'width', type: 'text' },
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
-      // {
-      //   key: 'style',
-      //   label: '스타일',
-      //   type: 'object',
-      //   fields: [
-      //     { key: 'width', label: '너비', type: 'text' },
-      //     { key: 'height', label: '높이', type: 'text' }
-      //   ],
-      // },
-    ],
-  },
-  'v-chip': {
-    label: 'chip',
-    component: 'v-chip',
-    propsMeta: [
-      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
-      { key: 'class', label: 'css class', type: 'text' },
-      { key: 'color', label: 'color', type: 'text' },
+      { key: 'clearable', label: 'Clearable', type: 'boolean' },
       {
         key: 'density',
         label: 'density',
         type: 'select',
         options: ['default', 'comfortable', 'compact'],
       },
-      { key: 'href', label: 'href', type: 'text' },
-      { key: 'label', label: 'label', type: 'text' },
-      { key: 'pill', label: 'pill', type: 'boolean' },
-      { key: 'rounded', label: 'rounded', type: 'boolean' },
-
-      {
-        key: 'size',
-        label: 'size',
-        type: 'select',
-        options: ['x-small', 'small', 'default', 'large', 'x-large'],
-      },
-      { key: 'text', label: 'text', type: 'text' },
-      { key: 'tile', label: 'tile', type: 'boolean' },
-      { key: 'to', label: 'to', type: 'text' },
-      {
-        key: 'variant',
-        label: 'variant',
-        type: 'select',
-        options: ['flat', 'text', 'elevated', 'tonal', 'outlined', 'plain'],
-      },
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
-      // {
-      //   key: 'style',
-      //   label: '스타일',
-      //   type: 'object',
-      //   fields: [
-      //     { key: 'width', label: '너비', type: 'text' },
-      //     { key: 'height', label: '높이', type: 'text' }
-      //   ],
-      // },
-    ],
-  },
-  'v-alert': {
-    label: 'alert',
-    component: 'v-alert',
-    propsMeta: [
-      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
-      { key: 'class', label: 'css class', type: 'text' },
-      { key: 'text', label: 'text', type: 'text' },
-      {
-        key: 'border',
-        label: 'border',
-        type: 'select',
-        options: ['top', 'end', 'bottom', 'start'],
-      },
-      { key: 'border-color', label: 'border-color', type: 'text' },
-      { key: 'closable', label: 'closable', type: 'boolean' },
-      { key: 'color', label: 'color', type: 'text' },
-      {
-        key: 'density',
-        label: 'density',
-        type: 'select',
-        options: ['default', 'comfortable', 'compact'],
-      },
+      { key: 'disabled', label: 'disabled', type: 'boolean' },
+      { key: 'divider-text', label: 'divider-text', type: 'text' },
       { key: 'elevation', label: 'elevation', type: 'text' },
       { key: 'height', label: 'height', type: 'text' },
+      { key: 'hide-browse', label: 'hide-browse', type: 'boolean' },
+      { key: 'length', label: 'length', type: 'text' },
       { key: 'max-height', label: 'max-height', type: 'text' },
       { key: 'max-width', label: 'max-width', type: 'text' },
       { key: 'min-height', label: 'min-height', type: 'text' },
       { key: 'min-width', label: 'min-width', type: 'text' },
-      { key: 'readonly', label: 'readonly', type: 'boolean' },
+      { key: 'multiple', label: 'multiple', type: 'boolean' },
+      { key: 'name', label: 'name', type: 'text' },
       {
         key: 'position',
         label: 'position',
         type: 'select',
         options: ['fixed', 'static', 'relative', 'absolute', 'sticky'],
       },
-      { key: 'prominent', label: 'prominent', type: 'boolean' },
       { key: 'rounded', label: 'rounded', type: 'boolean' },
+      { key: 'scrim', label: 'scrim', type: 'boolean' },
+      { key: 'show-size', label: 'show-size', type: 'boolean' },
+      { key: 'subtitle', label: 'subtitle', type: 'text' },
       { key: 'tile', label: 'tile', type: 'boolean' },
       { key: 'title', label: 'title', type: 'text' },
-      {
-        key: 'variant',
-        label: 'variant',
-        type: 'select',
-        options: ['flat', 'text', 'elevated', 'tonal', 'outlined', 'plain'],
-      },
       { key: 'width', label: 'width', type: 'text' },
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
-      // {
-      //   key: 'style',
-      //   label: '스타일',
-      //   type: 'object',
-      //   fields: [
-      //     { key: 'width', label: '너비', type: 'text' },
-      //     { key: 'height', label: '높이', type: 'text' }
-      //   ],
-      // },
     ],
   },
   'my-data-table': {
@@ -973,15 +930,6 @@ export const ComponentRegistry: any = {
       { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
-  // 'my-card': {
-  //   label: '카드',
-  //   component: MyCard,
-  //   propsMeta: [
-  //     { key: 'title', label: '제목', type: 'text' },
-  //     { key: 'content', label: '내용', type: 'textarea' },
-  //     { key: 'color', label: '배경색', type: 'select', options: ['primary', 'info', 'warning'] },
-  //   ],
-  // },
   'my-subject-text': {
     label: 'subject text',
     component: MySubjectText,
@@ -1030,9 +978,15 @@ export const ComponentRegistry: any = {
       { key: 'class', label: 'css class', type: 'text' },
       { key: 'title', label: '페이지타이틀', type: 'text' },
       {
-        key: 'breadcrumb',
-        label: 'breadcrumb',
-        type: 'text',
+        key: 'breadcrumbs',
+        label: 'Breadcrumb',
+        type: 'array',
+        itemType: 'object',
+        itemFields: [
+          { key: 'title', label: 'title', type: 'text' },
+          { key: 'href', label: 'href', type: 'text' },
+          { key: 'disabled', label: 'disabled', type: 'boolean' },
+        ],
       },
 
       { key: 'exposeId', label: 'exposeId', type: 'text' },
@@ -1092,23 +1046,39 @@ export const ComponentRegistry: any = {
       { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
-  // const apiUrl = 'https://www.ag-grid.com/example-assets/space-mission-data.json';
-  // const defaultColDef = ref<ColDef>({
-  //   flex: 1,
-  //   editable: true,
-  // });
-  // const columnDefs = ref<ColDef[]>([
-  //   { field: 'mission' },
-  //   { field: 'company' },
-  //   { field: 'location' },
-  //   { field: 'date' },
-  //   { field: 'price' },
-  //   { field: 'successful' },
-  //   { field: 'rocket' },
-  // ]);
   'my-ck-editor': {
     label: 'CKEditor',
     component: MyCkEditor,
+    propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
+      { key: 'class', label: 'css class', type: 'text' },
+
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
+    ],
+  },
+  'my-carousel': {
+    label: 'Carousel',
+    component: MyCarousel,
+    propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
+      { key: 'class', label: 'css class', type: 'text' },
+
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
+    ],
+  },
+  'my-card': {
+    label: '카드',
+    component: MyCard,
+    propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
+      { key: 'class', label: 'css class', type: 'text' },
+
+      { key: 'exposeId', label: 'exposeId', type: 'text' },
+    ],
+  },
+  'my-footer': {
+    label: 'Footer',
+    component: MyFooter,
     propsMeta: [
       { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },

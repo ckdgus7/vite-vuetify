@@ -21,7 +21,10 @@
         v-on="bindings"
         :style="element.styles"
       /> -->
-      <div :class="supportsVModel ? element.props.wrapClass : element.styles.wrapClass">
+      <div
+        :style="getGroupStyles"
+        :class="supportsVModel ? element.props.wrapClass : element.styles.wrapClass"
+      >
         <!-- v-model을 지원하는 컴포넌트인 경우 -->
         <component
           v-if="supportsVModel"
@@ -67,6 +70,8 @@ import ElementWrapper from './ElementWrapper.vue';
 import { ComponentRegistry } from '@/_builder/utils/componentMap';
 import { useVmodel } from '@/_builder/utils/isVmodelElement';
 import store from '@/_builder/stores/index';
+import { useRoute } from 'vue-router';
+import { router } from '@/router/index';
 const props = defineProps<{ element: any; isPage?: boolean }>();
 const registry = store.useComponentRegistryStore();
 const formRef = ref();
@@ -88,6 +93,7 @@ watch(
   },
   {
     deep: true,
+    immediate: true,
   }
 );
 onUnmounted(() => {
@@ -114,7 +120,7 @@ const isSelected = computed(() => !props.isPage && builder.selectedElementId ===
 const selectElement = () => builder.selectElement(props.element.id);
 const getComponent = computed(() => {
   const config = ComponentRegistry[props.element.type];
-  console.log(config.component);
+  // console.log(config.component);
   return config ? config.component : 'div';
 });
 const getGroupStyles = computed(() => {
@@ -122,7 +128,9 @@ const getGroupStyles = computed(() => {
     // 페이지 렌더링 시 그룹 스타일을 제거
     return '';
   }
-  return props.element.styles || { border: '1px dashed #ccc', padding: '5px' };
+  return props.element.type === 'group'
+    ? props.element.styles || { border: '1px dashed gray', padding: '5px' }
+    : { border: '1px dashed gray' };
 });
 const onDrop = (e: DragEvent) => {
   e.stopPropagation(); // ✅ 이벤트 전파 방지 (중복 drop 방지)
@@ -145,44 +153,45 @@ const onDragOver = (e: DragEvent) => {
 
 watchEffect(() => {
   // 페이지 렌더링 시 이벤트 실행
-  if (props.isPage) {
-    const result: Record<string, Function> = {};
-    if (props.element.events) {
-      // for (const [eventName, eventData] of Object.entries(props.element.events)) {
-      for (const evt of Object.entries(props.element.events)) {
-        const e: any = evt;
-        const eventName = e[0];
-        const code = e[1].code;
-        result[eventName] = (...args: any[]) => {
-          try {
-            const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
-            const fn = new AsyncFunction('event', 'context', code);
-            // await fn(context, event) // ✅ await 가능
-            // const fn = new Function('event', 'context', code);
-            fn(args[0], {
-              console,
-              ref,
-              reactive,
-              watch,
-              props,
-              store,
-              axios,
-              useTemplateRef,
-              onMounted,
-              onBeforeMount,
-              onBeforeUnmount,
-              onUnmounted,
-              computed,
-            });
-          } catch (e) {
-            console.error(`이벤트 실행 오류 [${eventName}]`, e);
-          }
-        };
-      }
+  // if (props.isPage) {
+  const result: Record<string, Function> = {};
+  if (props.element.events) {
+    // for (const [eventName, eventData] of Object.entries(props.element.events)) {
+    for (const evt of Object.entries(props.element.events)) {
+      const e: any = evt;
+      const eventName = e[0];
+      const code = e[1].code;
+      // console.log(code);
+      result[eventName] = (...args: any[]) => {
+        try {
+          const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
+          const fn = new AsyncFunction('event', 'context', code);
+          fn(args[0], {
+            console,
+            ref,
+            reactive,
+            watch,
+            props,
+            store,
+            axios,
+            useTemplateRef,
+            onMounted,
+            onBeforeMount,
+            onBeforeUnmount,
+            onUnmounted,
+            computed,
+            router,
+            useRoute,
+          });
+        } catch (e) {
+          console.error(`이벤트 실행 오류 [${eventName}]`, e);
+        }
+      };
     }
-
-    bindings.value = result;
   }
+  // console.log('bindings', result);
+  bindings.value = result;
+  // }
 });
 </script>
 <style scoped>

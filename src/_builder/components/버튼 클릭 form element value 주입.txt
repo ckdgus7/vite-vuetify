@@ -1,0 +1,4 @@
+const input1 = context.store.useComponentRegistryStore().get('v_1755261917725');
+
+console.log(input1);
+input1.setModel('test');

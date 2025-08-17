@@ -1,0 +1,12 @@
+const input1 = context.store.useComponentRegistryStore().get('v_1755247626639');
+
+console.log(input1);
+
+input1.setItems([{
+  title: 'change1',
+  value: 'change1_value',
+},{
+  title: 'change2',
+  value: 'change2_value',
+}]);
+input1.setModel('change2_value');

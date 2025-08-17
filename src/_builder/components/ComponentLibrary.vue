@@ -18,7 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import { useBuilderStore } from '@/_builder/stores/useBuilderStore';
 interface CompList {
   type: string;
   label: string;
@@ -26,11 +25,6 @@ interface CompList {
   styles?: Record<string, any>;
   props?: Record<string, any>;
 }
-const builder = useBuilderStore();
-const exportsd = () => {
-  console.log('Exporting...', builder);
-  builder.exportToJsonFile('my-template.json');
-};
 const componentList: CompList[] = [
   {
     type: 'group',
@@ -40,36 +34,34 @@ const componentList: CompList[] = [
       flexDirection: 'column',
       justifyContent: 'flex-start',
       alignItems: 'center',
+      height: '100px',
+    },
+    props: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      height: '100px',
     },
   },
   {
     type: 'v-btn',
     label: 'button',
     props: {
-      // color: undefined,
       density: 'default',
       disabled: false,
-      // elevation: undefined,
       exact: false,
       flat: false,
-      // height: undefined,
-      // href: undefined,
-      // 'max-height': undefined,
-      // 'max-width': undefined,
-      // 'min-height': undefined,
-      // 'min-width': undefined,
       readonly: false,
       size: 'default',
       slim: false,
       text: '버튼1',
       tile: false,
-      // to: undefined,
       variant: 'elevated',
-      // width: undefined,
     },
   },
   {
-    type: 'v-text-field',
+    type: 'my-text-field',
     label: 'input',
     props: {
       autofocus: false,
@@ -89,7 +81,7 @@ const componentList: CompList[] = [
     },
   },
   {
-    type: 'v-autocomplete',
+    type: 'my-autocomplete',
     label: 'autocomplete',
     props: {
       autofocus: false,
@@ -104,7 +96,16 @@ const componentList: CompList[] = [
       'hide-no-data': true,
       'hide-selected': true,
       'hide-spin-buttons': true,
-      items: [],
+      items: [
+        {
+          title: 'List1',
+          value: 'list1',
+        },
+        {
+          title: 'List2',
+          value: 'list2',
+        },
+      ],
       'item-title': 'title',
       'item-value': 'value',
       multiple: false,
@@ -116,7 +117,7 @@ const componentList: CompList[] = [
     },
   },
   {
-    type: 'v-textarea',
+    type: 'my-textarea',
     label: 'textarea',
     props: {
       autofocus: false,
@@ -140,7 +141,69 @@ const componentList: CompList[] = [
     },
   },
   {
-    type: 'v-combobox',
+    type: 'v-checkbox',
+    label: 'checkbox',
+    props: {
+      density: 'default',
+      direction: 'horizontal',
+      disabled: false,
+      label: 'text1',
+      focused: false,
+      'hide-details': true,
+      'hide-spin-buttons': true,
+      multiple: false,
+      readonly: false,
+    },
+  },
+  {
+    type: 'my-checkbox-group',
+    label: 'checkbox-group',
+    props: {
+      density: 'default',
+      direction: 'horizontal',
+      disabled: false,
+      focused: false,
+      'hide-details': true,
+      'hide-spin-buttons': true,
+      items: [
+        {
+          label: '남',
+          value: 'M',
+        },
+        {
+          label: '여',
+          value: 'F',
+        },
+      ],
+      multiple: false,
+      readonly: false,
+    },
+  },
+  {
+    type: 'my-radio-group',
+    label: 'radio-group',
+    props: {
+      density: 'default',
+      direction: 'horizontal',
+      disabled: false,
+      'hide-details': true,
+      'hide-spin-buttons': true,
+      items: [
+        {
+          label: '남',
+          value: 'M',
+        },
+        {
+          label: '여',
+          value: 'F',
+        },
+      ],
+      inline: true,
+      readonly: false,
+    },
+  },
+  {
+    type: 'my-combobox',
     label: 'combobox',
     props: {
       autofocus: false,
@@ -156,7 +219,16 @@ const componentList: CompList[] = [
       'hide-no-data': false,
       'hide-selected': false,
       'hide-spin-buttons': true,
-      items: [],
+      items: [
+        {
+          title: 'List1',
+          value: 'list1',
+        },
+        {
+          title: 'List2',
+          value: 'list2',
+        },
+      ],
       'item-title': 'title',
       'item-value': 'value',
       multiple: false,
@@ -169,21 +241,7 @@ const componentList: CompList[] = [
     },
   },
   {
-    type: 'v-checkbox',
-    label: 'checkbox',
-    props: {
-      density: 'default',
-      direction: 'horizontal',
-      disabled: false,
-      focused: false,
-      'hide-details': true,
-      'hide-spin-buttons': true,
-      multiple: false,
-      readonly: false,
-    },
-  },
-  {
-    type: 'v-file-input',
+    type: 'my-file-input',
     label: 'file-input',
     props: {
       clearable: false,
@@ -205,8 +263,8 @@ const componentList: CompList[] = [
     },
   },
   {
-    type: 'v-select',
-    label: 'select',
+    type: 'my-select',
+    label: 'Select',
     props: {
       autofocus: false,
       clearable: false,
@@ -221,7 +279,16 @@ const componentList: CompList[] = [
       'hide-no-data': false,
       'hide-selected': false,
       'hide-spin-buttons': true,
-      items: [],
+      items: [
+        {
+          title: 'List1',
+          value: 'list1',
+        },
+        {
+          title: 'List2',
+          value: 'list2',
+        },
+      ],
       'item-title': 'title',
       'item-value': 'value',
       multiple: false,
@@ -233,7 +300,7 @@ const componentList: CompList[] = [
     },
   },
   {
-    type: 'v-switch',
+    type: 'my-switch',
     label: 'switch',
     props: {
       density: 'default',
@@ -248,7 +315,31 @@ const componentList: CompList[] = [
     },
   },
   {
-    type: 'v-date-input',
+    type: 'v-chip',
+    label: 'chip',
+    props: {
+      border: false,
+      density: 'default',
+      pill: false,
+      size: 'default',
+      tile: false,
+      variant: 'tonal',
+    },
+  },
+  {
+    type: 'v-img',
+    label: 'img',
+    props: {
+      cover: false,
+      inline: false,
+      tile: false,
+      height: 250,
+      src: 'http://localhost:5050/232-500x300.jpg',
+      transition: 'fade-transition',
+    },
+  },
+  {
+    type: 'my-date-input',
     label: 'date-input',
     props: {
       'allowed-dates': [],
@@ -266,12 +357,11 @@ const componentList: CompList[] = [
       divided: false,
       flat: false,
       focused: false,
-      height: false,
-      'hide-actions': false,
+      'hide-actions': true,
       'hide-details': true,
-      'hide-header': false,
+      'hide-header': true,
       'hide-spin-buttons': true,
-      'hide-weekdays': false,
+      'hide-weekdays': true,
       multiple: false,
       'ok-text': '확인',
       readonly: false,
@@ -283,39 +373,17 @@ const componentList: CompList[] = [
     },
   },
   {
-    type: 'v-chip',
-    label: 'chip',
+    type: 'my-file-uploader',
+    label: 'file-uploader',
     props: {
-      border: false,
+      clearable: false,
       density: 'default',
-      label: false,
-      pill: false,
-      size: 'default',
+      dirty: false,
+      disabled: false,
+      'hide-browse': true,
+      multiple: false,
+      'show-size': false,
       tile: false,
-      variant: 'tonal',
-    },
-  },
-  {
-    type: 'v-img',
-    label: 'img',
-    props: {
-      cover: false,
-      inline: false,
-      tile: false,
-      transition: 'fade-transition',
-    },
-  },
-  {
-    type: 'v-alert',
-    label: 'alert',
-    props: {
-      border: false,
-      closable: false,
-      density: 'default',
-      prominent: false,
-      rounded: false,
-      tile: false,
-      variant: 'flat',
     },
   },
   {
@@ -404,8 +472,38 @@ const componentList: CompList[] = [
     type: 'my-ag-grid',
     label: 'AG Grid',
     cssClass: '',
+    props: {
+      columnDefs: [
+        { field: 'mission' },
+        { field: 'company' },
+        { field: 'location' },
+        { field: 'date' },
+        { field: 'price' },
+        { field: 'successful' },
+        { field: 'rocket' },
+      ],
+      apiUrl: 'https://www.ag-grid.com/example-assets/space-mission-data.json',
+    },
     // styles: { border: '1px dashed #ccc', padding: '5px' },
   }, // AG Grid 컴포넌트
+  {
+    type: 'my-carousel',
+    label: 'Carousel',
+    cssClass: '',
+    // styles: { border: '1px dashed #ccc', padding: '5px' },
+  },
+  {
+    type: 'my-card',
+    label: 'Card',
+    cssClass: '',
+    // styles: { border: '1px dashed #ccc', padding: '5px' },
+  },
+  {
+    type: 'my-footer',
+    label: 'Footer',
+    cssClass: '',
+    // styles: { border: '1px dashed #ccc', padding: '5px' },
+  },
 ];
 
 const onDragStart = (

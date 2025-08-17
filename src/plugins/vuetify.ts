@@ -5,37 +5,43 @@ import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import { aliases, mdi } from 'vuetify/iconsets/mdi';
 import { icons } from './mdi-icon'; // Import icons from separate file
+import { VDateInput } from 'vuetify/labs/VDateInput';
+import { VFileUpload } from 'vuetify/labs/VFileUpload';
 
 export default createVuetify({
-  components,
+  components: {
+    ...components,
+    VDateInput,
+    VFileUpload,
+  },
   directives,
   icons: {
     defaultSet: 'mdi',
     aliases: {
       ...aliases,
-      ...icons
+      ...icons,
     },
     sets: {
-      mdi
-    }
+      mdi,
+    },
   },
   theme: {
     defaultTheme: 'PurpleTheme',
     themes: {
-      PurpleTheme
-    }
+      PurpleTheme,
+    },
   },
   defaults: {
     VBtn: {},
     VCard: {
-      rounded: 'md'
+      rounded: 'md',
     },
     VTextField: {
-      rounded: 'lg'
+      rounded: 'lg',
     },
     VTooltip: {
       // set v-tooltip default location to top
-      location: 'top'
-    }
-  }
+      location: 'top',
+    },
+  },
 });

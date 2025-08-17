@@ -1,10 +1,28 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 
+interface Columns {
+  id: string;
+  name: string;
+  dataType: string;
+}
+export interface DataMap {
+  id: string;
+  type: string;
+  columns: Columns[];
+  datas: Record<string, any>;
+}
+export interface DataListMap {
+  id: string;
+  type: string;
+  columns: Columns[];
+  datas: any[];
+}
+
 export const useDataCollectionStore = defineStore('data-collection', () => {
   // const dataMap = ref<any[]>([]);
   // const dataListMap = ref<any[]>([]);
-  const dataMap = ref<any[]>([
+  const dataMap = ref<DataMap[]>([
     {
       id: 'nameDataMap',
       type: 'dataMap',
@@ -21,8 +39,8 @@ export const useDataCollectionStore = defineStore('data-collection', () => {
         },
       ],
       datas: {
-        firstName: '',
-        lastName: '',
+        firstName: '최',
+        lastName: '창현',
       },
     },
     {
@@ -41,12 +59,12 @@ export const useDataCollectionStore = defineStore('data-collection', () => {
         },
       ],
       datas: {
-        email: '',
-        telephone: '',
+        email: 'niceckdgus7@naver.com',
+        telephone: '010-2744-9307',
       },
     },
   ]);
-  const dataListMap = ref<any[]>([
+  const dataListMap = ref<DataListMap[]>([
     {
       id: 'missionDataListMap',
       type: 'dataListMap',
@@ -104,38 +122,38 @@ export const useDataCollectionStore = defineStore('data-collection', () => {
       type: 'dataListMap',
       columns: [
         {
-          id: 'mission_2',
-          name: 'mission_2',
+          id: 'mission',
+          name: 'mission',
           dataType: 'text',
         },
         {
-          id: 'company_2',
-          name: 'company_2',
+          id: 'company',
+          name: 'company',
           dataType: 'text',
         },
         {
-          id: 'location_2',
-          name: 'location_2',
+          id: 'location',
+          name: 'location',
           dataType: 'text',
         },
         {
-          id: 'date_2',
-          name: 'date_2',
+          id: 'date',
+          name: 'date',
           dataType: 'text',
         },
         {
-          id: 'price_2',
-          name: 'price_2',
+          id: 'price',
+          name: 'price',
           dataType: 'text',
         },
         {
-          id: 'successful_2',
-          name: 'successful_2',
+          id: 'successful',
+          name: 'successful',
           dataType: 'text',
         },
         {
-          id: 'rocket_2',
-          name: 'rocket_2',
+          id: 'rocket',
+          name: 'rocket',
           dataType: 'text',
         },
       ],
@@ -153,40 +171,73 @@ export const useDataCollectionStore = defineStore('data-collection', () => {
     },
   ]);
 
-  function setDataMap(value: any) {
-    dataMap.value = value;
+  function setDataMap(value: DataMap[]) {
+    if (value) dataMap.value = value;
     console.log(value);
   }
 
-  function getDataMap(id: string) {
-    const data = dataMap.value.find((map: any) => {
+  function getDataMap(id: string): DataMap | undefined {
+    const data = dataMap.value.find((map) => {
       return map.id === id;
     });
-    return data ?? '';
+    return data;
   }
 
-  function setDataListMap(value: any) {
+  function setDataListMap(value: DataListMap[]) {
     dataListMap.value = value;
     console.log(value);
   }
 
-  function getDataListMap(id: string) {
+  function getDataListMap(id: string): DataListMap | undefined {
     const data = dataListMap.value.find((listMap: any) => {
       return listMap.id === id;
     });
-    return data ?? '';
+    return data;
   }
 
   const getAllDataMap = computed(() => dataMap);
   const getAllDataListMap = computed(() => dataListMap);
 
+  const getDataSchema = () => {
+    return dataMap.value.map((d: any) => d.id);
+  };
+  const getDataKey = () => {
+    const returnVal = dataMap.value.reduce((accumulator: any[], currentValue) => {
+      let title: any = '';
+      currentValue.columns.forEach((col, i) => {
+        title = `${currentValue.id}:${col.id}`;
+        accumulator.push(title);
+      });
+      return accumulator;
+    }, []);
+    return returnVal;
+  };
+  const getDataListSchema = () => {
+    return dataListMap.value.map((d: any) => d.id);
+  };
+  const getDataListKey = () => {
+    const returnVal = dataListMap.value.reduce((accumulator: any[], currentValue) => {
+      let title: any = '';
+      currentValue.columns.forEach((col, i) => {
+        title = `${currentValue.id}:${col.id}`;
+        accumulator.push(title);
+      });
+      return accumulator;
+    }, []);
+    return returnVal;
+  };
+
   return {
-    getAllDataMap,
-    getAllDataListMap,
     dataListMap,
     setDataMap,
     getDataMap,
     setDataListMap,
     getDataListMap,
+    getAllDataMap,
+    getAllDataListMap,
+    getDataSchema,
+    getDataKey,
+    getDataListSchema,
+    getDataListKey,
   };
 });
