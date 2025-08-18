@@ -3,7 +3,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { type DataMap, useDataCollectionStore } from '@/_builder/stores/useDataCollectionStore';
 
 const props = defineProps([
   'autofocus',
@@ -34,12 +35,39 @@ const props = defineProps([
   'variant',
   'width',
   'exposeId',
-  // 'dataMapSchema',
-  // 'dataMapKey',
+  'dataMapSchema',
+  'dataMapKey',
 ]);
 
 const emits = defineEmits(['input']);
 const localModel = ref('');
+
+const dataStore = useDataCollectionStore();
+const localdataMap = ref<DataMap>();
+watch(
+  () => props.dataMapSchema,
+  (val: string) => {
+    console.log(val);
+    if (val) localdataMap.value = dataStore.getDataMap(val);
+  },
+  {
+    deep: true,
+  }
+);
+watch(
+  () => props.dataMapKey,
+  (val: string) => {
+    console.log(val);
+    if (val) {
+      const mapKey = val.split(':')[1];
+      const data = localdataMap.value?.datas[mapKey] ?? '';
+      localModel.value = data;
+    }
+  },
+  {
+    deep: true,
+  }
+);
 
 const setModel = (val: string) => {
   localModel.value = val;

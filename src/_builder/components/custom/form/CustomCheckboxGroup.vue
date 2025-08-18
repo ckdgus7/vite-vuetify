@@ -12,6 +12,7 @@
 </template>
 <script setup lang="ts">
 import { computed, ref, watch, watchEffect } from 'vue';
+import { type DataMap, useDataCollectionStore } from '@/_builder/stores/useDataCollectionStore';
 
 const props = defineProps([
   'direction',
@@ -36,6 +37,33 @@ interface checkboxItems {
 }
 const localModel = ref<string[]>([]);
 const localItems = ref<checkboxItems[]>([]);
+
+const dataStore = useDataCollectionStore();
+const localdataMap = ref<DataMap>();
+watch(
+  () => props.dataMapSchema,
+  (val: string) => {
+    console.log(val);
+    if (val) localdataMap.value = dataStore.getDataMap(val);
+  },
+  {
+    deep: true,
+  }
+);
+watch(
+  () => props.dataMapKey,
+  (val: string) => {
+    console.log(val);
+    if (val) {
+      const mapKey = val.split(':')[1];
+      const data = localdataMap.value?.datas[mapKey] ?? '';
+      localModel.value = data;
+    }
+  },
+  {
+    deep: true,
+  }
+);
 
 const getContainerClass = computed(() => {
   if (props.direction === 'horizontal') {

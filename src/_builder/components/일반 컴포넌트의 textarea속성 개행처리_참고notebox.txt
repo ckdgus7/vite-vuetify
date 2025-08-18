@@ -1,0 +1,2 @@
+1. title속성의 type을 textarea로 지정
+2. textarea title 속성을 <pre>{{ props.title }}</pre> 감싼다

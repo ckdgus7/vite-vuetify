@@ -1,7 +1,9 @@
 <template>
   <v-alert variant="outlined" border="start" class="note-box">
     <template #title>
-      <span class="text-primary font-weight-medium ml-3">{{ title }}</span>
+      <span class="text-primary font-weight-medium ml-3">
+        <pre>{{ title }}</pre>
+      </span>
     </template>
 
     <span>
@@ -20,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, withDefaults } from 'vue';
+import { withDefaults } from 'vue';
 
 interface Props {
   title?: string;

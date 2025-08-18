@@ -8,7 +8,8 @@
   </v-container>
 </template>
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue';
+import { ref, watchEffect, watch } from 'vue';
+import { type DataMap, useDataCollectionStore } from '@/_builder/stores/useDataCollectionStore';
 
 interface radioGroupItems {
   label: string;
@@ -29,13 +30,40 @@ const props = defineProps([
   'readonly',
   'width',
   'exposeId',
-  // 'dataMapSchema',
-  // 'dataMapKey',
+  'dataMapSchema',
+  'dataMapKey',
 ]);
 
 // const emits = defineEmits(['input']);
 const localModel = ref<string | number>();
 const localItems = ref<radioGroupItems[]>([]);
+
+const dataStore = useDataCollectionStore();
+const localdataMap = ref<DataMap>();
+watch(
+  () => props.dataMapSchema,
+  (val: string) => {
+    console.log(val);
+    if (val) localdataMap.value = dataStore.getDataMap(val);
+  },
+  {
+    deep: true,
+  }
+);
+watch(
+  () => props.dataMapKey,
+  (val: string) => {
+    console.log(val);
+    if (val) {
+      const mapKey = val.split(':')[1];
+      const data = localdataMap.value?.datas[mapKey] ?? '';
+      localModel.value = data;
+    }
+  },
+  {
+    deep: true,
+  }
+);
 
 watchEffect(() => {
   if (props.items && props.items.length) localItems.value = [...props.items];

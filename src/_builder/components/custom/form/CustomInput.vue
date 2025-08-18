@@ -34,10 +34,10 @@ const props = defineProps([
   'dataMapSchema',
   'dataMapKey',
 ]);
-const dataStore = useDataCollectionStore();
 const emits = defineEmits(['input']);
 const localModel = ref('');
 
+const dataStore = useDataCollectionStore();
 const localdataMap = ref<DataMap>();
 watch(
   () => props.dataMapSchema,

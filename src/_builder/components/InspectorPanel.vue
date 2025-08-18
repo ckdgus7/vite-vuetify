@@ -15,6 +15,13 @@
           hide-details
           dense
         />
+        <v-textarea
+          v-else-if="meta.type === 'textarea'"
+          v-model="selectedElement.props[meta.key]"
+          :label="meta.label"
+          auto-grow
+          hide-details
+        />
         <!-- boolean -->
         <v-switch
           v-else-if="meta.type === 'boolean'"
