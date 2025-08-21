@@ -482,7 +482,7 @@ const componentList: CompList[] = [
         { field: 'successful' },
         { field: 'rocket' },
       ],
-      apiUrl: 'https://www.ag-grid.com/example-assets/space-mission-data.json',
+      // apiUrl: 'https://www.ag-grid.com/example-assets/space-mission-data.json',
     },
     // styles: { border: '1px dashed #ccc', padding: '5px' },
   }, // AG Grid 컴포넌트

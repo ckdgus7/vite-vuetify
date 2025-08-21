@@ -7,18 +7,21 @@
         <v-icon>mdi-view-sidebar-outline</v-icon>
       </v-btn>
 
-      <v-toolbar-title class="text-subtitle-1 font-weight-600">UI Builder</v-toolbar-title>
+      <!-- <v-toolbar-title class="text-subtitle-1 font-weight-600">UI Builder</v-toolbar-title> -->
 
       <v-spacer />
 
-      <v-btn variant="text" class="mr-2" @click="openSaveDialog">
+      <v-btn color="primary" variant="text" class="mr-2" @click="openSaveDialog">
         <v-icon start>mdi-content-save</v-icon>
         화면 저장
       </v-btn>
-      <v-btn color="primary" @click="exportsd">렌터링 코드 다운로드</v-btn>
       <v-btn variant="text" color="error" @click="removeElement">
         <v-icon start>mdi-delete-outline</v-icon>
-        선택 삭제
+        엘리멘트 삭제
+      </v-btn>
+      <v-btn variant="text" class="mr-2" @click="exportsd">
+        <v-icon start>mdi-content-save</v-icon>
+        렌터링 코드 다운로드
       </v-btn>
 
       <v-btn
@@ -108,8 +111,8 @@ const leftOpen = ref(true);
 const rightOpen = ref(true);
 const leftMini = ref(false);
 const rightMini = ref(false);
-const leftWidth = ref(320);
-const rightWidth = ref(360);
+const leftWidth = ref(220);
+const rightWidth = ref(300);
 
 const saveDialogRef = ref();
 const builder = store.useBuilderStore();

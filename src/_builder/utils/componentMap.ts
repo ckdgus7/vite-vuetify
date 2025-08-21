@@ -1046,6 +1046,7 @@ export const ComponentRegistry: any = {
       { key: 'apiUrl', label: 'API URL', type: 'text' },
 
       { key: 'exposeId', label: 'exposeId', type: 'text' },
+      { key: 'dataListMapSchema', label: 'dataListMapSchema', type: 'select', options: [] },
     ],
   },
   'my-ck-editor': {
@@ -1074,6 +1075,10 @@ export const ComponentRegistry: any = {
     propsMeta: [
       { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
+      { key: 'topImage', label: 'topImage', type: 'text' },
+      { key: 'title', label: 'title', type: 'text' },
+      { key: 'subTitle', label: 'subTitle', type: 'text' },
+      { key: 'contents', label: 'Contents', type: 'textarea' },
 
       { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],

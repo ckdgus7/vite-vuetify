@@ -1,28 +1,48 @@
 <template>
   <div>
-    <v-card class="mx-auto" max-width="400">
-      <v-img
-        class="align-end text-white"
-        height="200"
-        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-        cover
-      >
-        <v-card-title>Top 10 Australian beaches</v-card-title>
+    <v-card class="mx-auto" max-width="400" min-width="300">
+      <v-img class="align-end text-white" height="200" :src="getTopImage" cover>
+        <v-card-title>{{ getTitle }}</v-card-title>
       </v-img>
 
-      <v-card-subtitle class="pt-4">Number 10</v-card-subtitle>
+      <v-card-subtitle class="pt-4" v-if="getSubTitle">{{ getSubTitle }}</v-card-subtitle>
 
       <v-card-text>
-        <div>Whitehaven Beach</div>
-
-        <div>Whitsunday Island, Whitsunday Islands</div>
+        <div>
+          <pre>{{ getContents }}</pre>
+        </div>
       </v-card-text>
 
-      <v-card-actions>
+      <!-- <v-card-actions>
         <v-btn color="orange" text="Share"></v-btn>
 
         <v-btn color="orange" text="Explore"></v-btn>
-      </v-card-actions>
+      </v-card-actions> -->
     </v-card>
   </div>
 </template>
+
+<script setup lang="ts">
+import { computed } from 'vue';
+
+const props = defineProps<{
+  topImage: string;
+  title: string;
+  subTitle: string;
+  contents: string;
+}>();
+const emits = defineEmits(['click']);
+
+const getTopImage = computed(() => {
+  return props.topImage ? props.topImage : 'https://cdn.vuetifyjs.com/images/cards/docks.jpg';
+});
+const getTitle = computed(() => {
+  return props.title ? props.title : 'Subject를 입력하세요';
+});
+const getSubTitle = computed(() => {
+  return props.subTitle ? props.subTitle : '';
+});
+const getContents = computed(() => {
+  return props.contents ? props.contents : 'Contents를 입력하세요';
+});
+</script>

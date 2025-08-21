@@ -12,6 +12,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed, watch, watchEffect } from 'vue';
+import { type DataListMap, useDataCollectionStore } from '@/_builder/stores/useDataCollectionStore';
 import { AgGridVue } from 'ag-grid-vue3'; // Vue Data Grid Component
 // import type { ColDef } from 'ag-grid-community';
 import {
@@ -30,9 +31,33 @@ ModuleRegistry.registerModules([
   NumberFilterModule,
   // ...(process.env.NODE_ENV !== "production" ? [ValidationModule] : []),
 ]);
-const props = defineProps(['apiUrl', 'defaultColDef', 'columnDefs', 'gridStyle', 'style']);
+const props = defineProps([
+  'apiUrl',
+  'defaultColDef',
+  'columnDefs',
+  'gridStyle',
+  'style',
+  'dataListMapSchema',
+]);
 const rowData = ref<any[]>([]);
 
+const dataStore = useDataCollectionStore();
+watch(
+  () => props.dataListMapSchema,
+  (val: string) => {
+    console.log(val);
+    if (val) {
+      const dataListMap: any = dataStore.getDataListMap(val);
+      if (dataListMap) {
+        // console.log(dataListMap);
+        rowData.value = dataListMap.datas;
+      }
+    }
+  },
+  {
+    deep: true,
+  }
+);
 // const apiUrl = 'https://www.ag-grid.com/example-assets/space-mission-data.json';
 // const defaultColDef = ref<ColDef>({
 //   flex: 1,
@@ -94,14 +119,14 @@ const setRowData = async () => {
 };
 
 const setExternalApiData = async (refreshData: any) => {
-  console.log(await refreshData);
+  // console.log(await refreshData);
   rowData.value = await refreshData;
 };
 
 const gridApi = ref<any>(null);
 
 const onGridReady = (params: GridReadyEvent) => {
-  console.log(params);
+  // console.log(params);
   gridApi.value = params.api;
 };
 const timeout = ref<any>(undefined);
