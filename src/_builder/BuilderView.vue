@@ -15,6 +15,7 @@
         <v-icon start>mdi-content-save</v-icon>
         화면 저장
       </v-btn>
+      <!-- <v-btn color="primary" @click="exportsd">export</v-btn> -->
       <v-btn variant="text" color="error" @click="removeElement">
         <v-icon start>mdi-delete-outline</v-icon>
         선택 삭제
@@ -95,13 +96,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
-import { useDisplay } from 'vuetify';
+import { ref } from 'vue';
 import ComponentLibrary from '@/_builder/components/ComponentLibrary.vue';
 import CanvasArea from '@/_builder/components/CanvasArea.vue';
 import InspectorPanel from '@/_builder/components/InspectorPanel.vue';
 import SavePageDialog from '@/_builder/components/SavePageDialog.vue';
-import { useBuilderStore } from '@/_builder/stores/useBuilderStore';
+import store from '@/_builder/stores/index';
 
 // 좌/우 Drawer 상태
 const leftOpen = ref(true);
@@ -112,13 +112,24 @@ const leftWidth = ref(320);
 const rightWidth = ref(360);
 
 const saveDialogRef = ref();
-const builder = useBuilderStore();
+const builder = store.useBuilderStore();
+const registry = store.useComponentRegistryStore();
 
 const openSaveDialog = () => {
   saveDialogRef.value.dialog = true;
 };
 
 const removeElement = () => {
-  builder.removeElement(builder.selectedElementId || '');
+  if (builder.selectedElementId) {
+    builder.removeElement(builder.selectedElementId);
+    registry.unregister(builder.selectedElementId);
+  } else {
+    alert('요소를 선택해 주세요.');
+  }
 };
+
+// const exportsd = () => {
+//   console.log('Exporting...', builder);
+//   builder.exportToJsonFile('my-template.json');
+// };
 </script>
