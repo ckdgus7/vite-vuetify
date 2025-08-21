@@ -15,7 +15,7 @@
         <v-icon start>mdi-content-save</v-icon>
         화면 저장
       </v-btn>
-      <!-- <v-btn color="primary" @click="exportsd">export</v-btn> -->
+      <v-btn color="primary" @click="exportsd">렌터링 코드 다운로드</v-btn>
       <v-btn variant="text" color="error" @click="removeElement">
         <v-icon start>mdi-delete-outline</v-icon>
         선택 삭제
@@ -128,8 +128,8 @@ const removeElement = () => {
   }
 };
 
-// const exportsd = () => {
-//   console.log('Exporting...', builder);
-//   builder.exportToJsonFile('my-template.json');
-// };
+const exportsd = () => {
+  console.log('Exporting...', builder);
+  builder.exportToJsonFile('my-template.json');
+};
 </script>
