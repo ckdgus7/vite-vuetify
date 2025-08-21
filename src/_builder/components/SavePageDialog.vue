@@ -31,8 +31,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { savePage } from '@/_builder/stores/usePageStore';
 import { useBuilderStore } from '@/_builder/stores/useBuilderStore';
+import { savePage } from '@/_builder/composables/useIdbPage';
 
 const dialog = ref(false);
 const pageId = ref('');

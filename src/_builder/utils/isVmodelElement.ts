@@ -14,5 +14,6 @@ export const useVmodel = [
   'v-banner',
   'v-alert',
   'v-file-upload',
+  'v-autocomplete',
   'my-tabs',
 ];

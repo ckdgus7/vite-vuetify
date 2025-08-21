@@ -4,7 +4,7 @@
     <v-divider class="mb-2" />
 
     <template v-for="meta in metaList" :key="meta.key">
-      <!-- vuetify component 전용 스타일 속성 -->
+      <!-- component 전용 스타일 속성 -->
       <template
         v-if="selectedElement.type.startsWith('v-') || selectedElement.type.startsWith('my-')"
       >
@@ -14,6 +14,13 @@
           :label="meta.label"
           hide-details
           dense
+        />
+        <v-textarea
+          v-else-if="meta.type === 'textarea'"
+          v-model="selectedElement.props[meta.key]"
+          :label="meta.label"
+          auto-grow
+          hide-details
         />
         <!-- boolean -->
         <v-switch
@@ -37,7 +44,7 @@
         <v-select
           v-else-if="meta.type === 'select'"
           v-model="selectedElement.props[meta.key]"
-          :items="meta.options"
+          :items="getMetaOption(meta)"
           :label="meta.label"
           density="compact"
           hide-details
@@ -127,7 +134,7 @@
             </div>
           </v-card>
 
-          <!-- ✅ 객체 항목 추가 -->
+          <!-- 객체 항목 추가 -->
           <v-btn
             block
             color="primary"
@@ -167,7 +174,7 @@
             </v-btn>
           </div>
 
-          <!-- ✅ push 안전 처리 -->
+          <!-- push 안전 처리 -->
           <v-btn
             block
             color="primary"
@@ -186,7 +193,7 @@
         </div>
       </template>
 
-      <!-- vuetify component 외 일반 html 전용 스타일 속성 -->
+      <!-- group 전용 스타일 속성 -->
       <template v-else>
         <v-text-field
           v-if="meta.type === 'text'"
@@ -239,11 +246,12 @@
 
 <script setup lang="ts">
 import { computed, watchEffect } from 'vue';
-import { useBuilderStore } from '@/_builder/stores/useBuilderStore';
+import store from '@/_builder/stores/index';
 import { ComponentRegistry } from '@/_builder/utils/componentMap';
 import EventEditor from './EventEditor.vue';
 
-const builder = useBuilderStore();
+const builder = store.useBuilderStore();
+const dataCollection = store.useDataCollectionStore();
 
 const selectedElement: any = computed(() => {
   return builder.findElementById(builder.selectedElementId!);
@@ -256,6 +264,19 @@ const metaList = computed(() => {
   if (!selectedElement.value) return [];
   return ComponentRegistry[selectedElement.value.type]?.propsMeta || [];
 });
+
+const getMetaOption = (meta: any) => {
+  if (meta.key === 'dataMapSchema') {
+    return dataCollection.getDataSchema();
+  } else if (meta.key === 'dataMapKey') {
+    return dataCollection.getDataKey();
+  } else if (meta.key === 'dataListMapSchema') {
+    return dataCollection.getDataListSchema();
+  } else if (meta.key === 'dataListMapKey') {
+    return dataCollection.getDataListKey();
+  }
+  return meta.options;
+};
 
 // 배열 초기화 처리
 watchEffect(() => {

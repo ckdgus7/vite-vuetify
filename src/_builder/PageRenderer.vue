@@ -5,43 +5,62 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios';
 import ElementWrapper from '@/_builder/components/ElementWrapper.vue';
-import { getPageByPath } from '@/_builder/stores/usePageStore';
-import { useBuilderStore } from '@/_builder/stores/useBuilderStore';
+import { getPageByPath } from '@/_builder/composables/useIdbPage';
+import store from '@/_builder/stores/index';
 import { runUserScript } from '@/_builder/utils/scriptRunner';
-
-const router = useRouter();
-const route = useRoute();
-const builder = useBuilderStore();
 
 const pageElements = ref<any[]>([]);
 
-onMounted(async () => {
-  const fullPath = route.fullPath; // 예: "/page/home"
-  const page = await getPageByPath(fullPath);
+// import store from '@/_builder/stores/index';
+// const collection = store.useDataCollectionStore();
+// 컬렉션 데이터 설정 (테스트는 임시 지정)
+// collectionApi rest api 호출 후 store에 데이터 설정
+// collection.setDataMap(elements);
+// collection.setDataListMap(elements);
+const router = useRouter();
+const route = useRoute();
 
-  if (page) {
-    // 1) 화면 요소 렌더링
-    pageElements.value = JSON.parse(page.schema || '[]');
+// onMounted(async () => {
+//   const fullPath = route.fullPath; // 예: "/page/home"
+//   const page = await getPageByPath(fullPath);
+//   if (page) {
+//     pageElements.value = JSON.parse(page.schema);
+//   } else {
+//     console.warn('페이지 데이터 없음');
+//   }
+// });
+watch(
+  () => route,
+  async (r: any) => {
+    const fullPath = route.fullPath; // 예: "/page/home"
+    const page = await getPageByPath(fullPath);
+    if (page) {
+      pageElements.value = JSON.parse(page.schema);
 
-    // 2) onMountedScript 실행 (있을 경우)
-    if (page.onMountedScript && page.onMountedScript.trim()) {
-      try {
-        await runUserScript(page.onMountedScript, {
-          router,
-          route,
-          axios,
-          stores: { builder },
-        });
-      } catch (err) {
-        console.error('onMountedScript 실행 실패:', err);
+      // 2) onMountedScript 실행 (있을 경우)
+      if (page.onMountedScript && page.onMountedScript.trim()) {
+        try {
+          await runUserScript(page.onMountedScript, {
+            router,
+            route,
+            axios,
+            store,
+          });
+        } catch (err) {
+          console.error('onMountedScript 실행 실패:', err);
+        }
       }
+    } else {
+      console.warn('페이지 데이터 없음');
     }
-  } else {
-    console.warn('페이지 데이터 없음');
+  },
+  {
+    deep: true,
+    immediate: true,
   }
-});
+);
 </script>

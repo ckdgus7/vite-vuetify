@@ -31,6 +31,8 @@ import {
 } from 'vue';
 import axios from 'axios';
 import store from '@/_builder/stores/index';
+import { useRoute } from 'vue-router';
+import { router } from '@/router/index';
 // import MonacoEditor from 'monaco-editor-vue3';
 
 const props = defineProps<{ element: any }>();
@@ -96,6 +98,8 @@ const onPreview = () => {
         onBeforeUnmount,
         onUnmounted,
         computed,
+        router,
+        useRoute,
       }
     );
     preview.value = out || '✅ 실행됨';

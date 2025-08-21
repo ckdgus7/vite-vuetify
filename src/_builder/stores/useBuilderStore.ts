@@ -29,13 +29,14 @@ export const useBuilderStore = defineStore('builder', () => {
     cssClass: string,
     props: any
   ) {
+    const propsId = `v_${Date.now()}`;
     elements.value.push({
       id: crypto.randomUUID(),
       type,
       label,
       styles,
       cssClass,
-      props: { ...props },
+      props: { ...props, id: propsId },
       children: [],
       events: {},
     });
@@ -94,14 +95,17 @@ export const useBuilderStore = defineStore('builder', () => {
       .join('\n');
   }
   function addGroup() {
+    const propsId = `v_${Date.now()}`;
     elements.value.push({
       id: crypto.randomUUID(),
       type: 'group',
       label: '그룹',
-      props: {},
+      props: { id: propsId },
       styles: {
         padding: '5px',
         border: '1px dashed gray',
+        height: '100px',
+        display: 'flex',
       },
       cssClass: '',
       children: [],
@@ -112,23 +116,20 @@ export const useBuilderStore = defineStore('builder', () => {
     // console.log(els);
     const group = els.find((el: any) => el.id === groupId);
     const group2 = els[0].children.find((el: any) => el.id === groupId);
-    // console.log('group', group);
-    // console.log('group2', group2);
-    // console.log('groupType', groupType);
-    // console.log('type', dropObj.type);
-    // if (!group || group.type !== 'group') return;
 
-    // console.log('run');
+    const propsId = `v_${Date.now()}`;
     if (group) {
       group.children = group.children || [];
       group.children.push({
         id: crypto.randomUUID(),
         type: dropObj.type,
         label: dropObj.type === 'group' ? '그룹' : '',
-        props: {},
+        props: { id: propsId },
         styles: {
           padding: '5px',
-          border: '1px dashed gray',
+          border: dropObj.type === 'group' ? '1px dashed gray' : '1px dashed blue',
+          height: dropObj.type === 'group' ? '100px' : '',
+          display: dropObj.type === 'group' ? 'flex' : '',
         },
         cssClass: '',
         children: [],
@@ -139,10 +140,12 @@ export const useBuilderStore = defineStore('builder', () => {
         id: crypto.randomUUID(),
         type: dropObj.type,
         label: dropObj.type === 'group' ? '그룹' : '',
-        props: {},
+        props: { id: propsId },
         styles: {
           padding: '5px',
-          border: '1px dashed gray',
+          border: dropObj.type === 'group' ? '1px dashed gray' : '1px dashed blue',
+          height: dropObj.type === 'group' ? '100px' : '',
+          display: dropObj.type === 'group' ? 'flex' : '',
         },
         cssClass: '',
         children: [],

@@ -5,6 +5,7 @@
       <span :class="[sizeClass, weightClass]">
         {{ title }}
       </span>
+      <v-btn @click="onClick">버튼</v-btn>
     </div>
     <v-divider v-if="divider" class="mb-4" />
   </div>
@@ -21,6 +22,7 @@ const props = defineProps<{
   weight?: 'normal' | 'medium' | 'bold';
   divider?: boolean;
 }>();
+const emits = defineEmits(['click']);
 
 const sizeClass = computed(() => {
   switch (props.size) {
@@ -47,6 +49,10 @@ const weightClass = computed(() => {
       return 'font-weight-regular';
   }
 });
+function onClick() {
+  // if (props.mount) props.mount();
+  emits('click');
+}
 </script>
 
 <style scoped>

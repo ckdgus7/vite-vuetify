@@ -47,7 +47,7 @@ const rowData = ref<any[]>([]);
 //   { field: 'successful' },
 //   { field: 'rocket' },
 // ]);
-
+// [{ field: 'mission' }, { field: 'company' }, { field: 'location' }, { field: 'date' }, { field: 'price' }, { field: 'successful' }, { field: 'rocket' }]
 const getStyles = computed(() => {
   const style = props.gridStyle;
   if (!style) return 'height: 200px';

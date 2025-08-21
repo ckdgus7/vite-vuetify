@@ -1,0 +1,4 @@
+const input1 = context.store.useComponentRegistryStore().get('v_1755256833022');
+
+input1.modelValue = 'test'
+console.log(input1);
