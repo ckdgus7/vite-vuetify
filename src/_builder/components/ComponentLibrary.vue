@@ -456,6 +456,17 @@ const componentList: CompList[] = [
   {
     type: 'my-page-title',
     label: 'Page Ttile',
+    props: {
+      title: 'Home',
+      breadcrumbs: [
+        {
+          title: 'Home',
+        },
+        {
+          title: 'Test',
+        },
+      ],
+    },
     cssClass: '',
   }, // 사용자 정의 컴포넌트
   {
@@ -478,6 +489,7 @@ const componentList: CompList[] = [
       ],
       // apiUrl: 'https://www.ag-grid.com/example-assets/space-mission-data.json',
     },
+    cssClass: '',
   }, // AG Grid 컴포넌트
   {
     type: 'my-carousel',
@@ -489,14 +501,22 @@ const componentList: CompList[] = [
         },
       ],
     },
+    cssClass: '',
   },
   {
     type: 'my-card',
     label: 'Card',
+    props: {
+      topImage: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
+      title: 'Subject를 입력하세요',
+      contents: 'Contents를 입력하세요',
+    },
+    cssClass: '',
   },
   {
     type: 'my-footer',
     label: 'Footer',
+    cssClass: '',
   },
 ];
 
