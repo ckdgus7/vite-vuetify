@@ -393,24 +393,24 @@ const componentList: CompList[] = [
       density: 'compact',
       'fixed-footer': false,
       'fixed-header': false,
-      headers: [
-        { title: 'ID', align: 'center', sortable: false, key: 'id' },
-        { title: 'Plant', align: 'start', sortable: false, key: 'name' },
-        { title: 'Light', align: 'end', key: 'light' },
-        { title: 'Height', align: 'end', key: 'height' },
-        { title: 'Pet Friendly', align: 'end', key: 'petFriendly' },
-        { title: 'Price ($)', align: 'end', key: 'price' },
-      ],
-      items: [
-        {
-          id: '1',
-          name: 'Fern',
-          light: 'Low',
-          height: '20cm',
-          petFriendly: 'Yes',
-          price: 20,
-        },
-      ],
+      // headers: [
+      //   // { title: 'ID', align: 'center', sortable: false, key: 'id' },
+      //   // { title: 'Plant', align: 'start', sortable: false, key: 'name' },
+      //   // { title: 'Light', align: 'end', key: 'light' },
+      //   // { title: 'Height', align: 'end', key: 'height' },
+      //   // { title: 'Pet Friendly', align: 'end', key: 'petFriendly' },
+      //   // { title: 'Price ($)', align: 'end', key: 'price' },
+      // ],
+      // items: [
+      //   {
+      //     // id: '1',
+      //     // name: 'Fern',
+      //     // light: 'Low',
+      //     // height: '20cm',
+      //     // petFriendly: 'Yes',
+      //     // price: 20,
+      //   },
+      // ],
       'hide-default-body': false,
       'hide-default-footer': false,
       'hide-default-header': false,
@@ -420,58 +420,52 @@ const componentList: CompList[] = [
       sticky: false,
     },
   },
-  // {
-  //   type: 'my-tabs',
-  //   label: 'tabs',
-  //   props: {
-  //     'align-tabs': 'start',
-  //     'center-active': false,
-  //     density: 'default',
-  //     disabled: false,
-  //     'hide-slider': false,
-  //     'selected-class': 'v-tab-item--selected',
-  //     'show-arrows': false,
-  //   },
-  // },
-  // { type: 'v-dialog', label: 'dialog' },
-  // { type: 'v-tooltip', label: 'tooltip' },
-  // { type: 'v-snackbar', label: 'snackbar' },
-  // { type: 'v-card', label: 'card' },
-  // { type: 'v-expansion-panels', label: 'expansion panels' },
-  // { type: 'v-list', label: 'list' },
-  // { type: 'v-treeview', label: 'treeview' },
-  // { type: 'v-stepper', label: 'stepper' },
-  // { type: 'v-pagination', label: 'pagination' },
-  // { type: 'v-progress-circular', label: 'progress circular' },
-  // { type: 'v-sheet', label: 'sheet' },
+  {
+    type: 'my-tabs',
+    label: 'tabs',
+    props: {
+      'align-tabs': 'start',
+      'center-active': false,
+      density: 'default',
+      disabled: false,
+      'hide-slider': false,
+      items: [
+        {
+          text: 'tab1',
+          color: 'success',
+        },
+        {
+          text: 'tab2',
+          color: 'success',
+        },
+      ],
+      'selected-class': 'v-tab-item--selected',
+      'show-arrows': false,
+    },
+  },
   {
     type: 'my-note-box',
     label: 'Note box',
     cssClass: '',
-    // styles: { border: '1px dashed #ccc', padding: '5px' },
   }, // 사용자 정의 컴포넌트
   {
     type: 'my-subject-text',
     label: 'Subject Text',
     cssClass: '',
-    // styles: { border: '1px dashed #ccc', padding: '5px' },
   }, // 사용자 정의 컴포넌트
   {
     type: 'my-page-title',
     label: 'Page Ttile',
     cssClass: '',
-    // styles: { border: '1px dashed #ccc', padding: '5px' },
   }, // 사용자 정의 컴포넌트
   {
     type: 'my-ck-editor',
     label: 'CKEditor',
     cssClass: '',
-    // styles: { border: '1px dashed #ccc', padding: '5px' },
   }, // CKEditor 컴포넌트
   {
     type: 'my-ag-grid',
     label: 'AG Grid',
-    cssClass: '',
     props: {
       columnDefs: [
         { field: 'mission' },
@@ -484,25 +478,25 @@ const componentList: CompList[] = [
       ],
       // apiUrl: 'https://www.ag-grid.com/example-assets/space-mission-data.json',
     },
-    // styles: { border: '1px dashed #ccc', padding: '5px' },
   }, // AG Grid 컴포넌트
   {
     type: 'my-carousel',
     label: 'Carousel',
-    cssClass: '',
-    // styles: { border: '1px dashed #ccc', padding: '5px' },
+    props: {
+      items: [
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
+        },
+      ],
+    },
   },
   {
     type: 'my-card',
     label: 'Card',
-    cssClass: '',
-    // styles: { border: '1px dashed #ccc', padding: '5px' },
   },
   {
     type: 'my-footer',
     label: 'Footer',
-    cssClass: '',
-    // styles: { border: '1px dashed #ccc', padding: '5px' },
   },
 ];
 

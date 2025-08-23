@@ -5,6 +5,7 @@ interface Columns {
   id: string;
   name: string;
   dataType: string;
+  align?: string;
 }
 export interface DataMap {
   id: string;
@@ -73,36 +74,43 @@ export const useDataCollectionStore = defineStore('data-collection', () => {
           id: 'mission',
           name: 'mission',
           dataType: 'text',
+          align: 'start',
         },
         {
           id: 'company',
           name: 'company',
           dataType: 'text',
+          align: 'start',
         },
         {
           id: 'location',
           name: 'location',
           dataType: 'text',
+          align: 'start',
         },
         {
           id: 'date',
           name: 'date',
           dataType: 'text',
+          align: 'center',
         },
         {
           id: 'price',
           name: 'price',
           dataType: 'text',
+          align: 'end',
         },
         {
           id: 'successful',
           name: 'successful',
           dataType: 'text',
+          align: 'start',
         },
         {
           id: 'rocket',
           name: 'rocket',
           dataType: 'text',
+          align: 'start',
         },
       ],
       datas: [
@@ -3596,36 +3604,43 @@ export const useDataCollectionStore = defineStore('data-collection', () => {
           id: 'mission',
           name: 'mission',
           dataType: 'text',
+          align: 'start',
         },
         {
           id: 'company',
           name: 'company',
           dataType: 'text',
+          align: 'start',
         },
         {
           id: 'location',
           name: 'location',
           dataType: 'text',
+          align: 'start',
         },
         {
           id: 'date',
           name: 'date',
           dataType: 'text',
+          align: 'center',
         },
         {
           id: 'price',
           name: 'price',
           dataType: 'text',
+          align: 'end',
         },
         {
           id: 'successful',
           name: 'successful',
           dataType: 'text',
+          align: 'start',
         },
         {
           id: 'rocket',
           name: 'rocket',
           dataType: 'text',
+          align: 'start',
         },
       ],
       datas: [
@@ -9227,6 +9242,20 @@ export const useDataCollectionStore = defineStore('data-collection', () => {
     return returnVal;
   };
 
+  function getDataTableHeader(id: string) {
+    const data: any = dataListMap.value.find((map) => {
+      return map.id === id;
+    });
+    const returnVal = data.columns.map((col: any) => {
+      return {
+        title: col.name,
+        align: col.align,
+        key: col.id,
+      };
+    });
+    return returnVal;
+  }
+
   return {
     dataListMap,
     setDataMap,
@@ -9239,5 +9268,6 @@ export const useDataCollectionStore = defineStore('data-collection', () => {
     getDataKey,
     getDataListSchema,
     getDataListKey,
+    getDataTableHeader,
   };
 });

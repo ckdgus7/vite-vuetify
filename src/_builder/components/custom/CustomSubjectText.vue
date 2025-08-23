@@ -5,7 +5,7 @@
       <span :class="[sizeClass, weightClass]">
         {{ title }}
       </span>
-      <v-btn @click="onClick">버튼</v-btn>
+      <!-- <v-btn @click="onClick">버튼</v-btn> -->
     </div>
     <v-divider v-if="divider" class="mb-4" />
   </div>

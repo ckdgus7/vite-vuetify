@@ -1,6 +1,6 @@
 <template>
   <v-tabs v-bind="{ ...props }">
-    <v-tab v-for="(item, i) in getItems" :key="i" v-bind="{ ...item }"></v-tab>
+    <v-tab v-for="(item, i) in props.items" :key="i" v-bind="{ ...item }"></v-tab>
   </v-tabs>
 </template>
 
@@ -33,6 +33,7 @@ const props = defineProps([
   'items',
 ]);
 const getItems = computed(() => {
+  console.log(props?.items);
   return (
     props?.items ?? [
       {
