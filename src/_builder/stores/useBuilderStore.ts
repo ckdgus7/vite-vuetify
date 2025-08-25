@@ -119,12 +119,13 @@ export const useBuilderStore = defineStore('builder', () => {
 
     const propsId = `v_${Date.now()}`;
     if (group) {
+      console.log(dropObj);
       group.children = group.children || [];
       group.children.push({
         id: crypto.randomUUID(),
         type: dropObj.type,
         label: dropObj.type === 'group' ? '그룹' : '',
-        props: { id: propsId },
+        props: { ...dropObj.props, id: propsId },
         styles: {
           padding: '5px',
           border: dropObj.type === 'group' ? '1px dashed gray' : '1px dashed blue',
@@ -140,7 +141,7 @@ export const useBuilderStore = defineStore('builder', () => {
         id: crypto.randomUUID(),
         type: dropObj.type,
         label: dropObj.type === 'group' ? '그룹' : '',
-        props: { id: propsId },
+        props: { ...dropObj.props, id: propsId },
         styles: {
           padding: '5px',
           border: dropObj.type === 'group' ? '1px dashed gray' : '1px dashed blue',

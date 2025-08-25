@@ -141,6 +141,7 @@ const onDrop = (e: DragEvent) => {
     class: e.dataTransfer?.getData('component-class'),
     props: e.dataTransfer?.getData('component-props'),
   };
+  dropObj.props = JSON.parse(dropObj.props || '{}');
   if (props.element.type === 'group' && dropObj.type) {
     builder.addElementToGroup(props.element.id, props.element.type, dropObj);
   }
