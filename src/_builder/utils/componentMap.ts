@@ -54,7 +54,7 @@ export const ComponentRegistry: any = {
       },
       { key: 'gap', label: '갭 (gap)', type: 'text' },
       { key: 'backgroundColor', label: '배경색 (background color)', type: 'text' },
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
   'v-btn': {
@@ -104,7 +104,7 @@ export const ComponentRegistry: any = {
         options: ['flat', 'text', 'elevated', 'tonal', 'outlined', 'plain'],
       },
       { key: 'width', label: 'width', type: 'text' },
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
       // {
       //   key: 'style',
       //   label: '스타일',
@@ -163,7 +163,7 @@ export const ComponentRegistry: any = {
         ],
       },
       { key: 'width', label: 'width', type: 'text' },
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
       { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
       { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
       // {
@@ -245,7 +245,7 @@ export const ComponentRegistry: any = {
         ],
       },
       { key: 'width', label: 'width', type: 'text' },
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
       { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
       { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
     ],
@@ -302,7 +302,7 @@ export const ComponentRegistry: any = {
         ],
       },
       { key: 'width', label: 'width', type: 'text' },
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
       { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
       { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
     ],
@@ -329,7 +329,7 @@ export const ComponentRegistry: any = {
       { key: 'name', label: 'name', type: 'text' },
       { key: 'readonly', label: 'readonly', type: 'boolean' },
       { key: 'width', label: 'width', type: 'text' },
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
       { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
       { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
     ],
@@ -367,7 +367,7 @@ export const ComponentRegistry: any = {
       { key: 'name', label: 'name', type: 'text' },
       { key: 'readonly', label: 'readonly', type: 'boolean' },
       { key: 'width', label: 'width', type: 'text' },
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
       { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
       { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
     ],
@@ -406,7 +406,7 @@ export const ComponentRegistry: any = {
       { key: 'min-width', label: 'min-width', type: 'text' },
       { key: 'readonly', label: 'readonly', type: 'boolean' },
       { key: 'width', label: 'width', type: 'text' },
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
       { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
       { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
     ],
@@ -477,7 +477,7 @@ export const ComponentRegistry: any = {
         ],
       },
       { key: 'width', label: 'width', type: 'text' },
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
       { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
       { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
     ],
@@ -528,7 +528,7 @@ export const ComponentRegistry: any = {
         ],
       },
       { key: 'width', label: 'width', type: 'text' },
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
       { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
       { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
     ],
@@ -597,7 +597,7 @@ export const ComponentRegistry: any = {
         ],
       },
       { key: 'width', label: 'width', type: 'text' },
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
       { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
       { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
     ],
@@ -630,7 +630,7 @@ export const ComponentRegistry: any = {
       { key: 'name', label: 'name', type: 'text' },
       { key: 'readonly', label: 'readonly', type: 'boolean' },
       { key: 'width', label: 'width', type: 'text' },
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
       { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
       { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
     ],
@@ -667,7 +667,7 @@ export const ComponentRegistry: any = {
         type: 'select',
         options: ['flat', 'text', 'elevated', 'tonal', 'outlined', 'plain'],
       },
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
   'v-img': {
@@ -692,7 +692,7 @@ export const ComponentRegistry: any = {
       { key: 'tile', label: 'tile', type: 'boolean' },
       { key: 'transition', label: 'transition', type: 'text' },
       { key: 'width', label: 'width', type: 'text' },
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
   'my-date-input': {
@@ -787,7 +787,7 @@ export const ComponentRegistry: any = {
       },
       { key: 'width', label: 'width', type: 'text' },
       { key: 'year', label: 'year', type: 'text' },
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
       { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
       { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
     ],
@@ -872,7 +872,7 @@ export const ComponentRegistry: any = {
         options: ['odd', 'even'],
       },
       { key: 'width', label: 'width', type: 'text' },
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
       { key: 'dataListMapSchema', label: 'dataListMapSchema', type: 'select', options: [] },
     ],
   },
@@ -923,7 +923,7 @@ export const ComponentRegistry: any = {
       { key: 'linkHref', label: 'linkHref', type: 'text' },
       { key: 'messageAfter', label: 'messageAfter', type: 'text' },
 
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
   'my-subject-text': {
@@ -962,7 +962,7 @@ export const ComponentRegistry: any = {
         type: 'boolean',
       },
 
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
   'my-page-title': {
@@ -984,7 +984,7 @@ export const ComponentRegistry: any = {
         ],
       },
 
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
   'my-ag-grid': {
@@ -1038,7 +1038,7 @@ export const ComponentRegistry: any = {
       },
       { key: 'apiUrl', label: 'API URL', type: 'text' },
 
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
       { key: 'dataListMapSchema', label: 'dataListMapSchema', type: 'select', options: [] },
     ],
   },
@@ -1049,7 +1049,7 @@ export const ComponentRegistry: any = {
       { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
 
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
   'my-carousel': {
@@ -1071,7 +1071,7 @@ export const ComponentRegistry: any = {
           { key: 'contents', label: 'Contents', type: 'textarea' },
         ],
       },
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
   'my-card': {
@@ -1085,7 +1085,7 @@ export const ComponentRegistry: any = {
       { key: 'subTitle', label: 'subTitle', type: 'text' },
       { key: 'contents', label: 'Contents', type: 'textarea' },
 
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
   'my-footer': {
@@ -1095,7 +1095,7 @@ export const ComponentRegistry: any = {
       { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
 
-      { key: 'exposeId', label: 'exposeId', type: 'text' },
+      // { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },
 };

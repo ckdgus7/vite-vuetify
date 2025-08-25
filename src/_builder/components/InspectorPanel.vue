@@ -12,6 +12,7 @@
           v-if="meta.type === 'text' || meta.type === 'number'"
           v-model="selectedElement.props[meta.key]"
           :label="meta.label"
+          :readonly="meta.key === 'id'"
           hide-details
           dense
         />
