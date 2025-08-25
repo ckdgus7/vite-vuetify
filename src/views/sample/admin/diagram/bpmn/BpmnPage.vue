@@ -64,10 +64,10 @@ import { useTemplateDB, type TemplateModel } from '@/composables/sample/useBpmnD
 import 'bpmn-js/dist/assets/diagram-js.css';
 // import "bpmn-js-properties-panel/dist/assets/properties-panel.css";
 // import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda';
-import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule } from 'bpmn-js-properties-panel';
+// import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule } from 'bpmn-js-properties-panel';
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
 import Modeler from 'bpmn-js/lib/Modeler';
-import camundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda';
+// import camundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda';
 // import style from 'bpmn-js/dist/assets/diagram-js.css'; // eslint-disable-line no-unused-vars
 // import icons from 'bpmn-font/dist/css/bpmn-embedded.css'; // eslint-disable-line no-unused-vars
 // // import '../assets/styles.css';
@@ -93,11 +93,11 @@ const init = () => {
     // propertiesPanel: {
     //   parent: '#properties',
     // },
-    additionalModules: [BpmnPropertiesPanelModule, BpmnPropertiesProviderModule],
-    // needed if you'd like to maintain camunda:XXX properties in the properties panel
-    moddleExtensions: {
-      camunda: camundaModdleDescriptor,
-    },
+    // additionalModules: [BpmnPropertiesPanelModule, BpmnPropertiesProviderModule],
+    // // needed if you'd like to maintain camunda:XXX properties in the properties panel
+    // moddleExtensions: {
+    //   camunda: camundaModdleDescriptor,
+    // },
   });
 
   // this.modeler.on('element.changed', function (event) {

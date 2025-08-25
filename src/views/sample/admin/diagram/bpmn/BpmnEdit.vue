@@ -31,7 +31,7 @@
         <div>
           <div class="text-subtitle-1 font-weight-medium mb-2">
             다이어그램 편집기(
-            <a href v-on:click="resetDiagram">Reset Diagram</a>
+            <a v-on:click="resetDiagram">Reset Diagram</a>
             )
           </div>
           <div class="canvas" id="canvas" ref="canvas"></div>
@@ -64,10 +64,10 @@ import { useTemplateDB, type TemplateModel } from '@/composables/sample/useBpmnD
 import 'bpmn-js/dist/assets/diagram-js.css';
 // import "bpmn-js-properties-panel/dist/assets/properties-panel.css";
 // import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda';
-import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule } from 'bpmn-js-properties-panel';
+// import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule } from 'bpmn-js-properties-panel';
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
 import Modeler from 'bpmn-js/lib/Modeler';
-import camundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda';
+// import camundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda';
 // import style from 'bpmn-js/dist/assets/diagram-js.css'; // eslint-disable-line no-unused-vars
 // import icons from 'bpmn-font/dist/css/bpmn-embedded.css'; // eslint-disable-line no-unused-vars
 // // import '../assets/styles.css';
@@ -100,10 +100,10 @@ const init = async () => {
   modeler.value = new Modeler({
     x: 100,
     container: canvasContainer,
-    additionalModules: [BpmnPropertiesPanelModule, BpmnPropertiesProviderModule],
-    moddleExtensions: {
-      camunda: camundaModdleDescriptor,
-    },
+    // additionalModules: [BpmnPropertiesPanelModule, BpmnPropertiesProviderModule],
+    // moddleExtensions: {
+    //   camunda: camundaModdleDescriptor,
+    // },
   });
   createNewDiagram();
 };

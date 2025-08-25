@@ -16,16 +16,17 @@
 </template>
 
 <script setup lang="ts">
-import { encodePlantUML } from '@/utils/plantUml/encode';
+// import { encodePlantUML } from '@/utils/plantUml/encode';
 import { computed, ref } from 'vue';
 
 const props = defineProps<{ code: string }>();
 const imgEl = ref<HTMLImageElement | null>(null);
 
 const src = computed(() => {
-  console.log('PlantUmlPreview mounted with code:', encodePlantUML(props.code));
+  // console.log('PlantUmlPreview mounted with code:', encodePlantUML(props.code));
   return props.code?.trim()
-    ? `https://www.plantuml.com/plantuml/svg/~1${encodePlantUML(props.code)}`
+    ? // ? `https://www.plantuml.com/plantuml/svg/~1${encodePlantUML(props.code)}`
+      ``
     : '';
 });
 
