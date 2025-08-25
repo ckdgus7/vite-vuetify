@@ -2,28 +2,28 @@
   <v-alert variant="outlined" border="start" class="note-box">
     <template #title>
       <span class="text-primary font-weight-medium ml-3">
-        <pre>{{ title }}</pre>
+        <pre>{{ props.title }}</pre>
       </span>
     </template>
 
     <span>
-      {{ messageBefore }}
+      {{ props.messageBefore }}
       <a
-        :href="linkHref"
+        v-if="props.linkHref"
+        :href="props.linkHref"
         target="_blank"
         rel="noopener noreferrer"
         class="text-primary text-decoration-underline"
       >
-        {{ linkText }}
+        {{ props.linkText }}
       </a>
-      {{ messageAfter }}
+      <template v-else>{{ props.linkText }}</template>
+      {{ props.messageAfter }}
     </span>
   </v-alert>
 </template>
 
 <script setup lang="ts">
-import { withDefaults } from 'vue';
-
 interface Props {
   title?: string;
   messageBefore?: string;
@@ -32,13 +32,7 @@ interface Props {
   messageAfter?: string;
 }
 
-withDefaults(defineProps<Props>(), {
-  title: 'Note',
-  messageBefore: '',
-  linkText: '',
-  linkHref: '',
-  messageAfter: '',
-});
+const props = defineProps<Props>();
 </script>
 
 <style scoped>

@@ -8,6 +8,7 @@ import MyNoteBox from '@/_builder/components/custom/CustomNoteBox.vue';
 import MyCarousel from '@/_builder/components/custom/CustomCarousel.vue';
 import MyCard from '@/_builder/components/custom/CustomCard.vue';
 import MyFooter from '@/_builder/components/custom/CustomFooter.vue';
+import MyTabs from '@/_builder/components/custom/CustomTabs.vue';
 
 // custom form
 import MyInput from '@/_builder/components/custom/form/CustomInput.vue';
@@ -857,9 +858,10 @@ export const ComponentRegistry: any = {
         itemFields: [
           { key: 'title', label: 'Title', type: 'text' },
           { key: 'align', label: 'Align', type: 'text' },
-          { key: 'key', label: 'Key', type: 'text' },
+          { key: 'value', label: 'Value', type: 'text' },
         ],
       },
+      { key: 'apiUrl', label: 'API URL', type: 'text' },
       { key: 'items-per-page', label: 'items-per-page', type: 'text' },
       { key: 'loading', label: 'loading', type: 'boolean' },
       { key: 'sticky', label: 'sticky', type: 'boolean' },
@@ -871,52 +873,44 @@ export const ComponentRegistry: any = {
       },
       { key: 'width', label: 'width', type: 'text' },
       { key: 'exposeId', label: 'exposeId', type: 'text' },
-      // {
-      //   key: 'style',
-      //   label: '스타일',
-      //   type: 'object',
-      //   fields: [
-      //     { key: 'width', label: '너비', type: 'text' },
-      //     { key: 'height', label: '높이', type: 'text' }
-      //   ],
-      // },
+      { key: 'dataListMapSchema', label: 'dataListMapSchema', type: 'select', options: [] },
     ],
   },
-  // 'my-tabs': {
-  //   label: 'tabs',
-  //   component: MyTabs,
-  //   propsMeta: [
-  //     { key: 'wrapClass', label: 'wrapClass', type: 'text' },
-  //     { key: 'class', label: 'css class', type: 'text' },
-  //     { key: 'align-tabs', label: 'align-tabs', type: 'text' },
-  //     { key: 'bg-color', label: 'bg-color', type: 'text' },
-  //     { key: 'center-active', label: 'center-active', type: 'boolean' },
-  //     { key: 'color', label: 'color', type: 'text' },
-  //     {
-  //       key: 'density',
-  //       label: 'density',
-  //       type: 'select',
-  //       options: ['default', 'comfortable', 'compact'],
-  //     },
-  //     { key: 'disabled', label: 'disabled', type: 'boolean' },
-  //     { key: 'height', label: 'height', type: 'text' },
-  //     { key: 'hide-slider', label: 'hide-slider', type: 'boolean' },
-  //     {
-  //       key: 'items',
-  //       label: 'items',
-  //       type: 'array',
-  //       itemType: 'object',
-  //       itemFields: [
-  //         { key: 'text', label: 'Title', type: 'text' },
-  //         { key: 'to', label: 'To', type: 'text' },
-  //         { key: 'color', label: 'Color', type: 'text' },
-  //       ],
-  //     },
-  //     { key: 'selected-class', label: 'selected-class', type: 'text' },
-  //     { key: 'show-arrows', label: 'show-arrows', type: 'boolean' },
-  //     { key: 'slider-color', label: 'slider-color', type: 'text' },
-  //   ],
-  // },
+  'my-tabs': {
+    label: 'tabs',
+    component: MyTabs,
+    propsMeta: [
+      { key: 'wrapClass', label: 'wrapClass', type: 'text' },
+      { key: 'class', label: 'css class', type: 'text' },
+      { key: 'align-tabs', label: 'align-tabs', type: 'text' },
+      { key: 'bg-color', label: 'bg-color', type: 'text' },
+      { key: 'center-active', label: 'center-active', type: 'boolean' },
+      { key: 'color', label: 'color', type: 'text' },
+      {
+        key: 'density',
+        label: 'density',
+        type: 'select',
+        options: ['default', 'comfortable', 'compact'],
+      },
+      { key: 'disabled', label: 'disabled', type: 'boolean' },
+      { key: 'height', label: 'height', type: 'text' },
+      { key: 'hide-slider', label: 'hide-slider', type: 'boolean' },
+      {
+        key: 'items',
+        label: 'items',
+        type: 'array',
+        itemType: 'object',
+        itemFields: [
+          { key: 'text', label: 'Title', type: 'text' },
+          { key: 'to', label: 'To', type: 'text' },
+          { key: 'color', label: 'Color', type: 'text' },
+        ],
+      },
+      { key: 'selected-class', label: 'selected-class', type: 'text' },
+      { key: 'show-arrows', label: 'show-arrows', type: 'boolean' },
+      { key: 'slider-color', label: 'slider-color', type: 'text' },
+    ],
+  },
   'my-note-box': {
     label: '노트박스',
     component: MyNoteBox,
@@ -965,8 +959,7 @@ export const ComponentRegistry: any = {
       {
         key: 'divider',
         label: '구분선',
-        type: 'select',
-        options: [true, false],
+        type: 'boolean',
       },
 
       { key: 'exposeId', label: 'exposeId', type: 'text' },
@@ -1066,6 +1059,18 @@ export const ComponentRegistry: any = {
       { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
 
+      {
+        key: 'items',
+        label: '옵션 목록',
+        type: 'array',
+        itemType: 'object',
+        itemFields: [
+          { key: 'src', label: 'Image Src', type: 'text' },
+          { key: 'title', label: 'title', type: 'text' },
+          { key: 'subTitle', label: 'subTitle', type: 'text' },
+          { key: 'contents', label: 'Contents', type: 'textarea' },
+        ],
+      },
       { key: 'exposeId', label: 'exposeId', type: 'text' },
     ],
   },

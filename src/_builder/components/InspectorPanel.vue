@@ -114,10 +114,45 @@
             <div class="d-flex flex-column gap-2">
               <template v-for="field in meta.itemFields" :key="field.key">
                 <v-text-field
+                  v-if="field.type === 'text' || field.type === 'number'"
                   v-model="item[field.key]"
                   :label="`${field.label} (${idx + 1})`"
                   :type="field.type || 'text'"
                   dense
+                  hide-details
+                />
+                <v-textarea
+                  v-else-if="field.type === 'textarea'"
+                  v-model="item[field.key]"
+                  :label="`${field.label} (${idx + 1})`"
+                  auto-grow
+                  hide-details
+                />
+                <!-- boolean -->
+                <v-switch
+                  v-else-if="field.type === 'boolean'"
+                  v-model="item[field.key]"
+                  :label="`${field.label} (${idx + 1})`"
+                  hide-details
+                />
+                <v-radio-group
+                  v-else-if="field.type === 'radio'"
+                  v-model="item[field.key]"
+                  :label="`${field.label} (${idx + 1})`"
+                  hide-details
+                  dense
+                >
+                  <v-radio label="True" :value="true"></v-radio>
+                  <v-radio label="False" :value="false"></v-radio>
+                </v-radio-group>
+
+                <!-- select -->
+                <v-select
+                  v-else-if="field.type === 'select'"
+                  v-model="item[field.key]"
+                  :items="field.options"
+                  :label="`${field.label} (${idx + 1})`"
+                  density="compact"
                   hide-details
                 />
               </template>
@@ -231,6 +266,138 @@
           <v-radio label="True" :value="true"></v-radio>
           <v-radio label="False" :value="false"></v-radio>
         </v-radio-group>
+
+        <!-- object -->
+        <div v-else-if="meta.type === 'object'">
+          <label class="text-subtitle-2 mb-1">{{ meta.label }}</label>
+
+          <template v-for="(field, idx) in meta.itemFields" :key="field.key">
+            <v-text-field
+              v-if="field.type === 'text' || field.type === 'number'"
+              v-model="selectedElement.props[meta.key][field.key]"
+              :label="field.label"
+              hide-details
+              dense
+            />
+            <!-- boolean -->
+            <v-switch
+              v-else-if="field.type === 'boolean'"
+              v-model="selectedElement.props[meta.key][field.key]"
+              :label="field.label"
+              hide-details
+            />
+            <v-radio-group
+              v-else-if="field.type === 'radio'"
+              v-model="selectedElement.props[meta.key][field.key]"
+              :label="field.label"
+              hide-details
+              dense
+            >
+              <v-radio label="True" :value="true"></v-radio>
+              <v-radio label="False" :value="false"></v-radio>
+            </v-radio-group>
+
+            <!-- select -->
+            <v-select
+              v-else-if="field.type === 'select'"
+              v-model="selectedElement.props[meta.key][field.key]"
+              :items="field.options"
+              :label="field.label"
+              density="compact"
+              hide-details
+            />
+          </template>
+        </div>
+
+        <!-- 배열 타입: 객체 항목일 경우 -->
+        <div v-else-if="meta.type === 'array' && meta.itemType === 'object'" class="mt-2">
+          <label class="text-subtitle-2 mb-1">{{ meta.label }}</label>
+
+          <v-card
+            v-for="(item, idx) in selectedElement.props[meta.key]"
+            :key="idx"
+            class="mb-2 pa-2"
+          >
+            <div class="d-flex flex-column gap-2">
+              <template v-for="field in meta.itemFields" :key="field.key">
+                <v-text-field
+                  v-model="item[field.key]"
+                  :label="`${field.label} (${idx + 1})`"
+                  :type="field.type || 'text'"
+                  dense
+                  hide-details
+                />
+              </template>
+              <v-btn
+                icon
+                size="small"
+                color="error"
+                variant="text"
+                class="align-self-end"
+                @click="() => selectedElement.props[meta.key].splice(idx, 1)"
+              >
+                <v-icon icon="mdi-delete" />
+              </v-btn>
+            </div>
+          </v-card>
+
+          <!-- 객체 항목 추가 -->
+          <v-btn
+            block
+            color="primary"
+            size="small"
+            @click="
+              () => {
+                if (!Array.isArray(selectedElement.props[meta.key])) {
+                  selectedElement.props[meta.key] = [];
+                }
+                selectedElement.props[meta.key].push('');
+              }
+            "
+          >
+            + 옵션 추가
+          </v-btn>
+        </div>
+
+        <!-- 배열 타입 렌더링 -->
+        <div v-else-if="meta.type === 'array'">
+          <label class="text-subtitle-2">{{ meta.label }}</label>
+
+          <div
+            v-for="(item, idx) in selectedElement.props[meta.key] || []"
+            :key="idx"
+            class="d-flex align-center mb-1 gap-2"
+          >
+            <v-text-field
+              v-model="selectedElement.props[meta.key][idx]"
+              :label="`Item ${idx + 1}`"
+              :type="meta.itemType || 'text'"
+              hide-details
+              dense
+              class="flex-1"
+            />
+            <v-btn icon size="small" @click="() => selectedElement.props[meta.key].splice(idx, 1)">
+              <v-icon icon="mdi-delete" />
+            </v-btn>
+          </div>
+
+          <!-- push 안전 처리 -->
+          <v-btn
+            block
+            color="primary"
+            size="small"
+            @click="
+              () => {
+                if (!Array.isArray(selectedElement.props[meta.key])) {
+                  selectedElement.props[meta.key] = [];
+                }
+                selectedElement.props[meta.key].push('');
+              }
+            "
+          >
+            + 항목 추가
+          </v-btn>
+        </div>
       </template>
     </template>
 

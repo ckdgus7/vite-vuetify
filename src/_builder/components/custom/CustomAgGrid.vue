@@ -11,8 +11,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, watch, watchEffect } from 'vue';
-import { type DataListMap, useDataCollectionStore } from '@/_builder/stores/useDataCollectionStore';
+import { ref, onMounted, computed, watch } from 'vue';
+import { useDataCollectionStore } from '@/_builder/stores/useDataCollectionStore';
 import { AgGridVue } from 'ag-grid-vue3'; // Vue Data Grid Component
 // import type { ColDef } from 'ag-grid-community';
 import {

@@ -34,25 +34,12 @@ interface BreadcrumbItem {
   disabled?: boolean;
 }
 
-const props = withDefaults(
-  defineProps<{
-    title: string;
-    breadcrumbs: BreadcrumbItem[];
-    size?: 'sm' | 'md' | 'lg' | 'xl';
-    weight?: 'normal' | 'medium' | 'bold';
-  }>(),
-  {
-    title: 'Home',
-    breadcrumbs: () => [
-      {
-        title: 'Home',
-      },
-      {
-        title: 'Test',
-      },
-    ],
-  }
-);
+const props = defineProps<{
+  title: string;
+  breadcrumbs: BreadcrumbItem[];
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  weight?: 'normal' | 'medium' | 'bold';
+}>();
 
 const sizeClass = computed(() => {
   switch (props.size) {
