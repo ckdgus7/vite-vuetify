@@ -1,6 +1,6 @@
 <template>
-  <v-card class="pa-2" elevation="2">
-    <v-list dense>
+  <v-card>
+    <v-list>
       <v-list-item
         v-for="item in componentList"
         :key="item.type"
@@ -9,7 +9,7 @@
             onDragStart(e, item.type, item.label, item.styles, item.cssClass, item.props)
         "
       >
-        <div draggable="true" class="w-100">
+        <div draggable="true">
           <v-list-item-title>{{ item.label }}</v-list-item-title>
         </div>
       </v-list-item>
@@ -31,15 +31,7 @@ const componentList: CompList[] = [
     label: '그룹',
     styles: {
       display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-      height: '100px',
-    },
-    props: {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'flex-start',
+      flexDirection: 'row',
       alignItems: 'center',
       height: '100px',
     },
@@ -48,7 +40,7 @@ const componentList: CompList[] = [
     type: 'v-btn',
     label: 'button',
     props: {
-      density: 'compact',
+      density: 'default',
       disabled: false,
       exact: false,
       flat: true,
@@ -447,11 +439,17 @@ const componentList: CompList[] = [
   {
     type: 'my-note-box',
     label: 'Note box',
+    props: {
+      title: 'Editing...',
+    },
     cssClass: '',
   }, // 사용자 정의 컴포넌트
   {
     type: 'my-subject-text',
     label: 'Subject Text',
+    props: {
+      title: 'Editing...',
+    },
     cssClass: '',
   }, // 사용자 정의 컴포넌트
   {

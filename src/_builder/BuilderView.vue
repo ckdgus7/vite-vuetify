@@ -3,9 +3,17 @@
   <div class="builder-root">
     <!-- 상단 바 -->
     <v-app-bar density="comfortable" flat>
-      <v-btn icon :aria-label="'좌측 패널 열기/닫기'" @click="() => (leftOpen = !leftOpen)">
-        <v-icon>mdi-view-sidebar-outline</v-icon>
+      <v-btn
+        icon
+        class="ml-2"
+        :aria-label="'좌측 패널 열기/닫기'"
+        @click="() => (leftOpen = !leftOpen)"
+      >
+        <v-icon>mdi-tune-variant</v-icon>
       </v-btn>
+      <!-- <v-btn icon :aria-label="'좌측 패널 열기/닫기'" @click="() => (leftOpen = !leftOpen)">
+        <v-icon>mdi-view-sidebar-outline</v-icon>
+      </v-btn> -->
 
       <!-- <v-toolbar-title class="text-subtitle-1 font-weight-600">UI Builder</v-toolbar-title> -->
 
@@ -44,18 +52,6 @@
       elevation="1"
       floating
     >
-      <div class="d-flex align-center justify-space-between px-3 py-2">
-        <!-- <div class="text-caption text-medium-emphasis">Components</div> -->
-        <div class="d-flex align-center">
-          <v-btn icon size="small" class="mr-1" @click="() => (leftMini = !leftMini)">
-            <v-icon>{{ leftMini ? 'mdi-arrow-collapse-right' : 'mdi-arrow-expand-left' }}</v-icon>
-          </v-btn>
-          <!-- <v-btn icon size="small" @click="() => (leftOpen = false)">
-            <v-icon>mdi-close</v-icon>
-          </v-btn> -->
-        </div>
-      </div>
-      <v-divider />
       <ComponentLibrary class="px-2 py-2" />
     </v-navigation-drawer>
 
@@ -69,18 +65,6 @@
       elevation="1"
       floating
     >
-      <div class="d-flex align-center justify-space-between px-3 py-2">
-        <!-- <div class="text-caption text-medium-emphasis">Inspector</div> -->
-        <div class="d-flex align-center">
-          <v-btn icon size="small" class="mr-1" @click="() => (rightMini = !rightMini)">
-            <v-icon>{{ rightMini ? 'mdi-arrow-collapse-left' : 'mdi-arrow-expand-right' }}</v-icon>
-          </v-btn>
-          <!-- <v-btn icon size="small" @click="() => (rightOpen = false)">
-            <v-icon>mdi-close</v-icon>
-          </v-btn> -->
-        </div>
-      </div>
-      <v-divider />
       <InspectorPanel class="px-2 py-2" />
     </v-navigation-drawer>
 

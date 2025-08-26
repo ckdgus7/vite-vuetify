@@ -407,9 +407,9 @@
       <EventEditor v-if="selectedElement" :element="selectedElement" @update="onEventUpdate" />
     </div>
   </v-card>
-  <v-card v-else class="pa-4">
-    <v-card-text>선택된 요소가 없습니다.</v-card-text>
-  </v-card>
+  <v-sheet v-else class="pt-14">
+    <div style="text-align: center">선택된 요소가 없습니다.</div>
+  </v-sheet>
 </template>
 
 <script setup lang="ts">

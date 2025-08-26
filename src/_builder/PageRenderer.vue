@@ -1,6 +1,6 @@
 <template>
   <v-container class="py-6">
-    <ElementWrapper v-for="el in pageElements" :key="el.id" :element="el" />
+    <ElementWrapper v-for="el in pageElements" :key="el.id" :element="el" :isPage="true" />
   </v-container>
 </template>
 

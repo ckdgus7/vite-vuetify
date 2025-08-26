@@ -1,10 +1,10 @@
 <template>
+  <!-- @dragover.prevent="onDragOver" -->
   <div
     class="pa-1"
     :class="{ selected: isSelected, 'selected-outline': isSelected }"
     :data-builder-id="element.id"
     @click.stop="selectElement"
-    @dragover.prevent="onDragOver"
     @drop="onDrop"
   >
     <!-- 그룹일 경우 내부 요소 재귀 렌더링 -->
@@ -85,9 +85,11 @@ watch(
           clearTimeout(timeout);
           if (oldVal) {
             registry.unregister(props.element.props.id);
+          } else {
+            selectElement();
           }
           registry.register(props.element.props.id, formRef.value);
-        }, 1000);
+        }, 500);
       }
     }
   },
@@ -104,7 +106,6 @@ onUnmounted(() => {
 const formStore = store.useFormStore();
 const builder = store.useBuilderStore();
 const bindings = ref<Record<string, Function>>({});
-// const runtimeFns = useRuntimeFunctions();
 // v-model 연동 지원 여부 확인
 const supportsVModel = computed(() => useVmodel.includes(props.element.type));
 
@@ -128,9 +129,7 @@ const getGroupStyles = computed(() => {
     // 페이지 렌더링 시 그룹 스타일을 제거
     return '';
   }
-  return props.element.type === 'group'
-    ? props.element.styles || { border: '1px dashed gray', padding: '5px' }
-    : { border: '1px dashed gray' };
+  return props.element.type === 'group' ? props.element.styles : {};
 });
 const onDrop = (e: DragEvent) => {
   e.stopPropagation(); // ✅ 이벤트 전파 방지 (중복 drop 방지)
@@ -146,11 +145,11 @@ const onDrop = (e: DragEvent) => {
     builder.addElementToGroup(props.element.id, props.element.type, dropObj);
   }
 };
-const onDragOver = (e: DragEvent) => {
-  if (props.element.type === 'group') {
-    e.dataTransfer!.dropEffect = 'copy';
-  }
-};
+// const onDragOver = (e: DragEvent) => {
+//   if (props.element.type === 'group') {
+//     e.dataTransfer!.dropEffect = 'copy';
+//   }
+// };
 
 watchEffect(() => {
   // 페이지 렌더링 시 이벤트 실행
