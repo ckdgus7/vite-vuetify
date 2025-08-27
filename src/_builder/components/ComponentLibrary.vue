@@ -10,7 +10,10 @@
         "
       >
         <div draggable="true">
-          <v-list-item-title>{{ item.label }}</v-list-item-title>
+          <v-list-item-title class="ex-font-size">
+            <v-icon size="small" start>{{ item.mdi }}</v-icon>
+            {{ item.label }}
+          </v-list-item-title>
         </div>
       </v-list-item>
     </v-list>
@@ -21,6 +24,7 @@
 interface CompList {
   type: string;
   label: string;
+  mdi: string;
   cssClass?: string;
   styles?: Record<string, any>;
   props?: Record<string, any>;
@@ -29,6 +33,7 @@ const componentList: CompList[] = [
   {
     type: 'group',
     label: '그룹',
+    mdi: 'mdi-group',
     styles: {
       display: 'flex',
       flexDirection: 'row',
@@ -39,6 +44,7 @@ const componentList: CompList[] = [
   {
     type: 'v-btn',
     label: 'button',
+    mdi: 'mdi-gesture-tap-button',
     props: {
       density: 'default',
       disabled: false,
@@ -55,6 +61,7 @@ const componentList: CompList[] = [
   {
     type: 'my-text-field',
     label: 'input',
+    mdi: 'mdi-form-textbox',
     props: {
       autofocus: false,
       clearable: false,
@@ -76,6 +83,7 @@ const componentList: CompList[] = [
   {
     type: 'my-autocomplete',
     label: 'autocomplete',
+    mdi: 'mdi-form-dropdown',
     props: {
       autofocus: false,
       chips: false,
@@ -112,6 +120,7 @@ const componentList: CompList[] = [
   {
     type: 'my-textarea',
     label: 'textarea',
+    mdi: 'mdi-form-textarea',
     props: {
       autofocus: false,
       'auto-grow': false,
@@ -136,6 +145,7 @@ const componentList: CompList[] = [
   {
     type: 'v-checkbox',
     label: 'checkbox',
+    mdi: 'mdi-checkbox-marked-outline',
     props: {
       density: 'compact',
       direction: 'horizontal',
@@ -151,6 +161,7 @@ const componentList: CompList[] = [
   {
     type: 'my-checkbox-group',
     label: 'checkbox-group',
+    mdi: 'mdi-checkbox-multiple-marked-outline',
     props: {
       density: 'compact',
       direction: 'horizontal',
@@ -175,6 +186,7 @@ const componentList: CompList[] = [
   {
     type: 'my-radio-group',
     label: 'radio-group',
+    mdi: 'mdi-radiobox-marked',
     props: {
       density: 'compact',
       direction: 'horizontal',
@@ -198,6 +210,7 @@ const componentList: CompList[] = [
   {
     type: 'my-combobox',
     label: 'combobox',
+    mdi: 'mdi-form-select',
     props: {
       autofocus: false,
       clearable: false,
@@ -236,6 +249,7 @@ const componentList: CompList[] = [
   {
     type: 'my-file-input',
     label: 'file-input',
+    mdi: 'mdi-file-upload-outline',
     props: {
       clearable: false,
       density: 'compact',
@@ -258,6 +272,7 @@ const componentList: CompList[] = [
   {
     type: 'my-select',
     label: 'Select',
+    mdi: 'mdi-form-select',
     props: {
       autofocus: false,
       clearable: false,
@@ -295,6 +310,7 @@ const componentList: CompList[] = [
   {
     type: 'my-switch',
     label: 'switch',
+    mdi: 'mdi-toggle-switch-outline',
     props: {
       density: 'compact',
       direction: 'horizontal',
@@ -310,6 +326,7 @@ const componentList: CompList[] = [
   {
     type: 'v-chip',
     label: 'chip',
+    mdi: 'mdi-shape-oval-plus',
     props: {
       border: false,
       density: 'compact',
@@ -322,6 +339,7 @@ const componentList: CompList[] = [
   {
     type: 'v-img',
     label: 'img',
+    mdi: 'mdi-image-outline',
     props: {
       cover: false,
       inline: false,
@@ -334,6 +352,7 @@ const componentList: CompList[] = [
   {
     type: 'my-date-input',
     label: 'date-input',
+    mdi: 'mdi-calendar-month-outline',
     props: {
       'allowed-dates': [],
       'allowed-months': [],
@@ -368,6 +387,7 @@ const componentList: CompList[] = [
   {
     type: 'my-file-uploader',
     label: 'file-uploader',
+    mdi: 'mdi-file-upload-outline',
     props: {
       clearable: false,
       density: 'compact',
@@ -382,6 +402,7 @@ const componentList: CompList[] = [
   {
     type: 'my-data-table',
     label: 'data table',
+    mdi: 'mdi-table',
     props: {
       density: 'compact',
       'fixed-footer': false,
@@ -416,6 +437,7 @@ const componentList: CompList[] = [
   {
     type: 'my-tabs',
     label: 'tabs',
+    mdi: 'mdi-tab',
     props: {
       'align-tabs': 'start',
       'center-active': false,
@@ -439,6 +461,7 @@ const componentList: CompList[] = [
   {
     type: 'my-note-box',
     label: 'Note box',
+    mdi: 'mdi-note-outline',
     props: {
       title: 'Editing...',
     },
@@ -447,6 +470,7 @@ const componentList: CompList[] = [
   {
     type: 'my-subject-text',
     label: 'Subject Text',
+    mdi: 'mdi-format-title',
     props: {
       title: 'Editing...',
     },
@@ -455,6 +479,7 @@ const componentList: CompList[] = [
   {
     type: 'my-page-title',
     label: 'Page Ttile',
+    mdi: 'mdi-page-layout-header',
     props: {
       title: 'Home',
       breadcrumbs: [
@@ -471,11 +496,13 @@ const componentList: CompList[] = [
   {
     type: 'my-ck-editor',
     label: 'CKEditor',
+    mdi: 'mdi-file-document-edit-outline',
     cssClass: '',
   }, // CKEditor 컴포넌트
   {
     type: 'my-ag-grid',
     label: 'AG Grid',
+    mdi: 'mdi-grid-large',
     props: {
       columnDefs: [
         { field: 'mission' },
@@ -493,6 +520,7 @@ const componentList: CompList[] = [
   {
     type: 'my-carousel',
     label: 'Carousel',
+    mdi: 'mdi-view-carousel',
     props: {
       items: [
         {
@@ -505,6 +533,7 @@ const componentList: CompList[] = [
   {
     type: 'my-card',
     label: 'Card',
+    mdi: 'mdi-card-text-outline',
     props: {
       topImage: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
       title: 'Subject를 입력하세요',
@@ -515,6 +544,7 @@ const componentList: CompList[] = [
   {
     type: 'my-footer',
     label: 'Footer',
+    mdi: 'mdi-page-layout-footer',
     cssClass: '',
   },
 ];
@@ -534,3 +564,8 @@ const onDragStart = (
   e.dataTransfer?.setData('component-props', JSON.stringify(props || {}));
 };
 </script>
+<style scoped>
+.ex-font-size {
+  font-size: 14px;
+}
+</style>

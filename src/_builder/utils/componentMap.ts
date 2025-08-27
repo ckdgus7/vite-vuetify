@@ -122,9 +122,8 @@ export const ComponentRegistry: any = {
     propsMeta: [
       { key: 'wrapClass', label: 'wrapClass', type: 'text' },
       { key: 'class', label: 'css class', type: 'text' },
-      { key: 'clearable', label: 'Clearable', type: 'boolean' },
-      { key: 'placeholder', label: 'Placeholder', type: 'text' },
       { key: 'autofocus', label: 'autofocus', type: 'boolean' },
+      { key: 'clearable', label: 'Clearable', type: 'boolean' },
       {
         key: 'density',
         label: 'density',
@@ -144,6 +143,7 @@ export const ComponentRegistry: any = {
       { key: 'max-width', label: 'max-width', type: 'text' },
       { key: 'min-width', label: 'min-width', type: 'text' },
       { key: 'name', label: 'name', type: 'text' },
+      { key: 'placeholder', label: 'Placeholder', type: 'text' },
       { key: 'readonly', label: 'readonly', type: 'boolean' },
       { key: 'rounded', label: 'rounded', type: 'boolean' },
       { key: 'tile', label: 'tile', type: 'boolean' },

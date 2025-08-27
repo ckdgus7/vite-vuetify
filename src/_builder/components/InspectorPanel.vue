@@ -1,7 +1,7 @@
 <template>
   <v-card class="pa-4" elevation="2" v-if="selectedElement">
-    <v-card-title>Attribute</v-card-title>
-    <v-divider class="mb-2" />
+    <!-- <v-card-title>Attribute</v-card-title>
+    <v-divider class="mb-2" /> -->
 
     <template v-for="meta in metaList" :key="meta.key">
       <!-- component 전용 스타일 속성 -->

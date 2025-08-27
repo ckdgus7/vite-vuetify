@@ -1,20 +1,23 @@
 <template>
   <v-container
-    class="py-6"
+    class="py-0 px-0 relative"
     id="builder-canvas"
-    height="auto"
-    elevation="1"
     color="grey-lighten-5"
-    :style="{ minHeight: '580px' }"
+    :style="{ minHeight: '580px', position: 'relative' }"
     @dragover.prevent
     @drop="onDrop"
   >
-    <draggable :list="elements" itemKey="id" :component-data="{ name: 'fade' }">
-      <template #item="{ element }">
-        <ElementWrapper :key="element.id" :element="element" :data-builder-id="element.id" />
-      </template>
-    </draggable>
-    <div style="height: 50px" class="pl-2"></div>
+    <!-- 스크롤 가능한 캔버스 -->
+    <div class="canvas-scroll">
+      <div class="canvas-content">
+        <draggable :list="elements" itemKey="id" :component-data="{ name: 'fade' }">
+          <template #item="{ element }">
+            <ElementWrapper :key="element.id" :element="element" :data-builder-id="element.id" />
+          </template>
+        </draggable>
+        <div style="height: 100vh" class="pl-2"></div>
+      </div>
+    </div>
   </v-container>
 </template>
 
@@ -58,3 +61,29 @@ const onDrop = (e: DragEvent) => {
   // builder.addElement(type);
 };
 </script>
+<style lang="css" scoped>
+.canvas-scroll {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 580px;
+  /* padding-left: 28px;
+  padding-top: 28px; */
+  overflow: auto;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    #eee border-box;
+  border: 1px solid #e6e6e6;
+  border-radius: 6px;
+}
+
+.canvas-content {
+  position: relative;
+  transform-origin: 0 0;
+  background:
+    linear-gradient(0deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px) 0 0 / 20px 20px,
+    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px) 0 0 / 20px 20px,
+    #fff;
+  box-shadow: inset 0 0 0 1px #f0f0f0;
+}
+</style>

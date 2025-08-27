@@ -6,6 +6,7 @@
     :data-builder-id="element.id"
     @click.stop="selectElement"
     @drop="onDrop"
+    @keydown.delete="removeElement"
   >
     <!-- 그룹일 경우 내부 요소 재귀 렌더링 -->
     <div v-if="element.type === 'group'" :style="getGroupStyles">
@@ -118,7 +119,9 @@ const modelValue = computed({
   },
 });
 const isSelected = computed(() => !props.isPage && builder.selectedElementId === props.element.id);
-const selectElement = () => builder.selectElement(props.element.id);
+const selectElement = () => {
+  builder.selectElement(props.element.id);
+};
 const getComponent = computed(() => {
   const config = ComponentRegistry[props.element.type];
   // console.log(config.component);
@@ -151,6 +154,14 @@ const onDrop = (e: DragEvent) => {
 //   }
 // };
 
+const removeElement = () => {
+  if (builder.selectedElementId) {
+    builder.removeElement(builder.selectedElementId);
+    registry.unregister(builder.selectedElementId);
+  } else {
+    alert('요소를 선택해 주세요.');
+  }
+};
 watchEffect(() => {
   // 페이지 렌더링 시 이벤트 실행
   // if (props.isPage) {
