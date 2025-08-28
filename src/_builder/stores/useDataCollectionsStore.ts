@@ -6,7 +6,7 @@ export type DataType = 'text' | 'number' | 'date' | 'boolean';
 export interface DataColumn {
   id: string;
   name?: string;
-  dataType: DataType;
+  dataType: string;
   defaultValue?: any;
   encYN?: boolean;
   length?: number;

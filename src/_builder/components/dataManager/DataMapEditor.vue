@@ -77,14 +77,14 @@
     <v-window-item value="key">
       <div class="ag-theme-quartz" style="height: 340px; width: 100%">
         <ag-grid-vue
+          :theme="myTheme"
           :columnDefs="keyColDefs"
-          :rowData="store.dataMap?.columns ?? []"
+          :rowData="rowData"
           :defaultColDef="defaultColDef"
-          rowSelection="multiple"
-          suppressRowClickSelection
           @cellValueChanged="() => store.autosaveDataMap()"
-          @grid-ready="(p: any) => (keyApi = p.api)"
+          @grid-ready="onKeyGridReady"
           @cellKeyDown="onCellKeyDownKey"
+          style="height: 500px"
         />
       </div>
     </v-window-item>
@@ -93,13 +93,12 @@
     <v-window-item value="data">
       <div class="ag-theme-quartz" style="height: 340px; width: 100%">
         <ag-grid-vue
+          :theme="myTheme"
           :columnDefs="dataColDefs"
-          :rowData="store.dataMap?.rows ?? []"
+          :rowData="dataMapRowsData"
           :defaultColDef="defaultColDef"
-          rowSelection="multiple"
-          suppressRowClickSelection
           @cellValueChanged="() => store.autosaveDataMap()"
-          @grid-ready="(p: any) => (dataApi = p.api)"
+          @grid-ready="onDataGridReady"
           @cellKeyDown="onCellKeyDownData"
         />
       </div>
@@ -110,20 +109,36 @@
 <script setup lang="ts">
 import { ref, onUnmounted, watchEffect } from 'vue';
 import { AgGridVue } from 'ag-grid-vue3';
-import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-quartz.css';
+
 import { useDataCollectionsStore } from '@/_builder/stores/useDataCollectionsStore';
 import { exportDataMapToXlsx, importDataMapFromXlsx } from '@/_builder/utils/excel';
 
-import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
+import { AllCommunityModule, ModuleRegistry, themeBalham } from 'ag-grid-community';
 ModuleRegistry.registerModules([AllCommunityModule]);
+// Mark all grids as using legacy themes
+const myTheme = themeBalham.withParams({ accentColor: 'red' });
 
 const store = useDataCollectionsStore();
 const innerTab = ref<'key' | 'data'>('key');
 
-const defaultColDef = { editable: true, resizable: true, sortable: true, filter: true };
+const defaultColDef = ref({
+  editable: true,
+  resizable: true,
+  sortable: true,
+  filter: true,
+});
 
-const keyColDefs = [
+const dataColDefs = ref([
+  { headerName: 'id', field: 'id' },
+  { headerName: 'value', field: 'value' },
+]);
+
+const keyApi: any = ref(null);
+const dataApi: any = ref(null);
+const dataMapRowsData = ref<any[]>([]);
+
+const rowData = ref<any[]>([]);
+const keyColDefs = ref([
   { headerName: 'id', field: 'id' },
   { headerName: 'name', field: 'name' },
   {
@@ -132,35 +147,28 @@ const keyColDefs = [
     cellEditor: 'agSelectCellEditor',
     cellEditorParams: { values: ['text', 'number', 'date', 'boolean'] },
   },
-  { headerName: 'defaultValue', field: 'defaultValue' },
-  {
-    headerName: 'encYN',
-    field: 'encYN',
-    cellEditor: 'agSelectCellEditor',
-    cellEditorParams: { values: [true, false] },
-  },
-  {
-    headerName: 'length',
-    field: 'length',
-    valueParser: (p: any) => Number(p.newValue) || undefined,
-  },
-  {
-    headerName: 'nullYN',
-    field: 'nullYN',
-    cellEditor: 'agSelectCellEditor',
-    cellEditorParams: { values: [true, false] },
-  },
-];
+]);
 
-const dataColDefs = [
-  { headerName: 'id', field: 'id' },
-  { headerName: 'value', field: 'value' },
-];
-
-// let keyApi: GridApi | null = null;
-// let dataApi: GridApi | null = null;
-let keyApi: any = null;
-let dataApi: any = null;
+// const rowData = ref([
+//   { make: 'Tesla', model: 'Model Y', price: 64950, electric: true },
+//   { make: 'Ford', model: 'F-Series', price: 33850, electric: false },
+//   { make: 'Toyota', model: 'Corolla', price: 29600, electric: false },
+// ]);
+// const keyColDefs = ref([
+//   { field: 'make' },
+//   { field: 'model' },
+//   { field: 'price' },
+//   { field: 'electric' },
+// ]);
+const onKeyGridReady = (params: any) => {
+  console.log(params);
+  keyApi.value = params.api;
+  console.log(keyApi.value);
+};
+const onDataGridReady = (params: any) => {
+  // console.log(params);
+  dataApi.value = params.api;
+};
 
 const fileInput = ref<HTMLInputElement | null>(null);
 const triggerImport = () => fileInput.value?.click();
@@ -173,8 +181,8 @@ const onImportFileChange = async (e: Event) => {
   if (store.dataMap) {
     store.dataMap.columns = imported.columns;
     store.dataMap.rows = imported.rows;
-    keyApi?.setRowData(store.dataMap.columns);
-    dataApi?.setRowData(store.dataMap.rows);
+    keyApi.value.setRowData(store.dataMap.columns);
+    dataApi.value.setRowData(store.dataMap.rows);
     store.autosaveDataMap();
   }
   (e.target as HTMLInputElement).value = '';
@@ -184,36 +192,40 @@ const onExport = () => {
   if (!store.dataMap) return;
   exportDataMapToXlsx(store.dataMap);
 };
-
 // ===== 행 추가/삭제 =====
-const addKeyRow = () => {
+const addKeyRow = async () => {
   if (!store.dataMap) return;
-  store.dataMap.columns.push({
+  const newData = {
     id: `key${store.dataMap.columns.length + 1}`,
     name: '',
     dataType: 'text',
-  });
-  keyApi?.setRowData(store.dataMap.columns);
-  store.autosaveDataMap();
+  };
+  // const newData = { make: 'Tesla2', model: 'Model Y', price: 64950, electric: true };
+  rowData.value.push(newData);
+  // store.dataMap.columns.push(newData);
+  console.log(rowData.value);
+  // keyApi.value.setRowData(store.dataMap.columns);
+  // keyApi.value.updateRowData({ add: [store.dataMap.columns] });
+  // store.autosaveDataMap();
 };
 const removeSelectedKeyRows = () => {
-  if (!store.dataMap || !keyApi) return;
-  const sel = keyApi.getSelectedRows();
+  if (!store.dataMap || !keyApi.value) return;
+  const sel = keyApi.value.getSelectedRows();
   store.dataMap.columns = store.dataMap.columns.filter((r) => !sel.includes(r));
-  keyApi.setRowData(store.dataMap.columns);
+  keyApi.value.setRowData(store.dataMap.columns);
   store.autosaveDataMap();
 };
 const addDataRow = () => {
   if (!store.dataMap) return;
   store.dataMap.rows.push({ id: '', value: '' });
-  dataApi?.setRowData(store.dataMap.rows);
+  dataApi.value.setRowData(store.dataMap.rows);
   store.autosaveDataMap();
 };
 const removeSelectedDataRows = () => {
-  if (!store.dataMap || !dataApi) return;
-  const sel = dataApi.getSelectedRows();
+  if (!store.dataMap || !dataApi.value) return;
+  const sel = dataApi.value.getSelectedRows();
   store.dataMap.rows = store.dataMap.rows.filter((r) => !sel.includes(r));
-  dataApi.setRowData(store.dataMap.rows);
+  dataApi.value.setRowData(store.dataMap.rows);
   store.autosaveDataMap();
 };
 
@@ -222,31 +234,31 @@ function swap<T>(arr: T[], i: number, j: number) {
   [arr[i], arr[j]] = [arr[j], arr[i]];
 }
 const moveSelectedKeyRow = (dir: 'up' | 'down') => {
-  if (!store.dataMap || !keyApi) return;
-  const node = keyApi.getSelectedNodes()[0];
+  if (!store.dataMap || !keyApi.value) return;
+  const node = keyApi.value.getSelectedNodes()[0];
   if (!node) return;
   const i = node.rowIndex!;
   const j = dir === 'up' ? i - 1 : i + 1;
   if (j < 0 || j >= store.dataMap.columns.length) return;
   swap(store.dataMap.columns, i, j);
-  keyApi.setRowData(store.dataMap.columns);
-  keyApi.ensureIndexVisible(j);
-  keyApi.deselectAll();
-  keyApi.selectIndex(j);
+  keyApi.value.setRowData(store.dataMap.columns);
+  keyApi.value.ensureIndexVisible(j);
+  keyApi.value.deselectAll();
+  keyApi.value.selectIndex(j);
   store.autosaveDataMap();
 };
 const moveSelectedDataRow = (dir: 'up' | 'down') => {
-  if (!store.dataMap || !dataApi) return;
-  const node = dataApi.getSelectedNodes()[0];
+  if (!store.dataMap || !dataApi.value) return;
+  const node = dataApi.value.getSelectedNodes()[0];
   if (!node) return;
   const i = node.rowIndex!;
   const j = dir === 'up' ? i - 1 : i + 1;
   if (j < 0 || j >= store.dataMap.rows.length) return;
   swap(store.dataMap.rows, i, j);
-  dataApi.setRowData(store.dataMap.rows);
-  dataApi.ensureIndexVisible(j);
-  dataApi.deselectAll();
-  dataApi.selectIndex(j);
+  dataApi.value.setRowData(store.dataMap.rows);
+  dataApi.value.ensureIndexVisible(j);
+  dataApi.value.deselectAll();
+  dataApi.value.selectIndex(j);
   store.autosaveDataMap();
 };
 
@@ -277,7 +289,6 @@ const onCellKeyDownKey = (e: any) => {
 const onCellKeyDownData = (e: any) => {
   if (e.event instanceof KeyboardEvent) handleHotkey(e.event, 'data');
 };
-
 // ===== 초기 로드 / 정리 =====
 watchEffect(() => {
   if (store.isOpen && store.activeTab === 'dataMap') {
@@ -285,9 +296,9 @@ watchEffect(() => {
   }
 });
 onUnmounted(() => {
-  keyApi?.destroy();
-  dataApi?.destroy();
-  keyApi = null;
-  dataApi = null;
+  keyApi.value.destroy();
+  dataApi.value.destroy();
+  keyApi.value = null;
+  dataApi.value = null;
 });
 </script>

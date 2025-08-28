@@ -77,12 +77,10 @@
     <v-window-item value="column">
       <div class="ag-theme-quartz" style="height: 340px; width: 100%">
         <ag-grid-vue
+          :theme="myTheme"
           :columnDefs="colColDefs"
           :rowData="store.dataListMap?.columns ?? []"
           :defaultColDef="defaultColDef"
-          rowSelection="multiple"
-          suppressRowClickSelection
-          :animateRows="false"
           @cellValueChanged="() => onColumnsChanged()"
           @grid-ready="(p: any) => (colApi = p.api)"
           @cellKeyDown="onCellKeyDownCol"
@@ -94,12 +92,10 @@
     <v-window-item value="data">
       <div class="ag-theme-quartz" style="height: 340px; width: 100%">
         <ag-grid-vue
+          :theme="myTheme"
           :columnDefs="dataColDefs"
           :rowData="store.dataListMap?.rows ?? []"
           :defaultColDef="defaultColDef"
-          rowSelection="multiple"
-          suppressRowClickSelection
-          :animateRows="false"
           @cellValueChanged="() => store.autosaveDataListMap()"
           @grid-ready="(p: any) => (dataApi = p.api)"
           @cellKeyDown="onCellKeyDownData"
@@ -112,18 +108,28 @@
 <script setup lang="ts">
 import { computed, ref, watchEffect, onUnmounted } from 'vue';
 import { AgGridVue } from 'ag-grid-vue3';
-import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-quartz.css';
+
 import { useDataCollectionsStore } from '@/_builder/stores/useDataCollectionsStore';
 import { exportDataListMapToXlsx, importDataListMapFromXlsx } from '@/_builder/utils/excel';
 
-import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
+import { AllCommunityModule, ModuleRegistry, themeBalham } from 'ag-grid-community';
 ModuleRegistry.registerModules([AllCommunityModule]);
+// Mark all grids as using legacy themes
+const myTheme = themeBalham.withParams({ accentColor: 'red' });
 
 const store = useDataCollectionsStore();
 const innerTab = ref<'column' | 'data'>('column');
 
-const defaultColDef = { editable: true, resizable: true, sortable: true, filter: true };
+const defaultColDef = {
+  editable: true,
+  resizable: true,
+  sortable: true,
+  filter: true,
+  rowSelection: {
+    mode: 'multiRow', // or 'singleRow'
+    enableClickSelection: true, // Prevents row selection on click
+  },
+};
 
 const colColDefs = [
   { headerName: 'id', field: 'id' },

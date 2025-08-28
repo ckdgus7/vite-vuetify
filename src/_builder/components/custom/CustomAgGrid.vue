@@ -1,6 +1,7 @@
 <template>
   <div style="margin: 20px">
     <ag-grid-vue
+      :theme="myTheme"
       :rowData="rowData"
       :columnDefs="getColumnDefs"
       :defaultColDef="getDefaultColDef"
@@ -14,9 +15,11 @@
 import { ref, onMounted, computed, watch } from 'vue';
 import { useDataCollectionStore } from '@/_builder/stores/useDataCollectionStore';
 import { AgGridVue } from 'ag-grid-vue3'; // Vue Data Grid Component
-// import type { ColDef } from 'ag-grid-community';
-import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
+
+import { AllCommunityModule, ModuleRegistry, themeBalham } from 'ag-grid-community';
 ModuleRegistry.registerModules([AllCommunityModule]);
+// Mark all grids as using legacy themes
+const myTheme = themeBalham.withParams({ accentColor: 'red' });
 const props = defineProps([
   'apiUrl',
   'defaultColDef',
