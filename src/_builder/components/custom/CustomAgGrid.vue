@@ -15,22 +15,8 @@ import { ref, onMounted, computed, watch } from 'vue';
 import { useDataCollectionStore } from '@/_builder/stores/useDataCollectionStore';
 import { AgGridVue } from 'ag-grid-vue3'; // Vue Data Grid Component
 // import type { ColDef } from 'ag-grid-community';
-import {
-  ClientSideRowModelModule,
-  ModuleRegistry,
-  NumberFilterModule,
-  TextFilterModule,
-  type GridReadyEvent,
-  // type GridApi,
-  // type Column,
-  // ValidationModule,
-} from 'ag-grid-community';
-ModuleRegistry.registerModules([
-  ClientSideRowModelModule,
-  TextFilterModule,
-  NumberFilterModule,
-  // ...(process.env.NODE_ENV !== "production" ? [ValidationModule] : []),
-]);
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
+ModuleRegistry.registerModules([AllCommunityModule]);
 const props = defineProps([
   'apiUrl',
   'defaultColDef',
@@ -125,7 +111,7 @@ const setExternalApiData = async (refreshData: any) => {
 
 const gridApi = ref<any>(null);
 
-const onGridReady = (params: GridReadyEvent) => {
+const onGridReady = (params: any) => {
   // console.log(params);
   gridApi.value = params.api;
 };

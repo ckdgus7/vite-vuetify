@@ -18,20 +18,72 @@
       <!-- <v-toolbar-title class="text-subtitle-1 font-weight-600">UI Builder</v-toolbar-title> -->
 
       <v-spacer />
-
-      <v-btn color="primary" variant="text" class="mr-2" @click="openSaveDialog">
-        <v-icon start>mdi-content-save</v-icon>
-        화면 저장
-      </v-btn>
-      <v-btn variant="text" color="error" @click="removeElement">
-        <v-icon start>mdi-delete-outline</v-icon>
-        엘리멘트 삭제
-      </v-btn>
-      <v-btn variant="text" class="mr-2" @click="exportsd">
+      <v-divider vertical inset class="mx-2" />
+      <!-- 화면저장 -->
+      <v-tooltip text="화면저장">
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon="mdi-content-save" @click="openSaveDialog"></v-btn>
+        </template>
+      </v-tooltip>
+      <!-- 요소삭제 -->
+      <v-tooltip text="요소삭제">
+        <template v-slot:activator="{ props }">
+          <v-btn
+            v-bind="props"
+            color="error"
+            icon="mdi-delete-outline"
+            @click="removeElement"
+          ></v-btn>
+        </template>
+      </v-tooltip>
+      <!-- 데이터관리 -->
+      <v-tooltip text="데이터관리2">
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon="mdi-database-cog-outline" @click="openDataManager"></v-btn>
+        </template>
+      </v-tooltip>
+      <!-- 스크립트관리 -->
+      <v-tooltip text="스크립트관리">
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon="mdi-script-text-outline"></v-btn>
+        </template>
+      </v-tooltip>
+      <!-- 이미지관리 -->
+      <v-tooltip text="이미지관리">
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon="mdi-image-multiple-outline"></v-btn>
+        </template>
+      </v-tooltip>
+      <!-- 파일관리 -->
+      <v-tooltip text="파일관리">
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon="mdi-folder-cog-outline"></v-btn>
+        </template>
+      </v-tooltip>
+      <!-- 메뉴관리 -->
+      <v-tooltip text="메뉴관리">
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon="mdi-view-list-outline"></v-btn>
+        </template>
+      </v-tooltip>
+      <!-- 페이지관리 -->
+      <v-tooltip text="페이지관리">
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon="mdi-book-open-page-variant-outline"></v-btn>
+        </template>
+      </v-tooltip>
+      <!-- 권한관리 -->
+      <v-tooltip text="권한관리">
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon="mdi-shield-account-outline"></v-btn>
+        </template>
+      </v-tooltip>
+      <!-- <v-btn variant="text" class="mr-2" @click="exportsd">
         <v-icon start>mdi-content-save</v-icon>
         렌터링 코드 다운로드
-      </v-btn>
+      </v-btn> -->
 
+      <v-spacer />
       <v-btn
         icon
         class="ml-2"
@@ -79,6 +131,8 @@
 
     <!-- 저장 다이얼로그 -->
     <SavePageDialog ref="saveDialogRef" />
+    <!-- 데이터 관리 다이얼로그 -->
+    <DataManagerDialog ref="dataManagerDialogRef" />
   </div>
 </template>
 
@@ -89,6 +143,7 @@ import CanvasArea from '@/_builder/components/CanvasArea.vue';
 import InspectorPanel from '@/_builder/components/InspectorPanel.vue';
 import SavePageDialog from '@/_builder/components/SavePageDialog.vue';
 import store from '@/_builder/stores/index';
+import DataManagerDialog from '@/_builder/components/dataManager/DataManagerDialog.vue';
 
 // 좌/우 Drawer 상태
 const leftOpen = ref(true);
@@ -101,6 +156,7 @@ const rightWidth = ref(300);
 const saveDialogRef = ref();
 const builder = store.useBuilderStore();
 const registry = store.useComponentRegistryStore();
+const dataStore = store.useDataCollectionsStore();
 
 const openSaveDialog = () => {
   saveDialogRef.value.dialog = true;
@@ -118,5 +174,10 @@ const removeElement = () => {
 const exportsd = () => {
   console.log('Exporting...', builder);
   builder.exportToJsonFile('my-template.json');
+};
+
+const openDataManager = () => {
+  dataStore.open();
+  dataStore.activeTab = 'dataMap';
 };
 </script>
