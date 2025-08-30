@@ -10,11 +10,12 @@
     <!-- 스크롤 가능한 캔버스 -->
     <div class="canvas-scroll">
       <div class="canvas-content">
-        <draggable :list="elements" itemKey="id" :component-data="{ name: 'fade' }">
-          <template #item="{ element }">
-            <ElementWrapper :key="element.id" :element="element" :data-builder-id="element.id" />
-          </template>
-        </draggable>
+        <ElementWrapper
+          v-for="element in elements"
+          :key="element.id"
+          :element="element"
+          :data-builder-id="element.id"
+        />
         <div style="height: 100vh" class="pl-2"></div>
       </div>
     </div>
@@ -26,7 +27,6 @@ import { onMounted } from 'vue';
 import ElementWrapper from '@/_builder/components/ElementWrapper.vue';
 import store from '@/_builder/stores/index';
 import { useElementSelector } from '@/_builder/composables/useElementSelector';
-import draggable from 'vuedraggable';
 const builder = store.useBuilderStore();
 const elements = builder.elements;
 
@@ -46,7 +46,7 @@ onMounted(() => {
 });
 
 const onDrop = (e: DragEvent) => {
-  const type = e.dataTransfer?.getData('component-type');
+  const type = e.dataTransfer?.getData('component-type') || '';
   const label = e.dataTransfer?.getData('component-label') || '무라벨';
   const cssClass = e.dataTransfer?.getData('component-class') || '';
   const styles = JSON.parse(e.dataTransfer?.getData('component-styles') || '{}');
@@ -54,11 +54,10 @@ const onDrop = (e: DragEvent) => {
   if (!type) return;
 
   if (type === 'group') {
-    builder.addGroup();
+    builder.addGroup(); // ← 그룹 v-sheet 생성
   } else {
     builder.addElement(type, label, styles, cssClass, props);
   }
-  // builder.addElement(type);
 };
 </script>
 <style lang="css" scoped>

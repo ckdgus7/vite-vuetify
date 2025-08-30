@@ -1,4 +1,5 @@
 // componentMap.ts
+import MyGroup from '@/_builder/components/custom/CustomGroup.vue';
 import MyDataTable from '@/_builder/components/custom/CustomDataTable.vue';
 import MyAgGrid from '@/_builder/components/custom/CustomAgGrid.vue';
 import MyCkEditor from '@/_builder/components/custom/CustomCkEditor.vue';
@@ -26,7 +27,7 @@ import MyFileUploader from '@/_builder/components/custom/form/CustomFileUploader
 export const ComponentRegistry: any = {
   group: {
     label: '그룹',
-    component: 'group',
+    component: MyGroup,
     propsMeta: [
       { key: 'class', label: 'css class', type: 'text' },
       { key: 'width', label: 'width', type: 'text' },
@@ -164,8 +165,8 @@ export const ComponentRegistry: any = {
       },
       { key: 'width', label: 'width', type: 'text' },
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
-      { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
-      { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
+      // { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
+      // { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
       // {
       //   key: 'style',
       //   label: '스타일',
@@ -246,8 +247,8 @@ export const ComponentRegistry: any = {
       },
       { key: 'width', label: 'width', type: 'text' },
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
-      { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
-      { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
+      // { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
+      // { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
     ],
   },
   'my-textarea': {
@@ -303,8 +304,8 @@ export const ComponentRegistry: any = {
       },
       { key: 'width', label: 'width', type: 'text' },
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
-      { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
-      { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
+      // { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
+      // { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
     ],
   },
   'v-checkbox': {
@@ -330,8 +331,8 @@ export const ComponentRegistry: any = {
       { key: 'readonly', label: 'readonly', type: 'boolean' },
       { key: 'width', label: 'width', type: 'text' },
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
-      { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
-      { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
+      // { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
+      // { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
     ],
   },
   'my-checkbox-group': {
@@ -368,8 +369,8 @@ export const ComponentRegistry: any = {
       { key: 'readonly', label: 'readonly', type: 'boolean' },
       { key: 'width', label: 'width', type: 'text' },
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
-      { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
-      { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
+      // { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
+      // { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
     ],
   },
   'my-radio-group': {
@@ -407,8 +408,8 @@ export const ComponentRegistry: any = {
       { key: 'readonly', label: 'readonly', type: 'boolean' },
       { key: 'width', label: 'width', type: 'text' },
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
-      { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
-      { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
+      // { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
+      // { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
     ],
   },
   'my-combobox': {
@@ -478,8 +479,8 @@ export const ComponentRegistry: any = {
       },
       { key: 'width', label: 'width', type: 'text' },
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
-      { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
-      { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
+      // { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
+      // { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
     ],
   },
   'my-file-input': {
@@ -529,8 +530,8 @@ export const ComponentRegistry: any = {
       },
       { key: 'width', label: 'width', type: 'text' },
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
-      { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
-      { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
+      // { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
+      // { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
     ],
   },
   'my-select': {
@@ -598,8 +599,8 @@ export const ComponentRegistry: any = {
       },
       { key: 'width', label: 'width', type: 'text' },
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
-      { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
-      { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
+      // { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
+      // { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
     ],
   },
   'my-switch': {
@@ -631,8 +632,8 @@ export const ComponentRegistry: any = {
       { key: 'readonly', label: 'readonly', type: 'boolean' },
       { key: 'width', label: 'width', type: 'text' },
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
-      { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
-      { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
+      // { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
+      // { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
     ],
   },
   'v-chip': {
@@ -788,8 +789,8 @@ export const ComponentRegistry: any = {
       { key: 'width', label: 'width', type: 'text' },
       { key: 'year', label: 'year', type: 'text' },
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
-      { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
-      { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
+      // { key: 'dataMapSchema', label: 'dataMapSchema', type: 'select', options: [] },
+      // { key: 'dataMapKey', label: 'dataMapKey', type: 'select', options: [] },
     ],
   },
   'my-file-uploader': {

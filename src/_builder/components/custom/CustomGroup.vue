@@ -1,53 +1,65 @@
+<!-- @/_builder/components/custom/CustomGroup.vue -->
 <template>
-  <div :style="{ ...props }"></div>
+  <v-sheet
+    :elevation="toNumber(props.elevation, 1)"
+    :rounded="props.rounded ?? 'xl'"
+    :color="props.color || undefined"
+    :class="props.class || ''"
+    :style="computedStyle"
+  >
+    <slot />
+  </v-sheet>
 </template>
 
 <script setup lang="ts">
-import { watch } from 'vue';
+import { computed } from 'vue';
 
+/**
+ * ElementWrapper에서 내려주는 element.props 를 모두 그대로 받습니다.
+ * (componentMap의 group propsMeta와 호환)
+ */
 const props = defineProps([
   'width',
   'height',
+  'border',
+  'padding',
   'display',
   'flexDirection',
   'justifyContent',
   'alignItems',
   'gap',
-  'padding',
   'backgroundColor',
-  'exposeId',
+  'minHeight',
+  'rounded',
+  'color',
+  'class',
+  'elevation',
 ]);
 
-watch(
-  () => props.height,
-  (val: any) => {
-    console.log(val);
-  }
-);
-// { key: 'class', label: 'css class', type: 'text' },
-// { key: 'width', label: 'width', type: 'text' },
-// { key: 'height', label: 'height', type: 'text' },
-// { key: 'display', label: 'Display', type: 'select', options: ['flex', 'grid', 'block'] },
-// {
-//   key: 'flexDirection',
-//   label: 'Flex 방향',
-//   type: 'select',
-//   options: ['row', 'column', 'row-reverse', 'column-reverse'],
-// },
-// {
-//   key: 'justifyContent',
-//   label: '가로 정렬 (justify)',
-//   type: 'select',
-//   options: ['flex-start', 'center', 'flex-end', 'space-between', 'space-around'],
-// },
-// {
-//   key: 'alignItems',
-//   label: '세로 정렬 (align)',
-//   type: 'select',
-//   options: ['flex-start', 'center', 'flex-end', 'stretch'],
-// },
-// { key: 'gap', label: '갭 (gap)', type: 'text' },
-// { key: 'padding', label: '패딩 (padding)', type: 'text' },
-// { key: 'backgroundColor', label: '배경색 (background color)', type: 'text' },
-// { key: 'exposeId', label: 'exposeId', type: 'text' },
+const toNumber = (val: any, def = 0) => {
+  const n = Number(val);
+  return Number.isFinite(n) ? n : def;
+};
+
+const computedStyle = computed(() => {
+  // width/height/border/padding/background 등 스타일은 style로 전달
+  const style: Record<string, any> = {
+    width: props.width,
+    height: props.height,
+    border: props.border,
+    padding: props.padding ?? '5px',
+    display: props.display || 'block',
+    flexDirection: props.flexDirection,
+    justifyContent: props.justifyContent,
+    alignItems: props.alignItems,
+    gap: props.gap,
+    backgroundColor: props.backgroundColor,
+    // 캔버스 가독성 기본값
+    minHeight: props.minHeight || '80px',
+    boxSizing: 'border-box',
+  };
+  // falsy 제거
+  Object.keys(style).forEach((k) => style[k] == null && delete style[k]);
+  return style;
+});
 </script>

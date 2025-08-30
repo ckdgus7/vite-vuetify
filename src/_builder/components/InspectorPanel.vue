@@ -6,7 +6,11 @@
     <template v-for="meta in metaList" :key="meta.key">
       <!-- component 전용 스타일 속성 -->
       <template
-        v-if="selectedElement.type.startsWith('v-') || selectedElement.type.startsWith('my-')"
+        v-if="
+          selectedElement.type.startsWith('v-') ||
+          selectedElement.type.startsWith('my-') ||
+          selectedElement.type.startsWith('gropu')
+        "
       >
         <v-text-field
           v-if="meta.type === 'text' || meta.type === 'number'"
@@ -230,7 +234,7 @@
       </template>
 
       <!-- group 전용 스타일 속성 -->
-      <template v-else>
+      <!-- <template v-else>
         <v-text-field
           v-if="meta.type === 'text'"
           v-model="selectedElement.styles[meta.key]"
@@ -268,7 +272,6 @@
           <v-radio label="False" :value="false"></v-radio>
         </v-radio-group>
 
-        <!-- object -->
         <div v-else-if="meta.type === 'object'">
           <label class="text-subtitle-2 mb-1">{{ meta.label }}</label>
 
@@ -280,7 +283,6 @@
               hide-details
               dense
             />
-            <!-- boolean -->
             <v-switch
               v-else-if="field.type === 'boolean'"
               v-model="selectedElement.props[meta.key][field.key]"
@@ -298,7 +300,6 @@
               <v-radio label="False" :value="false"></v-radio>
             </v-radio-group>
 
-            <!-- select -->
             <v-select
               v-else-if="field.type === 'select'"
               v-model="selectedElement.props[meta.key][field.key]"
@@ -310,7 +311,6 @@
           </template>
         </div>
 
-        <!-- 배열 타입: 객체 항목일 경우 -->
         <div v-else-if="meta.type === 'array' && meta.itemType === 'object'" class="mt-2">
           <label class="text-subtitle-2 mb-1">{{ meta.label }}</label>
 
@@ -342,7 +342,6 @@
             </div>
           </v-card>
 
-          <!-- 객체 항목 추가 -->
           <v-btn
             block
             color="primary"
@@ -360,7 +359,6 @@
           </v-btn>
         </div>
 
-        <!-- 배열 타입 렌더링 -->
         <div v-else-if="meta.type === 'array'">
           <label class="text-subtitle-2">{{ meta.label }}</label>
 
@@ -382,7 +380,6 @@
             </v-btn>
           </div>
 
-          <!-- push 안전 처리 -->
           <v-btn
             block
             color="primary"
@@ -399,7 +396,7 @@
             + 항목 추가
           </v-btn>
         </div>
-      </template>
+      </template> -->
     </template>
 
     <div v-if="!isGroup">

@@ -95,71 +95,63 @@ export const useBuilderStore = defineStore('builder', () => {
       .join('\n');
   }
   function addGroup() {
-    const propsId = `v_${Date.now()}`;
     elements.value.push({
       id: crypto.randomUUID(),
       type: 'group',
       label: '그룹',
-      props: { id: propsId },
+      props: {
+        elevation: 1, // v-sheet elevation
+        rounded: 'xl', // v-sheet rounded
+        color: undefined, // v-sheet color (선택)
+      },
       styles: {
-        padding: '5px',
-        border: '1px dashed gray',
-        height: '100px',
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
+        padding: '8px',
+        border: '1px dashed #bdbdbd',
+        minHeight: '100px',
       },
       cssClass: '',
       children: [],
     });
   }
-  function addElementToGroup(groupId: string, groupType: string, dropObj: any) {
-    const els: any = elements.value;
-    // console.log(els);
-    const group = els.find((el: any) => el.id === groupId);
-    const group2 = els[0].children.find((el: any) => el.id === groupId);
 
-    const propsId = `v_${Date.now()}`;
-    if (group) {
-      console.log(dropObj);
-      group.children = group.children || [];
-      group.children.push({
-        id: crypto.randomUUID(),
-        type: dropObj.type,
-        label: dropObj.type === 'group' ? '그룹' : '',
-        props: { ...dropObj.props, id: propsId },
-        styles: {
-          padding: '5px',
-          // border: dropObj.type === 'group' ? '1px dashed gray' : '1px dashed blue',
-          border: dropObj.type === 'group' ? '1px dashed gray' : '',
-          height: dropObj.type === 'group' ? '100px' : '',
-          display: dropObj.type === 'group' ? 'flex' : '',
-          flexDirection: dropObj.type === 'group' ? 'row' : '',
-          alignItems: dropObj.type === 'group' ? 'center' : '',
-        },
-        cssClass: '',
-        children: [],
-      });
-    } else if (group2) {
-      group2.children = group2.children || [];
-      group2.children.push({
-        id: crypto.randomUUID(),
-        type: dropObj.type,
-        label: dropObj.type === 'group' ? '그룹' : '',
-        props: { ...dropObj.props, id: propsId },
-        styles: {
-          padding: '5px',
-          // border: dropObj.type === 'group' ? '1px dashed gray' : '1px dashed blue',
-          border: dropObj.type === 'group' ? '1px dashed gray' : '',
-          height: dropObj.type === 'group' ? '100px' : '',
-          display: dropObj.type === 'group' ? 'flex' : '',
-          flexDirection: dropObj.type === 'group' ? 'row' : '',
-          alignItems: dropObj.type === 'group' ? 'center' : '',
-        },
-        cssClass: '',
-        children: [],
-      });
-    }
+  function addElementToGroup(groupId: string, _groupType: string, dropObj: any) {
+    // 1) 그룹 찾기 (루트/자식 트리 재귀 탐색)
+    const findById = (list: any[], id: string): any | null => {
+      for (const el of list) {
+        if (el.id === id) return el;
+        if (Array.isArray(el.children) && el.children.length) {
+          const found = findById(el.children, id);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
+
+    const group = findById(elements.value as any[], groupId);
+    if (!group || group.type !== 'group') return;
+
+    // 2) payload 정규화
+    let styles: any = {};
+    let props: any = {};
+    try {
+      styles = JSON.parse(dropObj.styles || '{}');
+    } catch {}
+    try {
+      props = JSON.parse(dropObj.props || '{}');
+    } catch {}
+
+    // 3) 자식 요소 추가
+    group.children = group.children || [];
+    group.children.push({
+      id: crypto.randomUUID(),
+      type: dropObj.type,
+      label: dropObj.label || '',
+      styles: styles || {},
+      cssClass: dropObj.class || '',
+      props: { ...props },
+      children: [],
+      events: {},
+    });
   }
   function findElementById(id: string): ElementSchema | null {
     const search = (list: ElementSchema[] | ElementSchema[][]): ElementSchema | null => {
@@ -176,6 +168,10 @@ export const useBuilderStore = defineStore('builder', () => {
     };
 
     return search(elements.value);
+  }
+  function updateSelectedElement(id: string, updateElementObject: ElementSchema) {
+    let fEl: any = elements.value.find((el: ElementSchema) => el.id === id);
+    fEl = { ...updateElementObject };
   }
   function removeElement(id: string) {
     const removeFromList = (list: ElementSchema[]): boolean => {
@@ -222,5 +218,6 @@ export const useBuilderStore = defineStore('builder', () => {
     findElementById,
     removeElement,
     addEventToComponent,
+    updateSelectedElement,
   };
 });

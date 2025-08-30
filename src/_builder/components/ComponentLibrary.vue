@@ -526,6 +526,9 @@ const componentList: CompList[] = [
         {
           src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
         },
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
+        },
       ],
     },
     cssClass: '',
