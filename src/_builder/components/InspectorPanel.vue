@@ -9,7 +9,7 @@
         v-if="
           selectedElement.type.startsWith('v-') ||
           selectedElement.type.startsWith('my-') ||
-          selectedElement.type.startsWith('gropu')
+          selectedElement.type.startsWith('group')
         "
       >
         <v-text-field

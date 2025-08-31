@@ -32,6 +32,7 @@ export const ComponentRegistry: any = {
       { key: 'class', label: 'css class', type: 'text' },
       { key: 'width', label: 'width', type: 'text' },
       { key: 'height', label: 'height', type: 'text' },
+      { key: 'minHeight', label: 'min-height', type: 'text' },
       { key: 'border', label: 'border', type: 'text' },
       { key: 'padding', label: '패딩 (padding)', type: 'text' },
       { key: 'display', label: 'Display', type: 'select', options: ['flex', 'grid', 'block'] },

@@ -15,6 +15,12 @@
           :key="element.id"
           :element="element"
           :data-builder-id="element.id"
+          @removeElement="emit('removeElement')"
+          @move="
+            ({ id, dir }) =>
+              dir === 'up' ? builder.moveElementUp(id) : builder.moveElementDown(id)
+          "
+          @wrap-in-group="({ id }) => builder.wrapInGroup(id, { elevation: 1, rounded: 'xl' })"
         />
         <div style="height: 100vh" class="pl-2"></div>
       </div>
@@ -27,6 +33,11 @@ import { onMounted } from 'vue';
 import ElementWrapper from '@/_builder/components/ElementWrapper.vue';
 import store from '@/_builder/stores/index';
 import { useElementSelector } from '@/_builder/composables/useElementSelector';
+
+const emit = defineEmits(['removeElement']);
+function runEmit() {
+  emit('removeElement');
+}
 const builder = store.useBuilderStore();
 const elements = builder.elements;
 

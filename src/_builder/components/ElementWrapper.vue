@@ -8,7 +8,7 @@
     @drop="onDrop"
     @dragover.prevent="onDragOver"
     @keydown.delete="removeElement"
-    @contextmenu="(e) => onContextMenu(e)"
+    @contextmenu.prevent="(e) => onContextMenu(e)"
   >
     <!-- 그룹: CustomGroup(v-sheet)로 렌더 + slot에 재귀 렌더 -->
     <!-- == 'group' (CustomGroup.vue) -->
@@ -23,7 +23,7 @@
       <div
         v-if="!element.children || element.children.length === 0"
         class="text-disabled text-caption d-flex align-center justify-center"
-        style="height: 60px"
+        style="height: auto"
       >
         이 그룹에 컴포넌트를 드롭하세요
       </div>
@@ -66,6 +66,82 @@
         ></component>
       </div>
     </template>
+    <!-- 마우스 위치에 생성하는 가상 activator -->
+    <!-- <div
+      ref="menuActivator"
+      class="fixed pointer-events-none"
+      :style="{ left: `${cursor.x}px`, top: `${cursor.y}px`, width: '1px', height: '1px' }"
+      aria-hidden="true"
+    /> -->
+    <div
+      ref="menuActivator"
+      class="fixed pointer-events-none"
+      :style="menuActivatortStyle"
+      aria-hidden="true"
+    ></div>
+
+    <!-- 컨텍스트 메뉴 -->
+    <v-menu
+      v-model="menuOpen"
+      :activator="menuActivator"
+      :close-on-content-click="false"
+      location="bottom start"
+      transition="fade-transition"
+      :open-on-hover="false"
+      offset="8"
+    >
+      <v-list density="compact" min-width="240">
+        <v-list-subheader class="text-caption">Actions</v-list-subheader>
+
+        <v-list-item
+          prepend-icon="mdi-select-group"
+          title="그룹으로 감싸기"
+          @click="() => emitWrapInGroup()"
+        />
+        <v-divider />
+
+        <v-list-item prepend-icon="mdi-arrow-up" title="요소 위로" @click="() => emitMove('up')" />
+        <v-list-item
+          prepend-icon="mdi-arrow-down"
+          title="요소 아래로"
+          @click="() => emitMove('down')"
+        />
+        <v-divider />
+
+        <v-list-item prepend-icon="mdi-cog" title="옵션 수정" @click="() => emitEditOptions()" />
+        <v-list-item
+          prepend-icon="mdi-code-json"
+          title="JSON으로 보기"
+          @click="() => emitJsonView()"
+        />
+        <v-list-item
+          prepend-icon="mdi-upload"
+          title="Upload JSON"
+          @click="() => fileInput?.click()"
+        />
+        <v-list-item
+          prepend-icon="mdi-download"
+          title="Download JSON"
+          @click="() => downloadJson()"
+        />
+        <v-divider />
+
+        <v-list-item
+          class="text-error"
+          prepend-icon="mdi-delete"
+          title="요소 삭제"
+          @click="() => emitRemoveElement()"
+        />
+      </v-list>
+      <!-- JSON 업로드용 hidden input -->
+      <input
+        ref="fileInput"
+        type="file"
+        accept="application/json"
+        class="hidden"
+        @change="(e) => onUploadJson(e)"
+      />
+    </v-menu>
     <!-- 우클릭 컨텍스트 메뉴 (my-carousel일 때만) -->
     <div ref="ctxTarget" :style="ctxTargetStyle"></div>
     <v-menu
@@ -146,9 +222,8 @@ import { useVmodel } from '@/_builder/utils/isVmodelElement';
 import store from '@/_builder/stores/index';
 import { useRoute } from 'vue-router';
 import { router } from '@/router/index';
-import { useImageStore } from '@/_builder/stores/imageStore';
 
-const props = defineProps<{ element: any; isPage?: boolean }>();
+const props = defineProps<{ element: any; isPage?: boolean; downloadFileName?: string }>();
 const registry = store.useComponentRegistryStore();
 const formRef = ref();
 
@@ -278,13 +353,91 @@ watchEffect(() => {
   // }
 });
 
-/* --- 이미지 스토어 로딩 --- */
-const imageStore = useImageStore();
-onMounted(() => {
-  if (!imageStore.items.length) imageStore.fetchAll();
-});
+// ---- 컨텍스트 메뉴 상태 ----
+const menuOpen = ref(false);
+type MoveDir = 'up' | 'down';
+const cursor = reactive({ x: 0, y: 0 });
+const menuActivator: any = ref<HTMLElement | null>(null);
+const menuActivatortStyle: any = computed(() => ({
+  position: 'fixed',
+  left: cursor.x + 'px',
+  top: cursor.y + 'px',
+  width: '1px',
+  height: '1px',
+  zIndex: 1,
+}));
+
+const emit = defineEmits<{
+  (e: 'wrap-in-group', payload: { id: string }): void;
+  (e: 'move', payload: { id: string; dir: MoveDir }): void;
+  (e: 'edit-options', payload: { id: string }): void;
+  (e: 'json-view', payload: { id: string; json: Record<string, any> }): void;
+  (e: 'upload-json', payload: { id: string; json: Record<string, any> }): void;
+  (e: 'download-json', payload: { id: string; json: Record<string, any> }): void;
+  (e: 'remove-element'): void;
+}>();
+
+const onContextMenu = (e: MouseEvent) => {
+  if (menuOpen.value) menuOpen.value = false;
+  // 위치 기억 후 메뉴 오픈
+  cursor.x = e.clientX;
+  cursor.y = e.clientY;
+  // 다음 프레임에 열어 깜빡임 방지
+  requestAnimationFrame(() => {
+    menuOpen.value = true;
+  });
+};
+
+// ---- 액션 emit 래퍼 ----
+const emitWrapInGroup = () => emit('wrap-in-group', { id: builder.selectedElementId });
+const emitMove = (dir: MoveDir) => emit('move', { id: builder.selectedElementId, dir });
+const emitEditOptions = () => emit('edit-options', { id: builder.selectedElementId });
+const emitJsonView = () =>
+  emit('json-view', { id: builder.selectedElementId, json: props.element ?? {} });
+const emitRemoveElement = () => emit('remove-element');
+
+// ---- JSON 업로드/다운로드 ----
+const fileInput = ref<HTMLInputElement | null>(null);
+
+const onUploadJson = async (e: Event) => {
+  const input = e.target as HTMLInputElement;
+  const file = input.files?.[0];
+  if (!file) return;
+  try {
+    const text = await file.text();
+    const json = JSON.parse(text);
+    emit('upload-json', { id: builder.selectedElementId, json });
+  } catch (err) {
+    console.error('Invalid JSON file:', err);
+  } finally {
+    // 같은 파일 재업로드 가능하도록 reset
+    if (fileInput.value) fileInput.value.value = '';
+  }
+};
+
+const downloadJson = () => {
+  try {
+    const blob = new Blob([JSON.stringify(props.element ?? {}, null, 2)], {
+      type: 'application/json;charset=utf-8',
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    // a.download = props.downloadFileName || 'element.json'
+    a.download = props.downloadFileName || 'element.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    emit('download-json', { id: builder.selectedElementId, json: props.element ?? {} });
+  } catch (err) {
+    console.error('Download failed:', err);
+  }
+};
 
 /* --- 컨텍스트 메뉴 상태 --- */
+
+/* --- 이미지 contextmenu 로직 --- */
 const showCtx = ref(false);
 const ctxX = ref(0);
 const ctxY = ref(0);
@@ -305,9 +458,14 @@ const filteredImages = computed(() =>
     !q.value ? true : it.name.toLowerCase().includes(q.value.toLowerCase())
   )
 );
-
-/* --- 우클릭 핸들러 --- */
-function onContextMenu(e: MouseEvent) {
+import { useImageStore } from '@/_builder/stores/imageStore';
+/* --- 이미지 스토어 로딩 --- */
+const imageStore = useImageStore();
+onMounted(() => {
+  if (!imageStore.items.length) imageStore.fetchAll();
+});
+/* --- 이미지 conteextmenu 핸들러 --- */
+function onImageContextMenu(e: MouseEvent) {
   // my-carousel에만 컨텍스트 메뉴 제공
   if (props.element?.type !== 'my-carousel') return;
 
@@ -342,5 +500,11 @@ function closeImageMenu() {
 .selected-outline {
   outline: 2px dotted red;
   outline-offset: -2px;
+}
+.relative {
+  position: relative;
+}
+.hidden {
+  display: none;
 }
 </style>

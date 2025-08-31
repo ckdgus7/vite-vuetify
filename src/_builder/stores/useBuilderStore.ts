@@ -99,16 +99,18 @@ export const useBuilderStore = defineStore('builder', () => {
       id: crypto.randomUUID(),
       type: 'group',
       label: '그룹',
-      props: {
-        elevation: 1, // v-sheet elevation
-        rounded: 'xl', // v-sheet rounded
-        color: undefined, // v-sheet color (선택)
-      },
-      styles: {
-        padding: '8px',
-        border: '1px dashed #bdbdbd',
-        minHeight: '100px',
-      },
+      props: {},
+      styles: {},
+      // props: {
+      //   elevation: 1, // v-sheet elevation
+      //   rounded: 'xl', // v-sheet rounded
+      //   color: undefined, // v-sheet color (선택)
+      // },
+      // styles: {
+      //   padding: '8px',
+      //   border: '1px dashed #bdbdbd',
+      //   minHeight: '100px',
+      // },
       cssClass: '',
       children: [],
     });
@@ -203,6 +205,182 @@ export const useBuilderStore = defineStore('builder', () => {
     if (!target.events) target.events = {};
     target.events[eventName] = { handlerName, code };
   }
+  // ---------- 스왑 기반 순서 이동 유틸 ----------
+  type MoveDir = 'up' | 'down';
+
+  /** 대상 id의 "형제 배열"과 index를 찾아 반환 (루트/중첩 group 모두 지원) */
+  // function findParentAndIndex(
+  //   targetId: string
+  // ): { siblings: ElementSchema[]; index: number; parentId: string | null } | null {
+  //   const walk = (
+  //     arr: ElementSchema[],
+  //     parentId: string | null
+  //   ): { siblings: ElementSchema[]; index: number; parentId: string | null } | null => {
+  //     for (let i = 0; i < arr.length; i++) {
+  //       const node = arr[i];
+  //       if (node?.id === targetId) return { siblings: arr, index: i, parentId };
+  //       if (Array.isArray(node?.children) && node.children.length) {
+  //         const hit = walk(node.children as ElementSchema[], node.id);
+  //         if (hit) return hit;
+  //       }
+  //     }
+  //     return null;
+  //   };
+  //   return walk(elements.value, null);
+  // }
+
+  /** in-place 스왑: splice 없이 O(1) */
+  function swapInPlace<T>(arr: T[], i: number, j: number) {
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+
+  /** 공통 이동 함수 */
+  function moveElement(id: string, dir: MoveDir): boolean {
+    const loc = findParentAndIndex(id);
+    if (!loc) return false;
+
+    const { siblings, index } = loc;
+    const next = dir === 'up' ? index - 1 : index + 1;
+    if (next < 0 || next >= siblings.length) return false;
+
+    // *** 핵심: 스왑만 수행 (재할당/재렌더 최소화) ***
+    swapInPlace(siblings, index, next);
+    return true;
+  }
+
+  // 컨텍스트메뉴에서 호출할 API
+  const moveElementUp = (id: string) => moveElement(id, 'up');
+  const moveElementDown = (id: string) => moveElement(id, 'down');
+
+  // ---------- (추가) 그룹 래핑 관련 유틸 ----------
+  type GroupProps = {
+    elevation?: number | string;
+    rounded?: string;
+    color?: string;
+    className?: string; // 추가 적용할 CSS 클래스
+    minHeight?: string; // 시각적 드롭존 확보용
+  };
+
+  function isGroupNode(node: ElementSchema | null | undefined): boolean {
+    return !!node && node.type === 'group';
+  }
+
+  /** 대상 id의 형제 배열과 index를 찾아 반환 (루트/중첩 group 모두 지원) */
+  function findParentAndIndex(
+    targetId: string
+  ): { siblings: ElementSchema[]; index: number; parentId: string | null } | null {
+    const dfs = (arr: ElementSchema[], parentId: string | null): any => {
+      for (let i = 0; i < arr.length; i++) {
+        const node = arr[i];
+        if (node?.id === targetId) return { siblings: arr, index: i, parentId };
+        if (Array.isArray(node?.children) && node.children.length) {
+          const hit = dfs(node.children as ElementSchema[], node.id);
+          if (hit) return hit;
+        }
+      }
+      return null;
+    };
+    return dfs(elements.value, null);
+  }
+
+  /** 그룹 노드 생성 (v-sheet 기반) */
+  function createGroupNode(children: ElementSchema[], opts?: GroupProps): ElementSchema {
+    const {
+      elevation = 1,
+      rounded = 'xl',
+      color = undefined,
+      className = '',
+      minHeight = '100px',
+    } = opts || {};
+
+    return {
+      id: crypto.randomUUID(),
+      type: 'group', // 렌더러에서 v-sheet로 해석
+      label: '그룹',
+      // props: { elevation, rounded, color },
+      // styles: {
+      //   padding: '8px',
+      //   border: '1px dashed #bdbdbd',
+      //   minHeight,
+      // },
+      props: {},
+      styles: {},
+      cssClass: className,
+      children: [...children],
+      events: {},
+    };
+  }
+  // ---------- (추가) 단일 요소 그룹 래핑 ----------
+  /**
+   * targetId 요소를 동일한 부모/위치에서 "그룹 노드"로 치환하고,
+   * 원 요소는 새 그룹의 children[0]으로 넣습니다.
+   * 성공 시 새 그룹 id 반환.
+   */
+  function wrapElementWithGroup(targetId: string, groupProps?: GroupProps): string | null {
+    const loc = findParentAndIndex(targetId);
+    if (!loc) return null;
+
+    const { siblings, index } = loc;
+    const target = siblings[index];
+
+    // 이미 group이면 중첩 생성 방지: 그대로 반환(원하면 허용 로직으로 변경 가능)
+    if (isGroupNode(target)) return target.id;
+
+    // *** 핵심: 배열 재구축 대신 해당 인덱스의 항목만 "치환" (in-place 변경 최소화) ***
+    const groupNode = createGroupNode([target], groupProps);
+    siblings[index] = groupNode;
+
+    // 선택 포커스를 그룹으로 넘기면 Inspector에서 곧바로 그룹 옵션 수정 가능
+    selectedElementId.value = groupNode.id;
+
+    return groupNode.id;
+  }
+  // ---------- (선택) 다중 선택 구간 래핑 (연속 인덱스일 때 O(1)치환 1회) ----------
+  /**
+   * 같은 부모 아래에 있는 연속(contiguous) 요소들 ids[]를 하나의 그룹으로 감쌉니다.
+   * 연속이 아니면 내부적으로 고정된 순서로 모아 새 그룹을 만들고,
+   * 첫 시작 위치에 1회만 splice로 치환합니다.
+   */
+  function wrapElementsRangeWithGroup(ids: string[], groupProps?: GroupProps): string | null {
+    if (!ids?.length) return null;
+
+    // 공통 부모/인덱스 수집
+    const locs = ids
+      .map((id) => findParentAndIndex(id))
+      .filter((v): v is NonNullable<typeof v> => !!v);
+
+    if (!locs.length) return null;
+
+    const baseSiblings = locs[0].siblings;
+    if (!locs.every((l) => l.siblings === baseSiblings)) {
+      // 부모가 다르면 안전하게 실패 처리(원하시면 자동 이동/병합 로직으로 확장 가능)
+      return null;
+    }
+
+    // 인덱스 오름차순 정렬
+    const indices = locs.map((l) => l.index).sort((a, b) => a - b);
+    const start = indices[0];
+    const contiguous = indices.every((v, i, arr) => (i === 0 ? true : v === arr[i - 1] + 1));
+
+    // 자식 모으기
+    const children = indices.map((i) => baseSiblings[i]);
+
+    const groupNode = createGroupNode(children, groupProps);
+
+    if (contiguous) {
+      // *** 핵심: 한 번의 splice로 "N개 삭제 + 그룹 1개 삽입" → 변경 최소화 ***
+      baseSiblings.splice(start, indices.length, groupNode);
+    } else {
+      // 비연속: 상위 배열 파손 최소화를 위해 뒤에서부터 제거 후, 시작 위치에 삽입
+      for (let i = indices.length - 1; i >= 0; i--) baseSiblings.splice(indices[i], 1);
+      baseSiblings.splice(start, 0, groupNode);
+    }
+
+    selectedElementId.value = groupNode.id;
+    return groupNode.id;
+  }
+  // ---------- (추가) 컨텍스트 메뉴 연동용 public API ----------
+  const wrapInGroup = (id: string, props?: GroupProps) => wrapElementWithGroup(id, props);
 
   return {
     elements,
@@ -219,5 +397,15 @@ export const useBuilderStore = defineStore('builder', () => {
     removeElement,
     addEventToComponent,
     updateSelectedElement,
+
+    // 추가
+    moveElementUp,
+    moveElementDown,
+    moveElement, // (옵션) 공통함수도 노출
+
+    // ★ 추가 노출
+    wrapInGroup,
+    wrapElementWithGroup,
+    wrapElementsRangeWithGroup,
   };
 });

@@ -98,10 +98,12 @@
           <v-btn v-bind="props" icon="mdi-folder-cog-outline" @click="openFileDialogOpen"></v-btn>
         </template>
       </v-tooltip>
-      <!-- <v-btn variant="text" class="mr-2" @click="exportsd">
-        <v-icon start>mdi-content-save</v-icon>
-        렌터링 코드 다운로드
-      </v-btn> -->
+      <!-- 파일관리 -->
+      <v-tooltip text="렌더링 코드 다운로드">
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon="mdi-content-save" @click="exportsd"></v-btn>
+        </template>
+      </v-tooltip>
       <!-- <v-divider
         vertical
         :length="50"
@@ -151,7 +153,7 @@
     <v-main>
       <div class="pa-3 h-100 d-flex flex-column">
         <div class="flex-grow-1 rounded-lg elevation-1 bg-surface">
-          <CanvasArea />
+          <CanvasArea @removeElement="removeElement" />
         </div>
       </div>
     </v-main>
@@ -207,10 +209,10 @@ const removeElement = () => {
   }
 };
 
-// const exportsd = () => {
-//   console.log('Exporting...', builder);
-//   builder.exportToJsonFile('my-template.json');
-// };
+const exportsd = () => {
+  console.log('Exporting...', builder);
+  builder.exportToJsonFile('my-template.json');
+};
 
 // const openDataManager = () => {
 //   dataStore.open();

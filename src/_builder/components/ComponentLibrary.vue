@@ -39,6 +39,7 @@ const componentList: CompList[] = [
       flexDirection: 'row',
       alignItems: 'center',
       height: '100px',
+      minHeight: '100px',
     },
   },
   {
