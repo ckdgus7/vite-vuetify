@@ -116,6 +116,11 @@
             :key="idx"
             class="mb-2 pa-2"
           >
+            <div v-if="selectedElement.value.type === 'my-ag-grid'" class="mb-2">
+              <v-btn size="small" color="primary" @click="() => (headerDialog = true)">
+                그리드 헤더 편집
+              </v-btn>
+            </div>
             <div class="d-flex flex-column gap-2">
               <template v-for="field in meta.itemFields" :key="field.key">
                 <v-text-field
@@ -404,16 +409,25 @@
       <EventEditor v-if="selectedElement" :element="selectedElement" @update="onEventUpdate" />
     </div>
   </v-card>
+
   <v-sheet v-else class="pt-14">
     <div style="text-align: center">선택된 요소가 없습니다.</div>
   </v-sheet>
+  <GridHeaderEditorDialog
+    v-model="headerDialog"
+    :value="currentColumns"
+    @save="(cols) => onSaveHeaders(cols)"
+  />
 </template>
 
 <script setup lang="ts">
-import { computed, watchEffect } from 'vue';
+import { ref, computed, watchEffect } from 'vue';
 import store from '@/_builder/stores/index';
 import { ComponentRegistry } from '@/_builder/utils/componentMap';
 import EventEditor from './EventEditor.vue';
+import GridHeaderEditorDialog, {
+  type GridHeaderItem,
+} from './InspectorPanel/GridHeaderEditorDialog.vue';
 
 const builder = store.useBuilderStore();
 const dataCollection = store.useDataCollectionStore();
@@ -500,4 +514,16 @@ const onEventUpdate = ({
   if (!selectedElement.value) return;
   builder.addEventToComponent(selectedElement.value.id, eventName, handlerName, code);
 };
+
+/** grid header 팝업 오픈 */
+const headerDialog = ref(false);
+/** 현재 컬럼 정의 가져오기(없으면 빈 배열) */
+const currentColumns = computed<GridHeaderItem[]>(() => {
+  const raw = [];
+  // 실제 데이터가 로우 데이터(행)인지, 컬럼 정의인지 프로젝트마다 다릅니다.
+  // 여기서는 "컬럼 정의 배열"을 `options.items`에 보관하는 컨벤션으로 가정합니다.
+  return [];
+});
+/** 저장 시 반영 */
+const onSaveHeaders = (cols: GridHeaderItem[]) => {};
 </script>
