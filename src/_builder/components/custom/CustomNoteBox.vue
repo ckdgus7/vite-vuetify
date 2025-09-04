@@ -1,5 +1,5 @@
 <template>
-  <v-alert variant="outlined" border="start" class="note-box">
+  <v-alert variant="outlined" border="start" class="note-box" :style="props.style">
     <template #title>
       <span class="text-primary font-weight-medium ml-3">
         <pre>{{ props.title }}</pre>
@@ -30,6 +30,7 @@ interface Props {
   linkText?: string;
   linkHref?: string;
   messageAfter?: string;
+  style?: string;
 }
 
 const props = defineProps<Props>();

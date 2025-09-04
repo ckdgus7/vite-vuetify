@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container :style="props.style">
     <v-card class="pa-6" elevation="3" max-width="900" mx="auto">
       <div>
         <div class="text-subtitle-1 font-weight-medium mb-2">Draw.io 편집기</div>
@@ -20,6 +20,11 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 
+interface Props {
+  style?: string;
+}
+
+const props = defineProps<Props>();
 const drawioRef = ref<HTMLIFrameElement | null>(null);
 const drawioUrl =
   'https://embed.diagrams.net/?viewbox={"x":0,"y":0,"width":1000,"height":1000}&saveAndExit=0&noSaveBtn=1&noExitBtn=1&proto=json';

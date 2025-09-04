@@ -401,7 +401,18 @@
 
     <div v-if="!isGroup">
       <v-divider class="mb-2" />
-      <EventEditor v-if="selectedElement" :element="selectedElement" @update="onEventUpdate" />
+      <div v-for="(ev, i) in eventList" :key="i">
+        <EventEditor
+          v-if="selectedElement"
+          :element="selectedElement"
+          :listIndex="i"
+          @update="onEventUpdate"
+          @delete="onEventDelete"
+        />
+      </div>
+      <v-btn block color="primary" size="small" @click="() => eventList.push('ev')">
+        + 이벤트 추가
+      </v-btn>
     </div>
   </v-card>
   <v-sheet v-else class="pt-14">
@@ -410,10 +421,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watchEffect } from 'vue';
+import { ref, computed, watchEffect } from 'vue';
 import store from '@/_builder/stores/index';
 import { ComponentRegistry } from '@/_builder/utils/componentMap';
 import EventEditor from './EventEditor.vue';
+
+const eventList: any = ref([]);
 
 const builder = store.useBuilderStore();
 const dataCollection = store.useDataCollectionStore();
@@ -499,5 +512,10 @@ const onEventUpdate = ({
 }) => {
   if (!selectedElement.value) return;
   builder.addEventToComponent(selectedElement.value.id, eventName, handlerName, code);
+};
+const onEventDelete = ({ eventName, listIndex }: { eventName: string; listIndex: number }) => {
+  if (!selectedElement.value) return;
+  eventList.value.splice(listIndex, 1);
+  builder.deleteEventToComponent(selectedElement.value.id, eventName);
 };
 </script>

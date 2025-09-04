@@ -107,15 +107,11 @@ export const ComponentRegistry: any = {
       },
       { key: 'width', label: 'width', type: 'text' },
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
-      // {
-      //   key: 'style',
-      //   label: '스타일',
-      //   type: 'object',
-      //   fields: [
-      //     { key: 'width', label: '너비', type: 'text' },
-      //     { key: 'height', label: '높이', type: 'text' }
-      //   ],
-      // },
+      {
+        key: 'style',
+        label: '스타일',
+        type: 'textarea',
+      },
     ],
   },
   'my-text-field': {
@@ -926,6 +922,7 @@ export const ComponentRegistry: any = {
       { key: 'messageAfter', label: 'messageAfter', type: 'text' },
 
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
+      { key: 'style', label: 'Style', type: 'textarea' },
     ],
   },
   'my-subject-text': {
@@ -965,6 +962,7 @@ export const ComponentRegistry: any = {
       },
 
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
+      { key: 'style', label: 'Style', type: 'textarea' },
     ],
   },
   'my-page-title': {
@@ -987,6 +985,7 @@ export const ComponentRegistry: any = {
       },
 
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
+      { key: 'style', label: 'Style', type: 'textarea' },
     ],
   },
   'my-ag-grid': {
@@ -1024,6 +1023,7 @@ export const ComponentRegistry: any = {
             ],
           },
           { key: 'sortIndex', label: 'sortIndex', type: 'text' },
+          { key: 'style', label: 'Style', type: 'textarea' },
         ],
       },
       {
@@ -1041,7 +1041,8 @@ export const ComponentRegistry: any = {
       { key: 'apiUrl', label: 'API URL', type: 'text' },
 
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
-      { key: 'dataListMapSchema', label: 'dataListMapSchema', type: 'select', options: [] },
+      // { key: 'dataListMapSchema', label: 'dataListMapSchema', type: 'select', options: [] },
+      { key: 'style', label: 'Style', type: 'textarea' },
     ],
   },
   'my-ck-editor': {
@@ -1052,6 +1053,7 @@ export const ComponentRegistry: any = {
       { key: 'class', label: 'css class', type: 'text' },
 
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
+      { key: 'style', label: 'Style', type: 'textarea' },
     ],
   },
   'my-carousel': {
@@ -1074,6 +1076,7 @@ export const ComponentRegistry: any = {
         ],
       },
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
+      { key: 'style', label: 'Style', type: 'textarea' },
     ],
   },
   'my-card': {
@@ -1088,6 +1091,7 @@ export const ComponentRegistry: any = {
       { key: 'contents', label: 'Contents', type: 'textarea' },
 
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
+      { key: 'style', label: 'Style', type: 'textarea' },
     ],
   },
   'my-footer': {
@@ -1098,6 +1102,7 @@ export const ComponentRegistry: any = {
       { key: 'class', label: 'css class', type: 'text' },
 
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
+      { key: 'style', label: 'Style', type: 'textarea' },
     ],
   },
 };

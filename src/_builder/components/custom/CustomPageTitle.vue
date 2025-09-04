@@ -4,6 +4,7 @@
     justify="space-between"
     class="pa-2"
     style="border-bottom: 1px solid #e0e0e0"
+    :style="props.style"
   >
     <!-- 좌측 타이틀 -->
     <v-col cols="12" md="6">
@@ -39,6 +40,7 @@ const props = defineProps<{
   breadcrumbs: BreadcrumbItem[];
   size?: 'sm' | 'md' | 'lg' | 'xl';
   weight?: 'normal' | 'medium' | 'bold';
+  style?: string;
 }>();
 
 const sizeClass = computed(() => {

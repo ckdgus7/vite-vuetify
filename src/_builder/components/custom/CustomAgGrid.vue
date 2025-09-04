@@ -1,5 +1,5 @@
 <template>
-  <div style="margin: 20px">
+  <div :style="props.style">
     <ag-grid-vue
       :theme="myTheme"
       :rowData="rowData"

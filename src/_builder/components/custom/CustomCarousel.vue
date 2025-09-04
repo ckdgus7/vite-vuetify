@@ -1,5 +1,5 @@
 <template>
-  <v-carousel hide-delimiters>
+  <v-carousel hide-delimiters :style="props.style">
     <v-carousel-item
       v-for="(item, i) in props.items"
       :key="i"
@@ -17,6 +17,7 @@ interface Item {
 }
 const props = defineProps<{
   items: Item[];
+  style?: string;
 }>();
 
 // const items = [
