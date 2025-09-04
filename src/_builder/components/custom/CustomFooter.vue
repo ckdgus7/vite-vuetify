@@ -1,5 +1,9 @@
 <template>
-  <v-footer class="text-center d-flex flex-column ga-2 py-4" color="indigo-lighten-1">
+  <v-footer
+    class="text-center d-flex flex-column ga-2 py-4"
+    color="indigo-lighten-1"
+    :style="props.style"
+  >
     <div class="d-flex ga-3">
       <v-btn
         v-for="icon in icons"
@@ -29,6 +33,10 @@
     </div>
   </v-footer>
 </template>
-<script setup>
+<script setup lang="ts">
 const icons = ['mdi-facebook', 'mdi-twitter', 'mdi-linkedin', 'mdi-instagram'];
+interface Props {
+  style?: string;
+}
+const props = defineProps<Props>();
 </script>

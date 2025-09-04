@@ -12,8 +12,9 @@
   <!-- <MonacoEditor v-model="handlerCode" height="200" language="javascript" /> -->
   <v-textarea v-model="handlerCode" height="200" hide-details dense />
   <v-btn @click="onPreview">미리보기</v-btn>
-  <v-alert v-if="preview">{{ preview }}</v-alert>
+  <!-- <v-alert v-if="preview">{{ preview }}</v-alert> -->
   <v-btn color="primary" @click="onSave">저장</v-btn>
+  <v-btn color="error" @click="onDelete">삭제</v-btn>
 </template>
 
 <script setup lang="ts">
@@ -35,8 +36,8 @@ import { useRoute } from 'vue-router';
 import { router } from '@/router/index';
 // import MonacoEditor from 'monaco-editor-vue3';
 
-const props = defineProps<{ element: any }>();
-const emit = defineEmits(['update']);
+const props = defineProps<{ element: any; listIndex: number }>();
+const emit = defineEmits(['update', 'delete']);
 
 const selectedEvent = ref('');
 const handlerName = ref('');
@@ -71,6 +72,13 @@ const onSave = () => {
     eventName: selectedEvent.value,
     handlerName: handlerName.value,
     code: handlerCode.value,
+  });
+};
+
+const onDelete = () => {
+  emit('delete', {
+    eventName: selectedEvent.value,
+    listIndex: props.listIndex,
   });
 };
 

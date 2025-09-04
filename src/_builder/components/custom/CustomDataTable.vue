@@ -4,6 +4,7 @@
     :items="rowData"
     v-bind="{ ...props }"
     density="compact"
+    :style="props.style"
   ></v-data-table>
 </template>
 <script setup lang="ts">
@@ -28,6 +29,7 @@ const props = defineProps([
   'striped',
   'width',
   'dataListMapSchema',
+  'style',
 ]);
 
 const rowData = ref([

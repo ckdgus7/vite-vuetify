@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container :style="props.style">
     <v-card class="pa-6" elevation="3" max-width="900" mx="auto">
       <v-form @submit.prevent="handleSubmit" ref="formRef" class="d-flex flex-column gap-5">
         <div>
@@ -35,6 +35,11 @@ import Modeler from 'bpmn-js/lib/Modeler';
 import xml from '@/assets/testXML/bpmn-blank';
 import { onMounted, onBeforeUnmount, ref } from 'vue';
 
+interface Props {
+  style?: string;
+}
+
+const props = defineProps<Props>();
 const formRef = ref();
 const modeler = ref<any>(null);
 

@@ -1,25 +1,23 @@
 <template>
-  <div>
-    <v-card class="mx-auto" max-width="400" min-width="300">
-      <v-img class="align-end text-white" height="200" :src="props.topImage" cover>
-        <v-card-title>{{ props.title }}</v-card-title>
-      </v-img>
+  <v-card class="mx-auto" max-width="400" min-width="300" :style="props.style">
+    <v-img class="align-end text-white" height="200" :src="props.topImage" cover>
+      <v-card-title>{{ props.title }}</v-card-title>
+    </v-img>
 
-      <v-card-subtitle class="pt-4" v-if="props.subTitle">{{ props.subTitle }}</v-card-subtitle>
+    <v-card-subtitle class="pt-4" v-if="props.subTitle">{{ props.subTitle }}</v-card-subtitle>
 
-      <v-card-text>
-        <div>
-          <pre>{{ props.contents }}</pre>
-        </div>
-      </v-card-text>
+    <v-card-text>
+      <div>
+        <pre>{{ props.contents }}</pre>
+      </div>
+    </v-card-text>
 
-      <!-- <v-card-actions>
+    <!-- <v-card-actions>
         <v-btn color="orange" text="Share"></v-btn>
 
         <v-btn color="orange" text="Explore"></v-btn>
       </v-card-actions> -->
-    </v-card>
-  </div>
+  </v-card>
 </template>
 
 <script setup lang="ts">
@@ -30,6 +28,7 @@ const props = defineProps<{
   title: string;
   subTitle: string;
   contents: string;
+  style?: string;
 }>();
 const emits = defineEmits(['click']);
 

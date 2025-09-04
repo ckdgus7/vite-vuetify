@@ -205,6 +205,12 @@ export const useBuilderStore = defineStore('builder', () => {
     if (!target.events) target.events = {};
     target.events[eventName] = { handlerName, code };
   }
+  function deleteEventToComponent(id: string, eventName: string) {
+    const target = elements.value.find((c) => c.id === id);
+    if (!target) return;
+    if (!target.events) target.events = {};
+    delete target.events[eventName];
+  }
   // ---------- 스왑 기반 순서 이동 유틸 ----------
   type MoveDir = 'up' | 'down';
 
@@ -396,6 +402,7 @@ export const useBuilderStore = defineStore('builder', () => {
     findElementById,
     removeElement,
     addEventToComponent,
+    deleteEventToComponent,
     updateSelectedElement,
 
     // 추가

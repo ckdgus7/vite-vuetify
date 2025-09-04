@@ -1,5 +1,5 @@
 <template>
-  <div style="margin: 20px">
+  <div :style="props.style">
     <div>{{ abc }}</div>
     <BaseCkEditor></BaseCkEditor>
   </div>
@@ -8,6 +8,7 @@
 <script setup lang="ts">
 import BaseCkEditor from '@/components/base/BaseCkEditor.vue';
 import { ref } from 'vue';
+const props = defineProps(['style']);
 const abc = ref(1);
 
 defineExpose({ abc });

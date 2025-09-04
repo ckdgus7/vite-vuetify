@@ -5,7 +5,7 @@
       :rowData="props.rowData"
       :columnDefs="props.columnDefs"
       :defaultColDef="props.defaultColDef"
-      :style="style"
+      :style="props.style"
       @grid-ready="onGridReady"
     ></ag-grid-vue>
   </div>

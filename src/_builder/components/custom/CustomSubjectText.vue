@@ -1,5 +1,5 @@
 <template>
-  <div class="section-title">
+  <div class="section-title" :style="props.style">
     <div class="d-flex align-center mb-2">
       <v-icon v-if="icon" class="me-2" :icon="icon" :size="iconSize" />
       <span :class="[sizeClass, weightClass]">
@@ -21,6 +21,7 @@ const props = defineProps<{
   size?: 'sm' | 'md' | 'lg' | 'xl';
   weight?: 'normal' | 'medium' | 'bold';
   divider?: boolean;
+  style?: string;
 }>();
 const emits = defineEmits(['click']);
 
