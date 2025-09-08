@@ -234,12 +234,16 @@ watch(
       if (props.element.props.id) {
         const timeout = setTimeout(() => {
           clearTimeout(timeout);
-          if (oldVal) {
-            registry.unregister(props.element.props.id);
-          } else {
-            selectElement();
+          // if (oldVal) {
+          //   registry.unregister(props.element.props.id);
+          // } else {
+          //   selectElement();
+          // }
+          // registry.register(props.element.props.id, formRef.value);
+          selectElement();
+          if (!registry.get(props.element.props.id)) {
+            registry.register(props.element.props.id, formRef.value);
           }
-          registry.register(props.element.props.id, formRef.value);
         }, 500);
       }
     }
@@ -314,12 +318,13 @@ watchEffect(() => {
   // 페이지 렌더링 시 이벤트 실행
   // if (props.isPage) {
   const result: Record<string, Function> = {};
-  if (props.element.events) {
+  if (props.element.events.length) {
     // for (const [eventName, eventData] of Object.entries(props.element.events)) {
-    for (const evt of Object.entries(props.element.events)) {
+    // for (const evt of Object.entries(props.element.events)) {
+    props.element.events.forEach((evt: any) => {
       const e: any = evt;
-      const eventName = e[0];
-      const code = e[1].code;
+      const eventName = e.eventName;
+      const code = e.code;
       // console.log(code);
       result[eventName] = (...args: any[]) => {
         try {
@@ -346,7 +351,7 @@ watchEffect(() => {
           console.error(`이벤트 실행 오류 [${eventName}]`, e);
         }
       };
-    }
+    });
   }
   // console.log('bindings', result);
   bindings.value = result;

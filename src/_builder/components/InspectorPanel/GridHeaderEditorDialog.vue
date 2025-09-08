@@ -1,38 +1,35 @@
 <template>
   <v-dialog
     v-model="internalOpen"
-    max-width="960"
+    max-width="1200"
     transition="dialog-bottom-transition"
     :persistent="saving"
   >
     <v-card>
       <v-toolbar density="compact" color="primary" title="그리드 헤더 편집">
         <template #append>
-          <v-btn variant="text" @click="() => onAdd()" icon="mdi-plus" />
+          <v-btn
+            variant="text"
+            @click="() => onAdd()"
+            title="행추가"
+            alt="행추가"
+            icon="mdi-plus"
+          />
           <v-btn
             variant="text"
             @click="() => onDuplicate()"
             icon="mdi-content-copy"
+            title="복사"
+            alt="복사"
             :disabled="!hasSelection"
           />
           <v-btn
             variant="text"
             @click="() => onRemove()"
             icon="mdi-delete"
+            title="삭제"
+            alt="삭제"
             :disabled="!hasSelection"
-          />
-          <v-divider vertical class="mx-2" />
-          <v-btn
-            variant="text"
-            @click="() => onMove(-1)"
-            icon="mdi-arrow-up"
-            :disabled="!canMoveUp"
-          />
-          <v-btn
-            variant="text"
-            @click="() => onMove(1)"
-            icon="mdi-arrow-down"
-            :disabled="!canMoveDown"
           />
         </template>
       </v-toolbar>
@@ -40,19 +37,19 @@
       <v-card-text class="pa-0">
         <!-- ag-Grid 영역 -->
         <div class="ag-theme-alpine" style="height: 520px; width: 100%">
-          <AgGridVue
+          <ag-grid-vue
             ref="gridRef"
+            :theme="myTheme"
             :rowData="rows"
             :columnDefs="columnDefs"
             :defaultColDef="defaultColDef"
-            :rowSelection="'single'"
             :rowDragManaged="true"
             :animateRows="true"
-            :suppressRowClickSelection="false"
             :stopEditingWhenCellsLoseFocus="true"
             :domLayout="'normal'"
             :undoRedoCellEditing="true"
             :ensureDomOrder="true"
+            :style="'height: 500px'"
             @grid-ready="(e: any) => onGridReady(e)"
             @selection-changed="() => onSelectionChanged()"
             @cell-value-changed="(e: any) => onCellChanged(e)"
@@ -73,7 +70,12 @@
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, shallowRef, watch } from 'vue';
-import { type AgGridVue } from 'ag-grid-vue3';
+import { AgGridVue } from 'ag-grid-vue3'; // Vue Data Grid Component
+
+import { AllCommunityModule, ModuleRegistry, themeBalham } from 'ag-grid-community';
+ModuleRegistry.registerModules([AllCommunityModule]);
+// Mark all grids as using legacy themes
+const myTheme = themeBalham.withParams({ accentColor: 'red' });
 // ag-Grid CSS는 전역(예: main.ts)에서 불러두는 것을 권장합니다.
 // import 'ag-grid-community/styles/ag-grid.css'
 // import 'ag-grid-community/styles/ag-theme-alpine.css'
@@ -100,23 +102,16 @@ export type GridHeaderItem = {
 };
 
 type Props = {
-  modelValue: boolean;
   /** 현재 컬럼 정의 목록 */
   value: GridHeaderItem[];
 };
 const props = defineProps<Props>();
 const emit = defineEmits<{
-  (e: 'update:modelValue', v: boolean): void;
   (e: 'save', v: GridHeaderItem[]): void;
 }>();
 
 /** 내부 오픈 상태(외부 v-model 동기화) */
-const internalOpen = ref<boolean>(props.modelValue);
-watch(
-  () => props.modelValue,
-  (v) => (internalOpen.value = v)
-);
-watch(internalOpen, (v) => emit('update:modelValue', v));
+const internalOpen = defineModel<boolean>();
 
 /** 편집용 로우 데이터 (깊은 복사) */
 const rows = ref<GridHeaderItem[]>([]);
@@ -132,9 +127,6 @@ const gridColumnApi = shallowRef<any>(null);
 const selectedIndex = ref<number | null>(null);
 const hasSelection = computed(() => selectedIndex.value !== null);
 const canMoveUp = computed(() => selectedIndex.value !== null && selectedIndex.value! > 0);
-const canMoveDown = computed(
-  () => selectedIndex.value !== null && selectedIndex.value! < rows.value.length - 1
-);
 
 /** 숫자/불리언 캐스팅 도우미 */
 function toNumberOrString(v: any) {
@@ -156,19 +148,26 @@ const columnDefs = ref<any[]>([
     headerName: '',
     field: 'drag',
     rowDrag: true,
-    width: 48,
+    width: 50,
     suppressSizeToFit: true,
     sortable: false,
     filter: false,
     editable: false,
   },
-  { headerName: 'headerName', field: 'headerName', editable: true },
-  { headerName: 'field', field: 'field', editable: true },
-  { headerName: 'type', field: 'type', editable: true },
-  { headerName: 'width', field: 'width', editable: true, valueSetter: numberSetter('width') },
+  { headerName: 'headerName', field: 'headerName', width: 120, editable: true },
+  { headerName: 'field', field: 'field', width: 120, editable: true },
+  { headerName: 'type', field: 'type', width: 60, editable: true },
+  {
+    headerName: 'width',
+    field: 'width',
+    width: 60,
+    editable: true,
+    valueSetter: numberSetter('width'),
+  },
   {
     headerName: 'maxWidth',
     field: 'maxWidth',
+    width: 80,
     editable: true,
     valueSetter: numberSetter('maxWidth'),
   },
@@ -176,27 +175,31 @@ const columnDefs = ref<any[]>([
     headerName: 'pinned',
     field: 'pinned',
     editable: true,
+    width: 80,
     cellEditor: 'agSelectCellEditor',
     cellEditorParams: { values: ['', 'left', 'right'] },
   },
-  {
-    headerName: 'initialWidth',
-    field: 'initialWidth',
-    editable: true,
-    valueSetter: numberSetter('initialWidth'),
-  },
-  {
-    headerName: 'initialPinned',
-    field: 'initialPinned',
-    editable: true,
-    cellEditor: 'agSelectCellEditor',
-    cellEditorParams: { values: ['', 'left', 'right'] },
-  },
+  // {
+  //   headerName: 'initialWidth',
+  //   field: 'initialWidth',
+  //   width: 110,
+  //   editable: true,
+  //   valueSetter: numberSetter('initialWidth'),
+  // },
+  // {
+  //   headerName: 'initialPinned',
+  //   field: 'initialPinned',
+  //   width: 110,
+  //   editable: true,
+  //   cellEditor: 'agSelectCellEditor',
+  //   cellEditorParams: { values: ['', 'left', 'right'] },
+  // },
   {
     headerName: 'hide',
     field: 'hide',
     editable: true,
     cellEditor: 'agSelectCellEditor',
+    width: 80,
     cellEditorParams: { values: ['false', 'true'] },
     valueSetter: booleanSetter('hide'),
   },
@@ -205,12 +208,14 @@ const columnDefs = ref<any[]>([
     field: 'sort',
     editable: true,
     cellEditor: 'agSelectCellEditor',
+    width: 80,
     cellEditorParams: { values: ['', 'asc', 'desc'] },
   },
   {
     headerName: 'filter',
     field: 'filter',
     editable: true,
+    width: 160,
     cellEditor: 'agSelectCellEditor',
     cellEditorParams: {
       values: [
@@ -226,6 +231,7 @@ const columnDefs = ref<any[]>([
     headerName: 'sortIndex',
     field: 'sortIndex',
     editable: true,
+    width: 77,
     valueSetter: numberSetter('sortIndex'),
   },
 ]);
@@ -233,9 +239,9 @@ const columnDefs = ref<any[]>([
 /** 모든 컬럼 공통 옵션(성능/편의) */
 const defaultColDef = ref({
   resizable: true,
-  sortable: true,
-  filter: true,
-  flex: 1,
+  // sortable: true,
+  // filter: true,
+  // flex: 1,
 });
 
 function numberSetter(field: keyof GridHeaderItem) {
@@ -315,18 +321,6 @@ function onRemove() {
   selectedIndex.value = null;
 }
 
-function onMove(delta: -1 | 1) {
-  if (selectedIndex.value === null) return;
-  const i = selectedIndex.value;
-  const j = i + delta;
-  if (j < 0 || j >= rows.value.length) return;
-  [rows.value[i], rows.value[j]] = [rows.value[j], rows.value[i]];
-  gridApi.value?.setRowData(rows.value);
-  selectedIndex.value = j;
-  gridApi.value?.setFocusedCell(j, 'headerName');
-  gridApi.value?.ensureIndexVisible(j);
-}
-
 /** field 고유값 보장 */
 function uniqueField(base: string) {
   let name = base;
@@ -372,11 +366,16 @@ watch(
   () => props.value,
   (v) => {
     // 깊은 복사하여 편집
+    // console.log(v);
+    if (internalOpen.value) {
+    }
     rows.value = JSON.parse(JSON.stringify(v ?? []));
+    // console.log(rows.value);
     // 최소 1개 보장(초기 UX)
     if (!rows.value.length) onAdd();
     // 그리드 데이터 반영
-    gridApi.value?.setRowData(rows.value);
+    // const gApi = gridApi.value
+    // gridApi.value?.setRowData(rows.value);
   },
   { immediate: true, deep: true }
 );

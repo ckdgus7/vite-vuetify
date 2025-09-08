@@ -10,12 +10,7 @@ export interface ElementSchema {
   styles: Record<string, any>;
   cssClass: string;
   children: any[]; // Optional, for nested elements
-  events?: {
-    [eventName: string]: {
-      handlerName: string;
-      code: string;
-    };
-  };
+  events?: any[];
 }
 
 export const useBuilderStore = defineStore('builder', () => {
@@ -30,15 +25,16 @@ export const useBuilderStore = defineStore('builder', () => {
     props: any
   ) {
     const propsId = `v_${Date.now()}`;
+    const id = crypto.randomUUID();
     elements.value.push({
-      id: crypto.randomUUID(),
+      id,
       type,
       label,
       styles,
       cssClass,
       props: { ...props, id: propsId },
       children: [],
-      events: {},
+      events: [],
     });
     console.log(elements.value);
   }
@@ -113,6 +109,7 @@ export const useBuilderStore = defineStore('builder', () => {
       // },
       cssClass: '',
       children: [],
+      events: [],
     });
   }
 
@@ -152,7 +149,7 @@ export const useBuilderStore = defineStore('builder', () => {
       cssClass: dropObj.class || '',
       props: { ...props },
       children: [],
-      events: {},
+      events: [],
     });
   }
   function findElementById(id: string): ElementSchema | null {
@@ -202,14 +199,14 @@ export const useBuilderStore = defineStore('builder', () => {
   function addEventToComponent(id: string, eventName: string, handlerName: string, code: string) {
     const target = elements.value.find((c) => c.id === id);
     if (!target) return;
-    if (!target.events) target.events = {};
-    target.events[eventName] = { handlerName, code };
+    if (!target.events) target.events = [];
+    target.events.push({ eventName, handlerName, code });
   }
-  function deleteEventToComponent(id: string, eventName: string) {
+  function deleteEventToComponent(id: string, listIndex: number) {
     const target = elements.value.find((c) => c.id === id);
     if (!target) return;
-    if (!target.events) target.events = {};
-    delete target.events[eventName];
+    const events = target?.events ?? [];
+    events.splice(listIndex, 1);
   }
   // ---------- 스왑 기반 순서 이동 유틸 ----------
   type MoveDir = 'up' | 'down';
@@ -313,7 +310,7 @@ export const useBuilderStore = defineStore('builder', () => {
       styles: {},
       cssClass: className,
       children: [...children],
-      events: {},
+      events: [],
     };
   }
   // ---------- (추가) 단일 요소 그룹 래핑 ----------

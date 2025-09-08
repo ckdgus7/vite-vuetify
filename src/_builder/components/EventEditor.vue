@@ -8,7 +8,7 @@
     density="compact"
     hide-details
   />
-  <v-text-field v-model="handlerName" label="핸들러 이름" hide-details dense />
+  <!-- <v-text-field v-model="handlerName" label="핸들러 이름" hide-details dense /> -->
   <!-- <MonacoEditor v-model="handlerCode" height="200" language="javascript" /> -->
   <v-textarea v-model="handlerCode" height="200" hide-details dense />
   <v-btn @click="onPreview">미리보기</v-btn>

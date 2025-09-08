@@ -1,5 +1,5 @@
 <template>
-  <div :style="props.style">
+  <div>
     <ag-grid-vue
       :theme="myTheme"
       :rowData="rowData"
@@ -70,6 +70,7 @@ const getStyles = computed(() => {
 
 const getDefaultColDef = computed(() => {
   const defaultColDef = props?.defaultColDef ?? null;
+  console.log(defaultColDef);
   if (defaultColDef) {
     return defaultColDef;
   } else {

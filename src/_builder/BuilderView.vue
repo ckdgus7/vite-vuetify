@@ -32,6 +32,16 @@
           <v-btn v-bind="props" icon="mdi-content-save" @click="openSaveDialog"></v-btn>
         </template>
       </v-tooltip>
+      <!-- My Template 저장 -->
+      <v-tooltip text="MyTemplate으로 저장">
+        <template v-slot:activator="{ props }">
+          <v-btn
+            v-bind="props"
+            icon="mdi-database-cog-outline"
+            @click="openMyTemplateDialog"
+          ></v-btn>
+        </template>
+      </v-tooltip>
       <!-- 요소삭제 -->
       <v-tooltip text="요소 삭제">
         <template v-slot:activator="{ props }">
@@ -82,6 +92,54 @@
           <v-btn v-bind="props" icon="mdi-shield-account-outline"></v-btn>
         </template>
       </v-tooltip>
+      <!-- My Template List -->
+      <v-menu>
+        <template v-slot:activator="{ props: menu }">
+          <v-tooltip location="top">
+            <template v-slot:activator="{ props: tooltip }">
+              <v-btn
+                icon="mdi-database-cog-outline"
+                v-bind="mergeProps(menu, tooltip)"
+                @click="() => myTemplate.fetch()"
+              ></v-btn>
+            </template>
+            <span>My Template List</span>
+          </v-tooltip>
+        </template>
+        <v-list>
+          <v-list-item
+            v-for="(template, index) in myTemplates"
+            :key="index"
+            :value="index"
+            @click="setMyTemplate(template)"
+          >
+            <v-list-item-title>{{ template.name }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+      <!-- <v-tooltip text="My 템플릿">
+        <template v-slot:activator="{ props }">
+
+          <v-menu v-bind="props">
+            <template v-slot:activator="{ props }">
+              <v-btn
+                icon="mdi-database-cog-outline"
+                v-bind="props"
+              >
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item
+                v-for="(template, index) in myTemplates"
+                :key="index"
+                :value="index"
+              >
+                <v-list-item-title>{{ template.name }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </template>
+      </v-tooltip> -->
       <!-- 이미지관리 -->
       <v-tooltip text="이미지 관리">
         <template v-slot:activator="{ props }">
@@ -160,6 +218,8 @@
 
     <!-- 저장 다이얼로그 -->
     <SavePageDialog ref="saveDialogRef" />
+    <!-- My Template 저장 다이얼로그 -->
+    <SaveMyTemplateDialog ref="saveMyTemplateRef" />
     <!-- 데이터 관리 다이얼로그 -->
     <!-- <DataManagerDialog ref="dataManagerDialogRef" /> -->
     <!-- 사용자 관리 다이얼로그 -->
@@ -172,12 +232,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed, mergeProps } from 'vue';
 import ComponentLibrary from '@/_builder/components/ComponentLibrary.vue';
 import CanvasArea from '@/_builder/components/CanvasArea.vue';
 import InspectorPanel from '@/_builder/components/InspectorPanel.vue';
 import SavePageDialog from '@/_builder/components/SavePageDialog.vue';
+import SaveMyTemplateDialog from '@/_builder/components/SaveMyTemplateDialog.vue';
 import store from '@/_builder/stores/index';
+import { type MyTemplateItem } from '@/_builder/composables/useMyTemplateDB';
 // import DataManagerDialog from '@/_builder/components/dataManager/DataManagerDialog.vue';
 import UserManageDialog from '@/_builder/components/userManager/UserManageDialog.vue';
 import ImageManagerDialog from '@/_builder/components/imageManager/ImageManagerDialog.vue';
@@ -191,15 +253,28 @@ const rightMini = ref(false);
 const leftWidth = ref(220);
 const rightWidth = ref(300);
 
-const saveDialogRef = ref();
 const builder = store.useBuilderStore();
+const myTemplate = store.useMyTemplateStore();
 const registry = store.useComponentRegistryStore();
 // const dataStore = store.useDataCollectionsStore();
 
+const saveDialogRef = ref();
 const openSaveDialog = () => {
   saveDialogRef.value.dialog = true;
 };
-
+const saveMyTemplateRef = ref();
+const openMyTemplateDialog = () => {
+  saveMyTemplateRef.value.dialog = true;
+};
+const myTemplates = computed(() => {
+  return myTemplate.items;
+});
+const setMyTemplate = (template: MyTemplateItem) => {
+  const templateCodeArr = JSON.parse(template.templateCode);
+  builder.elements = [...builder.elements, ...templateCodeArr];
+  console.log('builder.elements', builder.elements);
+  // console.log('templateCodeArr', templateCodeArr);
+};
 const removeElement = () => {
   if (builder.selectedElementId) {
     builder.removeElement(builder.selectedElementId);
@@ -210,7 +285,6 @@ const removeElement = () => {
 };
 
 const exportsd = () => {
-  console.log('Exporting...', builder);
   builder.exportToJsonFile('my-template.json');
 };
 
@@ -226,6 +300,11 @@ const openUserDialogOpen = () => {
 const showImageManager = ref(false);
 const openImageDialogOpen = () => {
   showImageManager.value = true;
+};
+
+const showMyTemplateManager = ref(false);
+const openMyTemplateDialogOpen = () => {
+  showMyTemplateManager.value = true;
 };
 
 const showFileManager = ref(false);

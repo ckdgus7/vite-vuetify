@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
 import ElementWrapper from '@/_builder/components/ElementWrapper.vue';
 import store from '@/_builder/stores/index';
 import { useElementSelector } from '@/_builder/composables/useElementSelector';
@@ -39,7 +39,8 @@ function runEmit() {
   emit('removeElement');
 }
 const builder = store.useBuilderStore();
-const elements = builder.elements;
+// const elements = builder.elements;
+const elements = computed(() => builder.elements);
 
 // const collection = store.useDataCollectionStore();
 // 컬렉션 데이터 설정 (테스트는 임시 지정)

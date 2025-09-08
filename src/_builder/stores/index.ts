@@ -4,6 +4,7 @@ import { useComponentRegistryStore } from '@/_builder/stores/useComponentRegistr
 import { useDataCollectionsStore } from '@/_builder/stores/useDataCollectionsStore';
 import { useDataCollectionStore } from '@/_builder/stores/useDataCollectionStore';
 import { useAuthStore } from '@/_builder/stores/useAuthStore';
+import { useMyTemplateStore } from '@/_builder/stores/useMyTemplateStore';
 
 export default {
   useBuilderStore,
@@ -12,4 +13,5 @@ export default {
   useDataCollectionsStore,
   useDataCollectionStore,
   useAuthStore,
+  useMyTemplateStore,
 };

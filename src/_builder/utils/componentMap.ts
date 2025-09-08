@@ -109,7 +109,7 @@ export const ComponentRegistry: any = {
       // { key: 'exposeId', label: 'exposeId', type: 'text' },
       {
         key: 'style',
-        label: '스타일',
+        label: 'Style',
         type: 'textarea',
       },
     ],
@@ -1007,8 +1007,8 @@ export const ComponentRegistry: any = {
           { key: 'width', label: 'width', type: 'text' },
           { key: 'maxWidth', label: 'maxWidth', type: 'text' },
           { key: 'pinned', label: 'pinned', type: 'text' },
-          { key: 'initialWidth', label: 'initialWidth', type: 'text' },
-          { key: 'initialPinned', label: 'initialPinned', type: 'text' },
+          // { key: 'initialWidth', label: 'initialWidth', type: 'text' },
+          // { key: 'initialPinned', label: 'initialPinned', type: 'text' },
           { key: 'hide', label: 'hide', type: 'boolean' },
           { key: 'sort', label: 'sort', type: 'select', options: ['asc', 'desc'] },
           {
@@ -1023,7 +1023,6 @@ export const ComponentRegistry: any = {
             ],
           },
           { key: 'sortIndex', label: 'sortIndex', type: 'text' },
-          { key: 'style', label: 'Style', type: 'textarea' },
         ],
       },
       {

@@ -110,17 +110,22 @@
         <!-- 배열 타입: 객체 항목일 경우 -->
         <div v-else-if="meta.type === 'array' && meta.itemType === 'object'" class="mt-2">
           <label class="text-subtitle-2 mb-1">{{ meta.label }}</label>
+          <span class="pl-3">
+            <v-btn
+              v-if="isHeaderType"
+              size="small"
+              color="primary"
+              @click="() => (headerDialog = true)"
+            >
+              그리드 헤더 편집
+            </v-btn>
+          </span>
 
           <v-card
             v-for="(item, idx) in selectedElement.props[meta.key]"
             :key="idx"
             class="mb-2 pa-2"
           >
-            <div v-if="selectedElement.value.type === 'my-ag-grid'" class="mb-2">
-              <v-btn size="small" color="primary" @click="() => (headerDialog = true)">
-                그리드 헤더 편집
-              </v-btn>
-            </div>
             <div class="d-flex flex-column gap-2">
               <template v-for="field in meta.itemFields" :key="field.key">
                 <v-text-field
@@ -237,171 +242,6 @@
           </v-btn>
         </div>
       </template>
-
-      <!-- group 전용 스타일 속성 -->
-      <!-- <template v-else>
-        <v-text-field
-          v-if="meta.type === 'text'"
-          v-model="selectedElement.styles[meta.key]"
-          :label="meta.label"
-          hide-details
-          dense
-        />
-        <v-textarea
-          v-else-if="meta.type === 'textarea'"
-          v-model="selectedElement.styles[meta.key]"
-          :label="meta.label"
-          auto-grow
-          hide-details
-        />
-        <v-select
-          v-else-if="meta.type === 'select'"
-          v-model="selectedElement.styles[meta.key]"
-          :label="meta.label"
-          :items="meta.options"
-          hide-details
-        />
-        <v-switch
-          v-else-if="meta.type === 'boolean'"
-          v-model="selectedElement.props[meta.key]"
-          :label="meta.label"
-          hide-details
-        />
-        <v-radio-group
-          v-else-if="meta.type === 'radio'"
-          v-model="selectedElement.styles[meta.key]"
-          :label="meta.label"
-          hide-details
-        >
-          <v-radio label="True" :value="true"></v-radio>
-          <v-radio label="False" :value="false"></v-radio>
-        </v-radio-group>
-
-        <div v-else-if="meta.type === 'object'">
-          <label class="text-subtitle-2 mb-1">{{ meta.label }}</label>
-
-          <template v-for="(field, idx) in meta.itemFields" :key="field.key">
-            <v-text-field
-              v-if="field.type === 'text' || field.type === 'number'"
-              v-model="selectedElement.props[meta.key][field.key]"
-              :label="field.label"
-              hide-details
-              dense
-            />
-            <v-switch
-              v-else-if="field.type === 'boolean'"
-              v-model="selectedElement.props[meta.key][field.key]"
-              :label="field.label"
-              hide-details
-            />
-            <v-radio-group
-              v-else-if="field.type === 'radio'"
-              v-model="selectedElement.props[meta.key][field.key]"
-              :label="field.label"
-              hide-details
-              dense
-            >
-              <v-radio label="True" :value="true"></v-radio>
-              <v-radio label="False" :value="false"></v-radio>
-            </v-radio-group>
-
-            <v-select
-              v-else-if="field.type === 'select'"
-              v-model="selectedElement.props[meta.key][field.key]"
-              :items="field.options"
-              :label="field.label"
-              density="compact"
-              hide-details
-            />
-          </template>
-        </div>
-
-        <div v-else-if="meta.type === 'array' && meta.itemType === 'object'" class="mt-2">
-          <label class="text-subtitle-2 mb-1">{{ meta.label }}</label>
-
-          <v-card
-            v-for="(item, idx) in selectedElement.props[meta.key]"
-            :key="idx"
-            class="mb-2 pa-2"
-          >
-            <div class="d-flex flex-column gap-2">
-              <template v-for="field in meta.itemFields" :key="field.key">
-                <v-text-field
-                  v-model="item[field.key]"
-                  :label="`${field.label} (${idx + 1})`"
-                  :type="field.type || 'text'"
-                  dense
-                  hide-details
-                />
-              </template>
-              <v-btn
-                icon
-                size="small"
-                color="error"
-                variant="text"
-                class="align-self-end"
-                @click="() => selectedElement.props[meta.key].splice(idx, 1)"
-              >
-                <v-icon icon="mdi-delete" />
-              </v-btn>
-            </div>
-          </v-card>
-
-          <v-btn
-            block
-            color="primary"
-            size="small"
-            @click="
-              () => {
-                if (!Array.isArray(selectedElement.props[meta.key])) {
-                  selectedElement.props[meta.key] = [];
-                }
-                selectedElement.props[meta.key].push('');
-              }
-            "
-          >
-            + 옵션 추가
-          </v-btn>
-        </div>
-
-        <div v-else-if="meta.type === 'array'">
-          <label class="text-subtitle-2">{{ meta.label }}</label>
-
-          <div
-            v-for="(item, idx) in selectedElement.props[meta.key] || []"
-            :key="idx"
-            class="d-flex align-center mb-1 gap-2"
-          >
-            <v-text-field
-              v-model="selectedElement.props[meta.key][idx]"
-              :label="`Item ${idx + 1}`"
-              :type="meta.itemType || 'text'"
-              hide-details
-              dense
-              class="flex-1"
-            />
-            <v-btn icon size="small" @click="() => selectedElement.props[meta.key].splice(idx, 1)">
-              <v-icon icon="mdi-delete" />
-            </v-btn>
-          </div>
-
-          <v-btn
-            block
-            color="primary"
-            size="small"
-            @click="
-              () => {
-                if (!Array.isArray(selectedElement.props[meta.key])) {
-                  selectedElement.props[meta.key] = [];
-                }
-                selectedElement.props[meta.key].push('');
-              }
-            "
-          >
-            + 항목 추가
-          </v-btn>
-        </div>
-      </template> -->
     </template>
 
     <div v-if="!isGroup">
@@ -419,16 +259,17 @@
         + 이벤트 추가
       </v-btn>
     </div>
+
+    <GridHeaderEditorDialog
+      v-model="headerDialog"
+      :value="currentColumns"
+      @save="(cols) => onSaveHeaders(cols)"
+    />
   </v-card>
 
   <v-sheet v-else class="pt-14">
     <div style="text-align: center">선택된 요소가 없습니다.</div>
   </v-sheet>
-  <GridHeaderEditorDialog
-    v-model="headerDialog"
-    :value="currentColumns"
-    @save="(cols) => onSaveHeaders(cols)"
-  />
 </template>
 
 <script setup lang="ts">
@@ -471,49 +312,40 @@ const getMetaOption = (meta: any) => {
 };
 
 // 배열 초기화 처리
-watchEffect(() => {
-  // console.log('metaList.value', metaList.value);
-  for (const meta of metaList.value) {
-    const key = meta.key;
+// watchEffect(() => {
+//   for (const meta of metaList.value) {
+//     const key = meta.key;
 
-    // array 초기화
-    if (meta.type === 'array' && !Array.isArray(selectedElement.value.props[meta.key])) {
-      selectedElement.value.props[meta.key] = [];
-    }
+//     // array 초기화
+//     if (meta.type === 'array' && !Array.isArray(selectedElement.value.props[meta.key])) {
+//       selectedElement.value.props[meta.key] = [];
+//     }
 
-    // object 초기화
-    if (meta.type === 'object' && !Array.isArray(selectedElement.value.props[meta.key])) {
-      // selectedElement.value.props = [];
-      selectedElement.value.props[meta.key] = {};
+//     // object 초기화
+//     if (meta.type === 'object' && !Array.isArray(selectedElement.value.props[meta.key])) {
+//       selectedElement.value.props[meta.key] = {};
+//       for (const field of meta.itemFields) {
+//         selectedElement.value.props[key][field.key] = '';
+//       }
+//     }
 
-      // for (const key in myObject) {
-      //   if (myObject.hasOwnProperty(key)) { // 객체 자신의 속성만 순회하도록 확인
-      //     console.log(`Key: ${key}, Value: ${myObject[key]}`);
-      //   }
-      // }
-      for (const field of meta.itemFields) {
-        selectedElement.value.props[key][field.key] = '';
-      }
-    }
-
-    // 배열 내부 객체 항목 초기화
-    if (
-      meta.type === 'array' &&
-      meta.itemType === 'object' &&
-      !Array.isArray(selectedElement.value[key])
-    ) {
-      selectedElement.value.props[key].forEach((item: any, idx: number) => {
-        if (typeof item !== 'object') selectedElement.value.props[key][idx] = {};
-        for (const field of meta.itemFields || []) {
-          if (!(field.key in selectedElement.value.props[key][idx])) {
-            // selectedElement.value.props[key][idx][field.key] = '';
-            selectedElement.value.props[field.key] = '';
-          }
-        }
-      });
-    }
-  }
-});
+//     // 배열 내부 객체 항목 초기화
+//     if (
+//       meta.type === 'array' &&
+//       meta.itemType === 'object' &&
+//       !Array.isArray(selectedElement.value[key])
+//     ) {
+//       selectedElement.value.props[key].forEach((item: any, idx: number) => {
+//         if (typeof item !== 'object') selectedElement.value.props[key][idx] = {};
+//         for (const field of meta.itemFields || []) {
+//           if (!(field.key in selectedElement.value.props[key][idx])) {
+//             selectedElement.value.props[field.key] = '';
+//           }
+//         }
+//       });
+//     }
+//   }
+// });
 
 const onEventUpdate = ({
   eventName,
@@ -528,21 +360,29 @@ const onEventUpdate = ({
   builder.addEventToComponent(selectedElement.value.id, eventName, handlerName, code);
 };
 
-/** grid header 팝업 오픈 */
-const headerDialog = ref(false);
-/** 현재 컬럼 정의 가져오기(없으면 빈 배열) */
-const currentColumns = computed<GridHeaderItem[]>(() => {
-  const raw = [];
-  // 실제 데이터가 로우 데이터(행)인지, 컬럼 정의인지 프로젝트마다 다릅니다.
-  // 여기서는 "컬럼 정의 배열"을 `options.items`에 보관하는 컨벤션으로 가정합니다.
-  return [];
-});
-/** 저장 시 반영 */
-const onSaveHeaders = (cols: GridHeaderItem[]) => {};
-
 const onEventDelete = ({ eventName, listIndex }: { eventName: string; listIndex: number }) => {
   if (!selectedElement.value) return;
   eventList.value.splice(listIndex, 1);
-  builder.deleteEventToComponent(selectedElement.value.id, eventName);
+  builder.deleteEventToComponent(selectedElement.value.id, listIndex);
 };
+
+const isHeaderType = computed(() => selectedElement.value.type === 'my-ag-grid');
+
+/** grid header 팝업 */
+// grid header 팝업 오픈
+const headerDialog = ref(false);
+/** 현재 컬럼 정의 가져오기(없으면 빈 배열) */
+const currentColumns = computed(() => {
+  if (selectedElement.value && isHeaderType.value) {
+    const colDefs = selectedElement.value.props['columnDefs'];
+    return colDefs;
+  } else {
+    return [];
+  }
+});
+// 저장 시 반영
+const onSaveHeaders = (cols: GridHeaderItem[]) => {
+  selectedElement.value.props.columnDefs = [...cols];
+};
+/** grid header 팝업 */
 </script>
