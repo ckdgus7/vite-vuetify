@@ -36,7 +36,7 @@ export const useBuilderStore = defineStore('builder', () => {
       children: [],
       events: [],
     });
-    console.log(elements.value);
+    console.log('store elements.value', elements.value);
   }
   function saveSchema(): string {
     console.log(elements.value);
@@ -138,7 +138,7 @@ export const useBuilderStore = defineStore('builder', () => {
     try {
       props = JSON.parse(dropObj.props || '{}');
     } catch {}
-
+    console.log(props);
     // 3) 자식 요소 추가
     group.children = group.children || [];
     group.children.push({

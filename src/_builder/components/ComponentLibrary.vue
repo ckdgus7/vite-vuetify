@@ -1,26 +1,76 @@
 <template>
-  <v-card>
-    <v-list>
-      <v-list-item
-        v-for="item in componentList"
-        :key="item.type"
-        @dragstart="
-          (e: DragEvent) =>
-            onDragStart(e, item.type, item.label, item.styles, item.cssClass, item.props)
-        "
-      >
-        <div draggable="true">
-          <v-list-item-title class="ex-font-size">
-            <v-icon size="small" start>{{ item.mdi }}</v-icon>
-            {{ item.label }}
-          </v-list-item-title>
+  <div>
+    <v-card class="pa-2" flat>
+      <template v-if="treeItems.length > 0">
+        <v-treeview
+          :items="treeItems"
+          item-title="name"
+          item-value="id"
+          activatable
+          open-on-click
+          :activated="[builder.selectedElementId]"
+          @update:activated="onSelect"
+        />
+      </template>
+      <template v-else>
+        <div class="text-center pa-4 text-grey" style="border: 1px solid red">
+          선택된 노드가 없음
         </div>
-      </v-list-item>
-    </v-list>
-  </v-card>
+      </template>
+    </v-card>
+    <v-card>
+      <v-list>
+        <v-list-item
+          v-for="item in componentList"
+          :key="item.type"
+          @dragstart="
+            (e: DragEvent) =>
+              onDragStart(e, item.type, item.label, item.styles, item.cssClass, item.props)
+          "
+        >
+          <div draggable="true">
+            <v-list-item-title class="ex-font-size">
+              <v-icon size="small" start>{{ item.mdi }}</v-icon>
+              {{ item.label }}
+            </v-list-item-title>
+          </div>
+        </v-list-item>
+      </v-list>
+    </v-card>
+  </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+import store from '@/_builder/stores/index';
+
+const builder = store.useBuilderStore();
+
+interface TreeItem {
+  id: string;
+  name: string;
+  children?: TreeItem[];
+}
+
+/**
+ * elements → 트리 아이템 변환
+ */
+const convertToTree = (elements: any[]): TreeItem[] => {
+  return elements.map((el) => ({
+    id: el.id,
+    name: el.type, // 또는 props.label 같은 사용자 지정 이름
+    children: el.children ? convertToTree(el.children) : [],
+  }));
+};
+
+const treeItems = computed(() => convertToTree(builder.elements));
+
+const onSelect = (ids: any) => {
+  console.log(ids[0]);
+  if (ids.length > 0) {
+    // builder.selectElement(ids[0]);
+  }
+};
 interface CompList {
   type: string;
   label: string;

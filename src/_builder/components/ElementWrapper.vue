@@ -231,7 +231,8 @@ watch(
   () => props.element,
   (val, oldVal) => {
     if (val) {
-      if (props.element.props.id) {
+      if (props.element.id) {
+        console.log(props.element.id);
         const timeout = setTimeout(() => {
           clearTimeout(timeout);
           // if (oldVal) {
@@ -241,10 +242,10 @@ watch(
           // }
           // registry.register(props.element.props.id, formRef.value);
           selectElement();
-          if (!registry.get(props.element.props.id)) {
-            registry.register(props.element.props.id, formRef.value);
+          if (!registry.get(props.element.id)) {
+            registry.register(props.element.id, formRef.value);
           }
-        }, 500);
+        }, 200);
       }
     }
   },
