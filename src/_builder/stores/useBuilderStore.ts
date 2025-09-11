@@ -9,7 +9,7 @@ export interface ElementSchema {
   props: Record<string, any>;
   styles: Record<string, any>;
   cssClass: string;
-  children: any[]; // Optional, for nested elements
+  children?: any[]; // Optional, for nested elements
   events?: any[];
 }
 
@@ -33,7 +33,7 @@ export const useBuilderStore = defineStore('builder', () => {
       styles,
       cssClass,
       props: { ...props, id: propsId },
-      children: [],
+      // children: [],
       events: [],
     });
     console.log('store elements.value', elements.value);
@@ -148,7 +148,7 @@ export const useBuilderStore = defineStore('builder', () => {
       styles: styles || {},
       cssClass: dropObj.class || '',
       props: { ...props },
-      children: [],
+      // children: [],
       events: [],
     });
   }

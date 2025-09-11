@@ -59,16 +59,16 @@ const convertToTree = (elements: any[]): TreeItem[] => {
   return elements.map((el) => ({
     id: el.id,
     name: el.type, // 또는 props.label 같은 사용자 지정 이름
-    children: el.children ? convertToTree(el.children) : [],
+    children: el.children ? convertToTree(el.children) : undefined,
   }));
 };
 
 const treeItems = computed(() => convertToTree(builder.elements));
 
 const onSelect = (ids: any) => {
-  console.log(ids[0]);
+  // console.log(ids[0]);
   if (ids.length > 0) {
-    // builder.selectElement(ids[0]);
+    builder.selectElement(ids[0]);
   }
 };
 interface CompList {
