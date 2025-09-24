@@ -17,7 +17,7 @@ interface Item {
 }
 const props = defineProps<{
   items: Item[];
-  style?: string;
+  style?: Record<string, any>;
 }>();
 
 // const items = [

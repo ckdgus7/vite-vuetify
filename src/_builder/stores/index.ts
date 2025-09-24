@@ -5,6 +5,7 @@ import { useDataCollectionsStore } from '@/_builder/stores/useDataCollectionsSto
 import { useDataCollectionStore } from '@/_builder/stores/useDataCollectionStore';
 import { useAuthStore } from '@/_builder/stores/useAuthStore';
 import { useMyTemplateStore } from '@/_builder/stores/useMyTemplateStore';
+import { usePositionStore } from '@/_builder/stores/usePositionStore';
 
 export default {
   useBuilderStore,
@@ -14,4 +15,5 @@ export default {
   useDataCollectionStore,
   useAuthStore,
   useMyTemplateStore,
+  usePositionStore,
 };

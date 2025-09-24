@@ -28,7 +28,7 @@ const props = defineProps<{
   title: string;
   subTitle: string;
   contents: string;
-  style?: string;
+  style?: Record<string, any>;
 }>();
 const emits = defineEmits(['click']);
 

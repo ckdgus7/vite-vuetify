@@ -15,6 +15,11 @@ export const useComponentRegistryStore = defineStore('componentRegistry', () => 
     delete components.value[key];
   };
 
+  const allUnregister = () => {
+    // console.log('unregister', key);
+    components.value = {};
+  };
+
   const get = <T>(key: string): T | undefined => {
     return components.value[key] as T | undefined;
   };
@@ -23,6 +28,7 @@ export const useComponentRegistryStore = defineStore('componentRegistry', () => 
     components,
     register,
     unregister,
+    allUnregister,
     get,
   };
 });

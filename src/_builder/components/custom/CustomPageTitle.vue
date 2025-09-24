@@ -40,7 +40,7 @@ const props = defineProps<{
   breadcrumbs: BreadcrumbItem[];
   size?: 'sm' | 'md' | 'lg' | 'xl';
   weight?: 'normal' | 'medium' | 'bold';
-  style?: string;
+  style?: Record<string, any>;
 }>();
 
 const sizeClass = computed(() => {

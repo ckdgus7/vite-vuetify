@@ -30,7 +30,7 @@ interface Props {
   linkText?: string;
   linkHref?: string;
   messageAfter?: string;
-  style?: string;
+  style?: Record<string, any>;
 }
 
 const props = defineProps<Props>();

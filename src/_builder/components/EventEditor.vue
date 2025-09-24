@@ -108,6 +108,7 @@ const onPreview = () => {
         computed,
         router,
         useRoute,
+        element: props.element,
       }
     );
     preview.value = out || '✅ 실행됨';

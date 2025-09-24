@@ -36,7 +36,7 @@ import xml from '@/assets/testXML/bpmn-blank';
 import { onMounted, onBeforeUnmount, ref } from 'vue';
 
 interface Props {
-  style?: string;
+  style?: Record<string, any>;
 }
 
 const props = defineProps<Props>();

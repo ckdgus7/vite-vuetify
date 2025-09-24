@@ -36,7 +36,7 @@
 <script setup lang="ts">
 const icons = ['mdi-facebook', 'mdi-twitter', 'mdi-linkedin', 'mdi-instagram'];
 interface Props {
-  style?: string;
+  style?: Record<string, any>;
 }
 const props = defineProps<Props>();
 </script>

@@ -21,7 +21,7 @@ const props = defineProps<{
   size?: 'sm' | 'md' | 'lg' | 'xl';
   weight?: 'normal' | 'medium' | 'bold';
   divider?: boolean;
-  style?: string;
+  style?: Record<string, any>;
 }>();
 const emits = defineEmits(['click']);
 

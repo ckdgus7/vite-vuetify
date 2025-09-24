@@ -1,6 +1,25 @@
 <template>
-  <!-- @dragover.prevent="onDragOver" -->
+  <!-- absolute 배치 요소 -->
+  <vue3-draggable-resizable
+    v-if="isAbsolute"
+    :x="calcPx(element.position?.x, 'x')"
+    :y="calcPx(element.position?.y, 'y')"
+    :w="calcPx(element.position?.w, 'w')"
+    :h="calcPx(element.position?.h, 'h')"
+    :parent="true"
+    :active="true"
+    :draggable="true"
+    :resizable="true"
+    @dragging="(left: any, top: any) => updatePosition(element.id, left, top)"
+    @resizing="
+      (left: any, top: any, width: any, height: any) =>
+        updateSize(element.id, left, top, width, height)
+    "
+  >
+    <component :is="getComponent" v-bind="element.props" :style="element.styles" />
+  </vue3-draggable-resizable>
   <div
+    v-else
     class="pa-1"
     :class="{ selected: isSelected, 'selected-outline': isSelected }"
     :data-builder-id="element.id"
@@ -34,28 +53,6 @@
         :style="getGroupStyles"
         :class="supportsVModel ? element.props.wrapClass : element.styles.wrapClass"
       >
-        <!-- v-model을 지원하는 컴포넌트인 경우 -->
-        <!-- <component
-          v-if="supportsVModel"
-          :is="getComponent"
-          v-model="modelValue"
-          v-bind="element.props"
-          v-on="bindings"
-          :style="element.styles"
-          ref="formRef"
-        /> -->
-
-        <!-- v-model을 지원하지 않는 컴포넌트 -->
-        <!-- <component
-          v-else
-          :is="getComponent"
-          v-bind="element.props"
-          v-on="bindings"
-          :style="element.styles"
-          ref="formRef"
-        >
-          {{ element.props?.text }}
-        </component> -->
         <component
           :is="getComponent"
           v-model="modelValue"
@@ -67,12 +64,6 @@
       </div>
     </template>
     <!-- 마우스 위치에 생성하는 가상 activator -->
-    <!-- <div
-      ref="menuActivator"
-      class="fixed pointer-events-none"
-      :style="{ left: `${cursor.x}px`, top: `${cursor.y}px`, width: '1px', height: '1px' }"
-      aria-hidden="true"
-    /> -->
     <div
       ref="menuActivator"
       class="fixed pointer-events-none"
@@ -165,11 +156,6 @@
         <v-divider />
         <v-virtual-scroll :items="filteredImages" width="500" height="500" item-height="56">
           <template #default="{ item }">
-            <!-- <v-list-item
-              :title="item.name"
-              :subtitle="item.id"
-              @click.stop="() => onPickImage(item.downloadUrl)"
-            > -->
             <v-list-item :title="item.name" :subtitle="item.id">
               <template #prepend>
                 <v-checkbox
@@ -181,14 +167,6 @@
                   <v-img :src="item.downloadUrl" :alt="item.name" />
                 </v-avatar>
               </template>
-              <!-- <template #append>
-                <v-btn
-                  size="x-small"
-                  variant="text"
-                  icon="mdi-plus"
-                  @click.stop="() => onPickImage(item.downloadUrl)"
-                />
-              </template> -->
             </v-list-item>
           </template>
         </v-virtual-scroll>
@@ -214,6 +192,7 @@ import {
   onBeforeUnmount,
   onUnmounted,
   computed,
+  inject,
 } from 'vue';
 import axios from 'axios';
 import ElementWrapper from './ElementWrapper.vue';
@@ -222,11 +201,15 @@ import { useVmodel } from '@/_builder/utils/isVmodelElement';
 import store from '@/_builder/stores/index';
 import { useRoute } from 'vue-router';
 import { router } from '@/router/index';
+import Vue3DraggableResizable from 'vue3-draggable-resizable';
+import 'vue3-draggable-resizable/dist/Vue3DraggableResizablE.css';
 
 const props = defineProps<{ element: any; isPage?: boolean; downloadFileName?: string }>();
 const registry = store.useComponentRegistryStore();
+const position = store.usePositionStore();
 const formRef = ref();
 
+const isAbsolute = computed(() => position.getPosition() === 'absolute');
 watch(
   () => props.element,
   (val, oldVal) => {
@@ -336,7 +319,6 @@ watchEffect(() => {
             ref,
             reactive,
             watch,
-            props,
             store,
             axios,
             useTemplateRef,
@@ -347,6 +329,7 @@ watchEffect(() => {
             computed,
             router,
             useRoute,
+            element: props.element,
           });
         } catch (e) {
           console.error(`이벤트 실행 오류 [${eventName}]`, e);
@@ -501,6 +484,74 @@ function saveImageMenu() {
 function closeImageMenu() {
   showCtx.value = false;
 }
+
+// absolute
+const containerRef = inject<any>('canvasContainer');
+
+// ✅ SNAP (%)
+const SNAP = 10;
+
+const updatePosition = (id: string, x: number, y: number) => {
+  if (!containerRef?.value) return;
+  const rect = containerRef.value.$el.getBoundingClientRect();
+
+  let xPercent = (x / rect.width) * 100;
+  let yPercent = (y / rect.height) * 100;
+
+  xPercent = snapToGrid(xPercent);
+  yPercent = snapToGrid(yPercent);
+
+  builder.updateElement(id, {
+    position: { ...getElementById(id)?.position, x: xPercent, y: yPercent, unit: '%' },
+  });
+};
+
+const updateSize = (id: string, x: number, y: number, w: number, h: number) => {
+  if (!containerRef?.value) return;
+  const rect = containerRef.value.$el.getBoundingClientRect();
+
+  let xPercent = (x / rect.width) * 100;
+  let yPercent = (y / rect.height) * 100;
+  let wPercent = (w / rect.width) * 100;
+  let hPercent = (h / rect.height) * 100;
+
+  xPercent = snapToGrid(xPercent);
+  yPercent = snapToGrid(yPercent);
+  wPercent = snapToGrid(wPercent);
+  hPercent = snapToGrid(hPercent);
+
+  builder.updateElement(id, {
+    position: { x: xPercent, y: yPercent, w: wPercent, h: hPercent, unit: '%' },
+  });
+};
+
+// 스냅 함수
+const snapToGrid = (value: number) => {
+  return Math.round(value / SNAP) * SNAP;
+};
+
+// store element 조회
+const getElementById = (id: string) => builder.elements.find((el) => el.id === id);
+
+// % 값을 px로 변환
+const calcPx = (value?: number, type?: 'x' | 'y' | 'w' | 'h') => {
+  if (value === undefined || !containerRef?.value) return 0;
+  const rect = containerRef.value.$el.getBoundingClientRect();
+  switch (type) {
+    case 'x':
+      return (value / 100) * rect.width;
+    case 'w':
+      return 0;
+    // case 'w':
+    //   return (value / 100) * rect.width;
+    case 'y':
+      return (value / 100) * rect.height;
+    case 'h':
+      return 0;
+    default:
+      return value;
+  }
+};
 </script>
 <style scoped>
 .selected-outline {

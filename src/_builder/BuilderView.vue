@@ -11,9 +11,6 @@
       >
         <v-icon>mdi-tune-variant</v-icon>
       </v-btn>
-      <!-- <v-btn icon :aria-label="'좌측 패널 열기/닫기'" @click="() => (leftOpen = !leftOpen)">
-        <v-icon>mdi-view-sidebar-outline</v-icon>
-      </v-btn> -->
 
       <!-- <v-toolbar-title class="text-subtitle-1 font-weight-600">UI Builder</v-toolbar-title> -->
 
@@ -65,6 +62,14 @@
           <v-btn v-bind="props" icon="mdi-script-text-outline"></v-btn>
         </template>
       </v-tooltip>
+      <span style="width: 130px">
+        <v-switch
+          v-model="isAbsolute"
+          label="isAbsolute"
+          hide-details
+          @change.stop="setIsAbsolute"
+        ></v-switch>
+      </span>
 
       <v-spacer />
 
@@ -232,7 +237,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, mergeProps } from 'vue';
+import { ref, computed, watch, mergeProps } from 'vue';
 import ComponentLibrary from '@/_builder/components/ComponentLibrary.vue';
 import CanvasArea from '@/_builder/components/CanvasArea.vue';
 import InspectorPanel from '@/_builder/components/InspectorPanel.vue';
@@ -244,6 +249,7 @@ import { type MyTemplateItem } from '@/_builder/composables/useMyTemplateDB';
 import UserManageDialog from '@/_builder/components/userManager/UserManageDialog.vue';
 import ImageManagerDialog from '@/_builder/components/imageManager/ImageManagerDialog.vue';
 import FileManagerDialog from '@/_builder/components/fileManager/FileManagerDialog.vue';
+import type { EventHandler } from 'vuetify/lib/util/events.mjs';
 
 // 좌/우 Drawer 상태
 const leftOpen = ref(true);
@@ -256,8 +262,29 @@ const rightWidth = ref(300);
 const builder = store.useBuilderStore();
 const myTemplate = store.useMyTemplateStore();
 const registry = store.useComponentRegistryStore();
-// const dataStore = store.useDataCollectionsStore();
+const position = store.usePositionStore();
 
+const isAbsolute = ref(false);
+const setIsAbsolute = (e: any) => {
+  if (!confirm('Position 변경 시 기존 설정된 객체는 제거 됩니다.\n 진행하시겠습니까?')) {
+    isAbsolute.value = !isAbsolute.value;
+    return;
+  }
+  // console.log(isAbsolute.value);
+  const pos = isAbsolute.value ? 'absolute' : 'static';
+  builder.removeAllElement();
+  registry.allUnregister();
+  position.setPosition(pos);
+};
+// watch(
+//   () => isAbsolute.value,
+//   (val: string) => {
+//     // console.log(val);
+//     builder.removeAllElement();
+//     registry.allUnregister();
+//     position.setPosition(val);
+//   }
+// );
 const saveDialogRef = ref();
 const openSaveDialog = () => {
   saveDialogRef.value.dialog = true;

@@ -11,6 +11,14 @@ export interface ElementSchema {
   cssClass: string;
   children?: any[]; // Optional, for nested elements
   events?: any[];
+  layout?: 'static' | 'absolute'; // 배치 방식
+  position?: {
+    x: number; // %
+    y: number; // %
+    w?: number; // %
+    h?: number; // %
+    unit?: '%' | 'px'; // 기본은 %
+  };
 }
 
 export const useBuilderStore = defineStore('builder', () => {
@@ -22,7 +30,9 @@ export const useBuilderStore = defineStore('builder', () => {
     label: string,
     styles: Record<string, any>,
     cssClass: string,
-    props: any
+    props: any,
+    layout: any,
+    position: any
   ) {
     const propsId = `v_${Date.now()}`;
     const id = crypto.randomUUID();
@@ -35,8 +45,16 @@ export const useBuilderStore = defineStore('builder', () => {
       props: { ...props, id: propsId },
       // children: [],
       events: [],
+      layout,
+      position,
     });
     console.log('store elements.value', elements.value);
+  }
+  function updateElement(id: string, updates: Partial<ElementSchema>) {
+    const idx = elements.value.findIndex((el) => el.id === id);
+    if (idx !== -1) {
+      elements.value[idx] = { ...elements.value[idx], ...updates };
+    }
   }
   function saveSchema(): string {
     console.log(elements.value);
@@ -195,6 +213,10 @@ export const useBuilderStore = defineStore('builder', () => {
     if (selectedElementId.value === id) {
       selectedElementId.value = '';
     }
+  }
+  function removeAllElement() {
+    elements.value = [];
+    selectedElementId.value = '';
   }
   function addEventToComponent(id: string, eventName: string, handlerName: string, code: string) {
     const target = elements.value.find((c) => c.id === id);
@@ -389,6 +411,7 @@ export const useBuilderStore = defineStore('builder', () => {
     elements,
     selectedElementId,
     addElement,
+    updateElement,
     selectElement,
     exportToJsonFile,
     exportToHtml,
@@ -398,6 +421,7 @@ export const useBuilderStore = defineStore('builder', () => {
     addElementToGroup,
     findElementById,
     removeElement,
+    removeAllElement,
     addEventToComponent,
     deleteEventToComponent,
     updateSelectedElement,

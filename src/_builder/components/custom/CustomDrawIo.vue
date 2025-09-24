@@ -21,7 +21,7 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 
 interface Props {
-  style?: string;
+  style?: Record<string, any>;
 }
 
 const props = defineProps<Props>();
